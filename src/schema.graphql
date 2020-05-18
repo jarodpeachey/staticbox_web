@@ -1,0 +1,40 @@
+type User {
+  name: String!
+  id: ID! @unique
+  email: String! @unique
+}
+
+input CreateUserInput {
+  name: String!
+  id: ID! @unique
+  email: String! @unique
+}
+
+type Comment {
+  userID: String!
+  id: ID! @unique
+  comment: String!
+  name: String!
+  email: String!
+  date: String!
+}
+
+input CreateCommentInput {
+  userID: String!
+  id: ID! @unique
+  comment: String!
+  name: String!
+  email: String!
+  date: String!
+  path: String!
+  parentCommentID: String!
+}
+
+type Query {
+  allComments: [Comment!]!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput): User! @resolver(name: "create_user")
+  createComment(input: CreateCommentnput): User! @resolver(name: "create_user")
+}

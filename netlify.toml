@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  functions = "functions"
+  publish = "public"
+
+[[redirects]]
+  from = "/dashboard/*"
+  to = "/dashboard"
+  status = 200
+
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
