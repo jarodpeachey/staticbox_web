@@ -53,7 +53,10 @@ const Hero = ({ children }) => {
               <Title>A Modern Commenting System for Modern Static Sites</Title>
               <SubTitle>
                 A blazing-fast commenting system built on customizability,
-                simplicity and performance. Static sites just got even cooler.
+                simplicity and performance.
+                <br />
+                <br />
+                Static sites just got even cooler.
               </SubTitle>
               <ButtonFlex>
                 <ButtonWrapper>
@@ -150,10 +153,11 @@ const Title = styled.h1`
 
 const SubTitle = styled.div`
   // color: rgba(81, 160, 249, 0.4);
-  font-size: 26px;
+  font-size: 22px !important;
   max-width: 550px;
-  margin-bottom: ${props => props.theme.spacing.five};
-  color: ${(props) => props.theme.color.text.heading};
+  font-weight: 400 !important;
+  margin-bottom: ${(props) => props.theme.spacing.five};
+  color: ${(props) => props.theme.color.primary.backgroundDark}cc !important;
 `;
 
 const ButtonFlex = styled.div`

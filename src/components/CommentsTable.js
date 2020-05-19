@@ -984,8 +984,8 @@ const TR = styled.tr`
 `;
 
 const TH = styled.th`
-  // border-top: 1px solid #e8e8e8 !important;
-  border-bottom: 1px solid #e8e8e8 !important;
+  // border-top: 1px solid ${(props) => props.theme.color.gray.three} !important;
+  border-bottom: 1px solid ${(props) => props.theme.color.gray.three} !important;
   span {
     font-weight: 600 !important;
   }
@@ -1067,8 +1067,8 @@ const TH = styled.th`
 `;
 
 const TD = styled.td`
-  // border-top: 1px solid #e8e8e8 !important;
-  border-bottom: 1px solid #e8e8e8 !important;
+  // border-top: 1px solid ${(props) => props.theme.color.gray.three} !important;
+  border-bottom: 1px solid ${(props) => props.theme.color.gray.three} !important;
   font-weight: 400;
   padding: 12px 24px 12px 0;
   font-weight: 500;

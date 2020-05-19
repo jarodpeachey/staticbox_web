@@ -15,17 +15,91 @@ import { isBrowser } from '../../utils/isBrowser';
 import { DatabaseContext } from '../../providers/DatabaseProvider';
 import Row from '../grid/Row';
 import { formatSiteId } from '../../utils/formatSiteId';
+import { shortenText } from '../../utils/shortenText';
 
 const SiteDashboard = () => {
   const { setEditSiteInfoModalOpen } = useContext(AppContext);
   const { firebase, firebaseUser } = useContext(FirebaseContext);
   const [reRender, setRender] = useState(false);
-  const { state } = useContext(DatabaseContext);
-  const { user, site } = state;
+  const { state, q } = useContext(DatabaseContext);
+  const { user, site, siteClient } = state;
+
+  const [comments, setComments] = useState([]);
+  const [commentsToShow, setCommentsToShow] = useState(comments);
+  const loadedComments = [];
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setRender(!reRender);
-  }, [firebaseUser]);
+    if (loadedComments && loadedComments.length > 0) {
+      // setComments(loadedComments);
+    } else {
+      setLoading(true);
+      siteClient
+        .query(
+          q.Map(
+            q.Paginate(q.Match(q.Index('all_comments')), { size: 3 }),
+            q.Lambda(
+              'commentsRef',
+              q.Let(
+                {
+                  comments: q.Get(q.Var('commentsRef')),
+                  user: q.Get(q.Select(['data', 'user'], q.Var('comments'))),
+                  site: q.Get(q.Select(['data', 'site'], q.Var('comments'))),
+                },
+                {
+                  ref: q.Select(['ref'], q.Var('comments')),
+                  data: q.Select(['data'], q.Var('comments')),
+                }
+              )
+            )
+          )
+        )
+        .then((response) => {
+          setComments(response.data);
+          setCommentsToShow(response.data);
+          const dataToDelete = [];
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
+
+          response.data.map((newData) =>
+            dataToDelete.push(newData.ref.value.id)
+          );
+
+          // siteClient
+          //   .query(
+          //     q.Map(
+          //       dataToDelete,
+          //       q.Lambda(
+          //         'data',
+          //         q.Delete(
+          //           q.Ref(
+          //             q.Collection('comments'),
+          //             // q.Select(
+          //             //   ['id'],
+          //             q.Var('data')
+          //             // )
+          //           )
+          //         )
+          //       )
+          //     )
+          //   )
+          //   .then((responseTwo) => {
+          //     console.log(responseTwo);
+          //     setRender(true);
+          //   })
+          //   .catch((err) => {
+          //     console.log(err);
+          //   });
+        })
+        .catch((error) => {
+          console.log(error);
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
+        });
+    }
+  }, []);
 
   const openEditModal = () => {
     setEditSiteInfoModalOpen(true);
@@ -57,20 +131,16 @@ const SiteDashboard = () => {
         </div>
         <div widths={[6]}>
           <Card title='Latest Comments'>
-            <CommentWrapper>
-              <CommentTitle className='h3'>The Best Way To Live</CommentTitle>
-              <p className='m-none'>
-                Awesome post! I love the detail in this...
-              </p>
-              <small className='m-none'>- Mark Smith</small>
-            </CommentWrapper>
-            <CommentWrapper>
-              <CommentTitle className='h3'>Top 10 Web Browsers</CommentTitle>
-              <p className='m-none'>
-                There's a broken link near the end of this. Great post th...
-              </p>
-              <small className='m-none'>- James Carlton</small>
-            </CommentWrapper>
+            {comments.map((comment) => {
+              return (
+                <CommentWrapper>
+                  <Comment>{shortenText(comment.data.comment, 100)}</Comment>
+                  <CommentName className='m-none'>
+                    - {comment.data.name} on page {comment.data.path}
+                  </CommentName>
+                </CommentWrapper>
+              );
+            })}
             <Spacer />
             <Button
               link={`/dashboard/sites/${formatSiteId(site.data.name)}/comments`}
@@ -87,21 +157,15 @@ const SiteDashboard = () => {
 };
 
 const CommentWrapper = styled.div`
-  border: 2px solid ${(props) => props.theme.color.gray.two};
-  padding: 12px;
   border-radius: 5px;
   margin: 16px 0;
 `;
 
-const CommentTitle = styled(Link)`
+const Comment = styled.p`
   margin: 0;
-  margin-bottom: 8px;
-  text-decoration: none;
-  color: ${(props) => props.theme.color.text.heading} !important;
-  :hover {
-    color: ${(props) => props.theme.color.primary.main} !important;
-  }
 `;
+
+const CommentName = styled.small``;
 
 const animation = keyframes`
   from {

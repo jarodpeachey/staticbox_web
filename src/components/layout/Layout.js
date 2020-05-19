@@ -158,6 +158,9 @@ const Wrapper = styled.div`
   p {
     line-height: 27px;
   }
+  small {
+    font-size: 14px;
+  }
   h1,
   h2,
   h3,
