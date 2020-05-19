@@ -458,6 +458,23 @@ function CommentsTable({
     return pagesMapped;
   };
 
+  const getItemPositionInDataArray = (item) => {
+    let location = null;
+    data.forEach((dataItem, index) => {
+      console.log('Data Item: ', dataItem);
+      console.log('Item: ', item);
+
+      if (dataItem.ref === item.original.ref) {
+        console.log('Match!');
+        location = index + 1;
+      }
+    });
+
+    console.log(location);
+
+    return location;
+  };
+
   console.log(getPagesMapped);
 
   // Render the UI for your table
@@ -506,53 +523,66 @@ function CommentsTable({
               <Loader height={50} color={theme.color.primary.main} />
             </LoadingWrapper>
           )}
-          {page.map((row) => {
-            prepareRow(row);
+          {page.length > 0 ? (
+            <>
+              {page.map((row) => {
+                prepareRow(row);
 
-            return (
-              <TR dataRef={row.original.ref} {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <TD skeleton={loading} {...cell.getCellProps()}>
-                      <span>
-                        {cell.isGrouped ? (
-                          // If it's a grouped cell, add an expander and row count
-                          <>
-                            <span {...row.getToggleRowExpandedProps()}>
-                              {row.isExpanded ? '👇' : '👉'}
-                            </span>{' '}
-                            {cell.render('Cell', { editable: false })} (
-                            {row.subRows.length})
-                          </>
-                        ) : cell.isAggregated ? (
-                          // If the cell is aggregated, use the Aggregated
-                          // renderer for cell
-                          cell.render('Aggregated')
-                        ) : cell.isPlaceholder ? null : ( // For cells with repeated values, render null
-                          // Otherwise, just render the regular cell
-                          cell.render('Cell', { editable: true })
-                        )}
-                      </span>
-                    </TD>
-                  );
-                })}
-              </TR>
-            );
-          })}
+                return (
+                  <TR dataRef={row.original.ref} {...row.getRowProps()}>
+                    {row.cells.map((cell) => {
+                      return (
+                        <TD skeleton={loading} {...cell.getCellProps()}>
+                          <span>
+                            {cell.isGrouped ? (
+                              // If it's a grouped cell, add an expander and row count
+                              <>
+                                <span {...row.getToggleRowExpandedProps()}>
+                                  {row.isExpanded ? '👇' : '👉'}
+                                </span>{' '}
+                                {cell.render('Cell', { editable: false })} (
+                                {row.subRows.length})
+                              </>
+                            ) : cell.isAggregated ? (
+                              // If the cell is aggregated, use the Aggregated
+                              // renderer for cell
+                              cell.render('Aggregated')
+                            ) : cell.isPlaceholder ? null : ( // For cells with repeated values, render null
+                              // Otherwise, just render the regular cell
+                              cell.render('Cell', { editable: true })
+                            )}
+                          </span>
+                        </TD>
+                      );
+                    })}
+                  </TR>
+                );
+              })}
+            </>
+          ) : null}
         </TBody>
       </Table>
+      {page.length === 0 && (
+        <Card
+          customStyles={`
+                  width: 100%;
+                  top: -1px;
+                  margin-bottom: ${theme.spacing.four};
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                `}
+        >
+          There are no comments.
+        </Card>
+      )}
       {/*
         Pagination can be built however you'd like.
         This is just a very basic UI implementation:
       */}
-      <TableNav>
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>
-        </span>
-        <span>
+      {page.length > 0 && (
+        <TableNav>
+          {/* <span>
           Go to page:
           <select
             defaultValue={pageIndex + 1}
@@ -569,27 +599,51 @@ function CommentsTable({
               })}
           </select>
           <input type='number' />
-        </span>
-        Rows per page:
-        <RowsPerPage
-          value={pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              {pageSize}
-            </option>
-          ))}
-        </RowsPerPage>
-        <NavButton onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </NavButton>
-        <NavButton onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </NavButton>
-      </TableNav>
+        </span> */}
+          <RowsPerPage>
+            Rows per page:
+            <RowsPerPageSelect
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+              }}
+            >
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  {pageSize}
+                </option>
+              ))}
+            </RowsPerPageSelect>
+          </RowsPerPage>
+          {/* <span>
+          Page{' '}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length} ||{' '}
+
+          </strong>
+        </span> */}
+          <ItemCount>
+            {page.length === 0 ? '0' : getItemPositionInDataArray(page[0])}-
+            {page.length === 0
+              ? '0'
+              : getItemPositionInDataArray(page[page.length - 1])}{' '}
+            of {page.length === 0 ? '0' : data.length}
+          </ItemCount>
+          <NavButtons>
+            {' '}
+            <NavButton
+              onClick={() => previousPage()}
+              disabled={!canPreviousPage}
+            >
+              <FontAwesomeIcon icon='chevron-left' />
+            </NavButton>
+            <NavButton onClick={() => nextPage()} disabled={!canNextPage}>
+              <FontAwesomeIcon icon='chevron-right' />
+            </NavButton>
+          </NavButtons>
+        </TableNav>
+      )}
+
       {/* <pre>
         <code>
           {JSON.stringify(
@@ -675,22 +729,53 @@ const IndeterminateCheckbox = React.forwardRef(
 const TableNav = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
 `;
 
-const RowsPerPage = styled.select`
+const ItemCount = styled.div`
+  margin: 0 8px;
+`;
+
+const RowsPerPage = styled.div`
+  position: relative;
+  margin: 0 8px;
+`;
+
+const RowsPerPageSelect = styled.select`
   border: none;
-  background: #f7f7f7;
+  :hover {
+    background: #f7f7f7;
+    cursor: pointer;
+  }
   border-radius: 5px;
+  padding: 4px 6px;
+  padding-right: 0px;
+`;
+
+const NavButtons = styled.div`
+  margin: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0 !important;
 `;
 
 const NavButton = styled.button`
   border: none;
   background: white;
   border-radius: 100px;
-  border: 1px solid ${(props) => props.theme.color.gray.three};
-  color: black;
-  padding: 8px;
+  height: 40px;
+  width: 40px;
+  padding: 6px;
+  color: ${(props) =>
+    props.disabled
+      ? props.theme.color.gray.five
+      : props.theme.color.text.heading};
+
+  :hover {
+    background: ${(props) =>
+      props.disabled ? 'transparent' : props.theme.color.gray.two};
+  }
 `;
 
 const shimmer = keyframes`
@@ -870,7 +955,7 @@ const Table = styled.table`
   table-layout: fixed;
   // display: table;
   border-spacing: 0px;
-  margin-bottom: 24px;
+  margin-bottom: ${(props) => props.theme.spacing.four};
   // position: relative;
   ${(props) =>
     props.skeleton &&
@@ -948,7 +1033,7 @@ const TH = styled.th`
     // width: fit-content;
     // flex: 1 1 0;
     width: 100%;
-    padding-right: 0;
+    padding-right: 12px;
   }
   width: 1px;
   white-space: nowrap;
@@ -1023,13 +1108,16 @@ const TD = styled.td`
     // width: fit-content;
     // flex: 1 1 0;
     width: 100%;
-    padding-right: 0;
+    padding-right: 12px;
   }
   width: 1px;
   white-space: nowrap;
   ${(props) =>
     props.skeleton &&
     css`
+      span {
+        margin-right: auto;
+      }
       :nth-child(1) span {
         background: ${(props) => props.theme.color.gray.three} !important;
         border-radius: 5px !important;
@@ -1046,6 +1134,7 @@ const TD = styled.td`
         display: block !important;
         height: fit-content !important;
         width: fit-content;
+        min-width: 50px;
         color: transparent !important;
       }
       :nth-child(3) span::after {
@@ -1064,6 +1153,10 @@ const TD = styled.td`
       :nth-child(3) span {
         position: relative;
         margin-bottom: 26px;
+      }
+      :nth-child(4) span {
+        margin-left: auto;
+        margin-right: 0;
       }
     `};
 `;

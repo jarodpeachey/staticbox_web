@@ -40,7 +40,7 @@ const SiteComments = () => {
       siteClient
         .query(
           q.Map(
-            q.Paginate(q.Match(q.Index('all_comments')), { size: 10000 }),
+            q.Paginate(q.Match(q.Index('all_comments')), { size: 1000 }),
             q.Lambda(
               'commentsRef',
               q.Let(
@@ -63,7 +63,7 @@ const SiteComments = () => {
           const dataToDelete = [];
           setTimeout(() => {
             setLoading(false);
-          }, 1000);
+          }, 500);
 
           response.data.map((newData) =>
             dataToDelete.push(newData.ref.value.id)
@@ -99,7 +99,7 @@ const SiteComments = () => {
           console.log(error);
           setTimeout(() => {
             setLoading(false);
-          }, 1000);
+          }, 500);
         });
     }
   }, []);
@@ -134,13 +134,13 @@ const SiteComments = () => {
           setCommentsToShow(response.data);
           setTimeout(() => {
             setLoading(false);
-          }, 1000);
+          }, 500);
         })
         .catch((error) => {
           console.log(error);
           setTimeout(() => {
             setLoading(false);
-          }, 1000);
+          }, 500);
         });
 
       setRender(false);
@@ -481,7 +481,13 @@ const SiteComments = () => {
                     deleteComments={deleteComments}
                     unapproveComments={unapproveComments}
                     columns={columns}
-                    data={loading ? dummyData() : formatCommentsApproved()}
+                    data={
+                      loading
+                        ? comments.length === 0
+                          ? dummyData()
+                          : formatCommentsApproved()
+                        : formatCommentsApproved()
+                    }
                     updateMyData={updateMyData}
                     skipReset={skipResetRef.current}
                     mode='approved'
@@ -502,7 +508,13 @@ const SiteComments = () => {
                     deleteComments={deleteComments}
                     approveComments={approveComments}
                     columns={columns}
-                    data={loading ? dummyData() : formatCommentsHeld()}
+                    data={
+                      loading
+                        ? comments.length === 0
+                          ? dummyData()
+                          : formatCommentsHeld()
+                        : formatCommentsHeld()
+                    }
                     updateMyData={updateMyData}
                     skipReset={skipResetRef.current}
                     mode='held'
