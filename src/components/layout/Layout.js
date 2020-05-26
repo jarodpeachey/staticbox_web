@@ -42,6 +42,7 @@ import { isBrowser } from '../../utils/isBrowser';
 import EditSiteInfoModal from '../dashboard/EditSiteInfoModal';
 import DeleteSiteModal from '../dashboard/DeleteSiteModal';
 import DeleteUserModal from '../dashboard/DeleteUserModal';
+import CustomizeModal from '../dashboard/CustomizeModal';
 import { DatabaseContext } from '../../providers/DatabaseProvider';
 import { Helmet } from 'react-helmet';
 
@@ -72,7 +73,8 @@ library.add(
   faPaintBrush,
   faChevronDown,
   faChevronRight,
-  faChevronLeft
+  faChevronLeft,
+  faPalette
 );
 
 const Layout = (props) => {
@@ -84,6 +86,7 @@ const Layout = (props) => {
     editSiteInfoModalOpen,
     deleteSiteModalOpen,
     deleteUserModalOpen,
+    customizeModalOpen,
   } = useContext(AppContext);
   const { state, dispatch } = useContext(DatabaseContext);
   const { user, site } = state;
@@ -106,6 +109,7 @@ const Layout = (props) => {
       {deleteSiteModalOpen && <DeleteSiteModal />}
       {deleteUserModalOpen && <DeleteUserModal />}
       {passwordModalOpen && <PasswordModal />}
+      {customizeModalOpen && <CustomizeModal />}
       {notificationMessage && (
         <Notification message={notificationMessage} type={notificationType} />
       )}
@@ -171,15 +175,15 @@ const Wrapper = styled.div`
   }
   h1,
   h2 {
-    margin-bottom: ${(props) => props.theme.spacing.five};
+    margin-bottom: ${(props) => props.theme.spacing.five}px;
   }
   h3,
   h4 {
-    margin-bottom: ${(props) => props.theme.spacing.four};
+    margin-bottom: ${(props) => props.theme.spacing.four}px;
   }
   h5,
   h6 {
-    margin-bottom: ${(props) => props.theme.spacing.three};
+    margin-bottom: ${(props) => props.theme.spacing.three}px;
   }
 `;
 

@@ -160,7 +160,7 @@ const FeatureIcon = styled.div`
 `;
 
 const FeatureTitle = styled.h3`
-  margin-top: ${(props) => props.theme.spacing.four};
+  margin-top: ${(props) => props.theme.spacing.four}px;
   // font-size: 22px !important;
 `;
 

@@ -40,106 +40,106 @@ const Settings = ({ loadedKeys, setLoadedKeys }) => {
   const [animateItems, setAnimateItems] = useState(false);
   const [reRender, setRender] = useState(true);
 
-  useEffect(() => {
-    if (loadedKeys && loadedKeys.length > 0) {
-      setKeys(loadedKeys);
-    } else {
-      userClient
-        .query(
-          q.Map(
-            q.Paginate(q.Match(q.Index('keys_by_type'), 'user')),
-            q.Lambda(
-              'keysRef',
-              q.Let(
-                {
-                  keys: q.Get(q.Var('keysRef')),
-                  userRef: q.Get(q.Select(['data', 'user'], q.Var('keys'))),
-                  type: q.Select(['data', 'type'], q.Var('keys')),
-                  user: q.Get(q.Match(q.Index('all_users'))),
-                },
-                {
-                  user: q.Var('user'),
-                  type: q.Var('type'),
-                  ref: q.Select('ref', q.Var('keys')),
-                  key: q.Select(['data', 'key'], q.Var('keys')),
-                }
-              )
-            )
-          )
-        )
-        .then((keysResponse) => {
-          console.log(keysResponse);
-          userClient
-            .query(
-              q.Map(
-                q.Paginate(q.Match(q.Index('keys_by_type'), 'site')),
-                q.Lambda(
-                  'keysRef',
-                  q.Let(
-                    {
-                      keys: q.Get(q.Var('keysRef')),
-                      userRef: q.Get(q.Select(['data', 'user'], q.Var('keys'))),
-                      siteRef: q.Get(q.Select(['data', 'site'], q.Var('keys'))),
-                      type: q.Select(['data', 'type'], q.Var('keys')),
-                      user: q.Get(q.Match(q.Index('all_users'))),
-                      site: q.Get(
-                        q.Ref(
-                          q.Collection('sites'),
-                          // q.Select(
-                          q.Select('id', q.Select('ref', q.Var('siteRef')))
-                          // )
-                        )
-                      ),
-                    },
-                    {
-                      user: q.Var('user'),
-                      type: q.Var('type'),
-                      site: q.Var('site'),
-                      ref: q.Select('ref', q.Var('keys')),
-                      key: q.Select(['data', 'key'], q.Var('keys')),
-                    }
-                  )
-                )
-              )
-            )
-            .then((resTwo) => {
-              console.log(resTwo);
-              setLoadedKeys(resTwo.data.concat(keysResponse.data));
-              setKeys(resTwo.data.concat(keysResponse.data));
+  // useEffect(() => {
+  //   if (loadedKeys && loadedKeys.length > 0) {
+  //     setKeys(loadedKeys);
+  //   } else {
+  //     userClient
+  //       .query(
+  //         q.Map(
+  //           q.Paginate(q.Match(q.Index('keys_by_type'), 'user')),
+  //           q.Lambda(
+  //             'keysRef',
+  //             q.Let(
+  //               {
+  //                 keys: q.Get(q.Var('keysRef')),
+  //                 userRef: q.Get(q.Select(['data', 'user'], q.Var('keys'))),
+  //                 type: q.Select(['data', 'type'], q.Var('keys')),
+  //                 user: q.Get(q.Match(q.Index('all_users'))),
+  //               },
+  //               {
+  //                 user: q.Var('user'),
+  //                 type: q.Var('type'),
+  //                 ref: q.Select('ref', q.Var('keys')),
+  //                 key: q.Select(['data', 'key'], q.Var('keys')),
+  //               }
+  //             )
+  //           )
+  //         )
+  //       )
+  //       .then((keysResponse) => {
+  //         console.log(keysResponse);
+  //         userClient
+  //           .query(
+  //             q.Map(
+  //               q.Paginate(q.Match(q.Index('keys_by_type'), 'site')),
+  //               q.Lambda(
+  //                 'keysRef',
+  //                 q.Let(
+  //                   {
+  //                     keys: q.Get(q.Var('keysRef')),
+  //                     userRef: q.Get(q.Select(['data', 'user'], q.Var('keys'))),
+  //                     siteRef: q.Get(q.Select(['data', 'site'], q.Var('keys'))),
+  //                     type: q.Select(['data', 'type'], q.Var('keys')),
+  //                     user: q.Get(q.Match(q.Index('all_users'))),
+  //                     site: q.Get(
+  //                       q.Ref(
+  //                         q.Collection('sites'),
+  //                         // q.Select(
+  //                         q.Select('id', q.Select('ref', q.Var('siteRef')))
+  //                         // )
+  //                       )
+  //                     ),
+  //                   },
+  //                   {
+  //                     user: q.Var('user'),
+  //                     type: q.Var('type'),
+  //                     site: q.Var('site'),
+  //                     ref: q.Select('ref', q.Var('keys')),
+  //                     key: q.Select(['data', 'key'], q.Var('keys')),
+  //                   }
+  //                 )
+  //               )
+  //             )
+  //           )
+  //           .then((resTwo) => {
+  //             console.log(resTwo);
+  //             setLoadedKeys(resTwo.data.concat(keysResponse.data));
+  //             setKeys(resTwo.data.concat(keysResponse.data));
 
-              console.log(resTwo);
-              setLoadedKeys(resTwo.data.concat(keysResponse.data));
-              setKeys(resTwo.data.concat(keysResponse.data));
-              setTimeout(() => {
-                setShowItems(true);
-                setAnimate(true);
-                // setTimeout(() => {
-                setAnimateItems(true);
-                // }, 200);
-                // setTimeout(() => {
-                setLoading(false);
-                setAnimate(false);
-                setAnimateItems(false);
-                // }, 200);
-              }, 10000000000000000);
-            })
-            .catch((errTwo) => {
-              console.log(errTwo);
-              setShowItems(true);
-              setAnimate(true);
-              setTimeout(() => {
-                setAnimateItems(true);
-              }, 200);
-              setTimeout(() => {
-                setLoading(false);
-                setAnimate(false);
-                setAnimateItems(false);
-              }, 200);
-            });
-        })
-        .catch((keysError) => console.log(keysError));
-    }
-  }, []);
+  //             console.log(resTwo);
+  //             setLoadedKeys(resTwo.data.concat(keysResponse.data));
+  //             setKeys(resTwo.data.concat(keysResponse.data));
+  //             setTimeout(() => {
+  //               setShowItems(true);
+  //               setAnimate(true);
+  //               // setTimeout(() => {
+  //               setAnimateItems(true);
+  //               // }, 200);
+  //               // setTimeout(() => {
+  //               setLoading(false);
+  //               setAnimate(false);
+  //               setAnimateItems(false);
+  //               // }, 200);
+  //             }, 10000000000000000);
+  //           })
+  //           .catch((errTwo) => {
+  //             console.log(errTwo);
+  //             setShowItems(true);
+  //             setAnimate(true);
+  //             setTimeout(() => {
+  //               setAnimateItems(true);
+  //             }, 200);
+  //             setTimeout(() => {
+  //               setLoading(false);
+  //               setAnimate(false);
+  //               setAnimateItems(false);
+  //             }, 200);
+  //           });
+  //       })
+  //       .catch((keysError) => console.log(keysError));
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (reRender) {

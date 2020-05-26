@@ -251,7 +251,7 @@ const Site = () => {
 
 const Title = styled.h1`
   color: white !important;
-  margin-bottom: ${(props) => props.theme.spacing.four} !important;
+  margin-bottom: ${(props) => props.theme.spacing.four}px !important;
 `;
 
 const SubTitle = styled.p`

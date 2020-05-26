@@ -13,6 +13,7 @@ export const AppProvider = ({ children }) => {
   const [deleteSiteModalOpen, setDeleteSiteModalOpen] = useState(false);
   const [deleteUserModalOpen, setDeleteUserModalOpen] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+  const [customizeModalOpen, setCustomizeModalOpen] = useState(true);
   const [returnFunction, setFunction] = useState(null);
   const [signedIn, setSignedIn] = useState(false);
 
@@ -37,6 +38,8 @@ export const AppProvider = ({ children }) => {
         setDeleteUserModalOpen,
         passwordModalOpen,
         setPasswordModalOpen,
+        customizeModalOpen,
+        setCustomizeModalOpen,
         notificationType,
         setNotificationMessage,
         setNotificationType,

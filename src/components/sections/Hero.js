@@ -147,7 +147,7 @@ const Title = styled.h1`
     font-size: 44px;
   }
   // font-family: 'overpass', sans-serif !important;
-  margin-bottom: ${(props) => props.theme.spacing.five};
+  margin-bottom: ${(props) => props.theme.spacing.five}px;
   max-width: 550px;
 `;
 
@@ -156,7 +156,7 @@ const SubTitle = styled.div`
   font-size: 22px !important;
   max-width: 550px;
   font-weight: 400 !important;
-  margin-bottom: ${(props) => props.theme.spacing.five};
+  margin-bottom: ${(props) => props.theme.spacing.five}px;
   color: ${(props) => props.theme.color.primary.backgroundDark}cc !important;
 `;
 

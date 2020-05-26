@@ -88,8 +88,8 @@ const Button = ({
 const StyledButton = styled.button`
   padding: ${(props) =>
     props.small
-      ? `${props.theme.spacing.two} ${props.theme.spacing.three}`
-      : `${props.theme.spacing.three} ${props.theme.spacing.four}`} !important;
+      ? `${props.theme.spacing.two}px ${props.theme.spacing.three}px`
+      : `${props.theme.spacing.three}px ${props.theme.spacing.four}px`} !important;
   border: none !important;
   text-transform: ${(props) =>
     !props.gray && !props.error && 'uppercase'} !important;

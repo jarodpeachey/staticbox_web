@@ -12,13 +12,14 @@ import { DatabaseContext } from '../../providers/DatabaseProvider';
 
 const EditUserInfoModal = () => {
   const { firebase, firebaseUser } = useContext(FirebaseContext);
-  const { q, serverClient, faunaUser } = useContext(DatabaseContext);
+  const { q, serverClient, state } = useContext(DatabaseContext);
+  const { user } = state;
 
-  const [stateName, setStateName] = useState(faunaUser.data.name || '');
+  const [stateName, setStateName] = useState(user.data.name || '');
   const [loading, setLoading] = useState(false);
-  const [stateEmail, setStateEmail] = useState(faunaUser.data.email || '');
+  const [stateEmail, setStateEmail] = useState(user.data.email || '');
 
-  console.log(faunaUser);
+  console.log(user);
 
   const {
     setEditUserInfoModalOpen,
@@ -49,7 +50,7 @@ const EditUserInfoModal = () => {
 
         serverClient
           .query(
-            q.Update(q.Ref(q.Collection('users'), faunaUser.ref.value.id), {
+            q.Update(q.Ref(q.Collection('users'), user.ref.value.id), {
               data: {
                 name: stateName,
               },
@@ -62,8 +63,8 @@ const EditUserInfoModal = () => {
 
         if (
           stateEmail !== firebaseUser.email ||
-          stateEmail !== faunaUser.data.email ||
-          firebaseUser.email !== faunaUser.data.email
+          stateEmail !== user.data.email ||
+          firebaseUser.email !== user.data.email
         ) {
           firebase
             .auth()
@@ -73,7 +74,7 @@ const EditUserInfoModal = () => {
 
               serverClient
                 .query(
-                  q.Update(q.Ref(q.Collection('users'), faunaUser.ref.value), {
+                  q.Update(q.Ref(q.Collection('users'), user.ref.value), {
                     data: {
                       email: stateEmail,
                     },

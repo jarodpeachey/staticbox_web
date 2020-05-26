@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-fragments */
 // src/pages/settings.js
 import React, { useContext, useEffect, useState } from 'react';
 import { Router } from '@reach/router';
 import { Link } from 'gatsby';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Editor from 'react-simple-code-editor';
 import Card from '../Card';
 import Button from '../Button';
 import Spacer from '../Spacer';
@@ -14,9 +16,13 @@ import Row from '../grid/Row';
 import SiteKeyTable from '../SiteKeyTable';
 
 const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
-  const { setNotificationMessage, setNotificationType, setDeleteSiteModalOpen, setEditSiteInfoModalOpen} = useContext(
-    AppContext
-  );
+  const {
+    setNotificationMessage,
+    setNotificationType,
+    setDeleteSiteModalOpen,
+    setEditSiteInfoModalOpen,
+    setCustomizeModalOpen
+  } = useContext(AppContext);
   const { state, q, serverClient } = useContext(DatabaseContext);
   const { site, user, siteClient } = state;
   const [activeTab, setActiveTab] = useState(
@@ -34,6 +40,10 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
   const [animate, setAnimate] = useState(false);
   const [animateItems, setAnimateItems] = useState(false);
   const [reRender, setRender] = useState(true);
+
+  const [defaultInput, setDefaultInput] = useState('');
+  const [hoverInput, sethoverInput] = useState('');
+  const [focusedInput, setfocusedInput] = useState('');
 
   useEffect(() => {
     if (loadedKeys && loadedKeys.length > 0) {
@@ -279,6 +289,22 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
               <FontAwesomeIcon icon='cog' />
               API
             </Tab>
+            <Tab
+              active={activeTab === 'customize'}
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.history.pushState(
+                    {},
+                    '',
+                    `/dashboard/sites/${site.data.id}/settings/customize`
+                  );
+                }
+                setActiveTab('customize');
+              }}
+            >
+              <FontAwesomeIcon icon='palette' />
+              Customize
+            </Tab>
           </Tabs>
         </div>
         <div widths={[9]}>
@@ -333,6 +359,49 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
               </Button>
             </Card>
           )}
+          {activeTab === 'customize' && (
+            <>
+              <Button onClick={() => setCustomizeModalOpen(true)} right secondary medium>
+                Edit With Live Preview
+              </Button>
+              <Spacer height={36} />
+              <Card
+                title='Form Template'
+                subtitle='Updating your form template will NOT override your custom styles.'
+              >
+                <Row spacing={[12]} breakpoints={[0]}>
+                  <div widths={[4]}>
+                    <Template current>Clean</Template>
+                  </div>
+                  <div widths={[4]}>
+                    <Template>Material Design</Template>
+                  </div>
+                  <div widths={[4]}>
+                    <Template>Bootstrap</Template>
+                  </div>
+                </Row>
+              </Card>
+              <Spacer height={36} />
+              <Card
+                title='Content'
+                subtitle='Edit the form heading and success message.'
+              >
+                <p className='m-none'>Form Heading: Chat With Us!</p>
+                <p className='mb-none mt-3'>Button Text: Comment</p>
+                <Spacer height={16} />
+                <Button small>Edit</Button>
+              </Card>
+              <Spacer height={36} />
+              <Card title='Colors' subtitle='Edit your brand colors.'>
+                <p className='m-none'>Primary</p>
+                <input type='color' name='' id='' />
+                <p className='mb-none mt-3'>Secondary</p>
+                <input type='color' name='' id='' />
+                <Spacer height={16} />
+                <Button small>Edit</Button>
+              </Card>
+            </>
+          )}
         </div>
       </Row>
     </span>
@@ -370,43 +439,19 @@ const Tab = styled.div`
   text-decoration: none;
 `;
 
-const APIKey = styled.p`
-  margin-top: 4px;
-  margin-bottom: 0;
-  border-radius: 5px;
-  border: 1px solid ${(props) => props.theme.color.gray.three};
-  padding: 12px;
-  margin: 16px 0;
-`;
-
-const CommentWrapper = styled.div`
-  border: 2px solid ${(props) => props.theme.color.gray.two};
-  padding: 12px;
-  border-radius: 5px;
-  margin: 16px 0;
-`;
-
-const CommentTitle = styled(Link)`
-  margin: 0;
-  margin-bottom: 8px;
-  text-decoration: none;
-  color: ${(props) => props.theme.color.text.heading} !important;
-  :hover {
-    color: ${(props) => props.theme.color.primary.main} !important;
-  }
-`;
-
-const animation = keyframes`
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const SlideWrapper = styled.div`
-  animation: ${animation} 250ms ease-out;
+const Template = styled.div`
+  width: 100%;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${(props) => props.theme.radius.two};
+  border: ${(props) =>
+    props.current
+      ? `1px solid ${props.theme.color.success}`
+      : '1px solid #e8e8e8'};
+  color: ${(props) => (props.current ? props.theme.color.success : 'initial')};
+  cursor: pointer;
 `;
 
 export default SiteSettings;

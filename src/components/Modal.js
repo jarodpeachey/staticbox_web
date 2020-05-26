@@ -2,10 +2,10 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Modal = ({ children, title, toggleFunction, noClose, noHeader }) => {
+const Modal = ({ children, title, toggleFunction, noClose, noHeader, full }) => {
   return (
     <ModalWrapper>
-      <StyledModal noHeader={noHeader}>
+      <StyledModal full={full} noHeader={noHeader}>
         {title && !noHeader && <Title className='mt-none'>{title}</Title>}
         {!noClose && (
           <CloseButton onClick={toggleFunction}>
@@ -63,7 +63,7 @@ const CloseButton = styled.button`
 
 const zoom = keyframes`
   from {
-    transform: scale(0.01);
+    transform: scale(0.8);
   }
   to {
         transform: scale(1);
@@ -72,16 +72,17 @@ const zoom = keyframes`
 `;
 
 const StyledModal = styled.div`
-  max-width: 90%;
+  max-width: 100%;
   margin: 0 auto;
   min-width: 300px;
   @media(min-width: 576px) {
     min-width: 400px;
   }
-  animation: ${zoom} 250ms ease-out;
+  width: ${props => props.full ? '100%' : 'fit-content'};
+  max-width: ${props => props.full ? '1200px' : '1200px'};
+  height: ${props => props.full ? 'fit-content' : 'fit-content'};
+  animation: ${zoom} 170ms ease-out;
   position: relative;
-  height: fit-content;
-  width: fit-content;
   border-radius: 5px;
   z-index: 999;
   padding: 32px;

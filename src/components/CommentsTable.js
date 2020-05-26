@@ -567,7 +567,7 @@ function CommentsTable({
           customStyles={`
                   width: 100%;
                   top: -1px;
-                  margin-bottom: ${theme.spacing.four};
+                  margin-bottom: ${theme.spacing.four}px;
                   display: flex;
                   align-items: center;
                   justify-content: center;
@@ -955,7 +955,7 @@ const Table = styled.table`
   table-layout: fixed;
   // display: table;
   border-spacing: 0px;
-  margin-bottom: ${(props) => props.theme.spacing.four};
+  margin-bottom: ${(props) => props.theme.spacing.four}px;
   // position: relative;
   ${(props) =>
     props.skeleton &&
