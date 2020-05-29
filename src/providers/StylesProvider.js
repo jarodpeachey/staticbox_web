@@ -114,8 +114,7 @@ export const GlobalStyles = createGlobalStyle`
     input,
     label,
     textarea,
-    select,
-    small {
+    select {
       color: ${theme.color.text.dark.two};
     }
     strong {
@@ -139,6 +138,10 @@ export const GlobalStyles = createGlobalStyle`
         sans-serif !important;
       font-size: 16px;
       font-weight: 400;
+    }
+    small {
+      margin-bottom: ${theme.spacing.two} !important;
+      display: block !important;
     }
     textarea {
       margin: 0;

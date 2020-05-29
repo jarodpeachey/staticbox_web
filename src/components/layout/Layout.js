@@ -165,6 +165,10 @@ const Wrapper = styled.div`
   small {
     font-size: 14px;
   }
+  small {
+    margin-bottom: 2px !important;
+    display: block !important;
+  }
   h1,
   h2,
   h3,
