@@ -16,6 +16,12 @@ import Accordion from '../Accordion';
 const CustomizeModal = () => {
   const [primaryColor, setPrimaryColor] = useState('#fbbe76');
   const [secondaryColor, setSecondaryColor] = useState('#aacd67');
+  const [labelFontSize, setLabelFontSize] = useState(16);
+  const [inputFontSize, setInputFontSize] = useState(16);
+  const [inputPadding, setInputPadding] = useState({
+    vertical: 0,
+    horizontal: 0,
+  });
 
   const {
     setCustomizeModalOpen,
@@ -45,7 +51,7 @@ const CustomizeModal = () => {
               <SidebarItem label='Colors'>
                 <Spacer height={12} />
                 <Label>Primary</Label>
-                <SmallInput
+                <input
                   onChange={(e) => setPrimaryColor(e.target.value)}
                   className='mb-3'
                   type='color'
@@ -53,7 +59,7 @@ const CustomizeModal = () => {
                   id=''
                 />
                 <Label>Secondary</Label>
-                <SmallInput
+                <input
                   onChange={(e) => setSecondaryColor(e.target.value)}
                   className='mb-3'
                   type='color'
@@ -61,7 +67,7 @@ const CustomizeModal = () => {
                   id=''
                 />
                 <Label>Text</Label>
-                <SmallInput
+                <input
                   onChange={(e) => setSecondaryColor(e.target.value)}
                   className='mb-3'
                   type='color'
@@ -73,12 +79,12 @@ const CustomizeModal = () => {
               <SidebarItem label='Form Labels'>
                 <Spacer height={12} />
                 <Label>Font Size</Label>
-                <SmallInput type='number' name='' id='' />
-                <SmallSelect>
-                  <option>px</option>
-                  <option>em</option>
-                  <option>rem</option>
-                </SmallSelect>
+                <SmallInput
+                  onChange={(e) => setLabelFontSize(e.target.value)}
+                  type='number'
+                  name=''
+                  id=''
+                />
                 <Spacer height={12} />
               </SidebarItem>
               <SidebarItem label='Input'>
@@ -87,63 +93,49 @@ const CustomizeModal = () => {
                   <strong>Font Size</strong>
                 </Label>
                 <SmallInput
+                  onChange={(e) => setInputFontSize(e.target.value)}
                   style={{ width: 60 }}
                   className='mb-3'
                   type='number'
                   name=''
                   id=''
                 />
-                <SmallSelect>
-                  <option>px</option>
-                  <option>em</option>
-                  <option>rem</option>
-                </SmallSelect>
                 <Label>
-                  <strong>Margin</strong>
+                  <strong>Padding</strong>
                 </Label>
                 <Row breakpoints={[576]} spacing={[6, 0]}>
-                  <div widths={[3]}>
-                    <small>Top</small>
+                  <div widths={[6]}>
+                    <small>Vertical</small>
                     <br />
                     <SmallInput
                       style={{ width: '100%' }}
                       type='number'
                       name=''
-                      placeholder='Top'
+                      placeholder='Vertical'
                       id=''
+                      onChange={(e) => {
+                        setInputPadding({
+                          ...inputPadding,
+                          vertical: e.target.value,
+                        });
+                      }}
                     />
                   </div>
-                  <div widths={[3]}>
-                    <small>Left</small>
+                  <div widths={[6]}>
+                    <small>Horizontal</small>
                     <br />
                     <SmallInput
                       style={{ width: '100%' }}
                       type='number'
                       name=''
-                      placeholder='Left'
+                      placeholder='Horizontal'
                       id=''
-                    />
-                  </div>
-                  <div widths={[3]}>
-                    <small>Bottom</small>
-                    <br />
-                    <SmallInput
-                      style={{ width: '100%' }}
-                      type='number'
-                      name=''
-                      placeholder='Bottom'
-                      id=''
-                    />
-                  </div>
-                  <div widths={[3]}>
-                    <small>Right</small>
-                    <br />
-                    <SmallInput
-                      style={{ width: '100%' }}
-                      type='number'
-                      name=''
-                      placeholder='Right'
-                      id=''
+                      onChange={(e) => {
+                        setInputPadding({
+                          ...inputPadding,
+                          horizontal: e.target.value,
+                        });
+                      }}
                     />
                   </div>
                 </Row>
@@ -157,16 +149,30 @@ const CustomizeModal = () => {
             <Line color={primaryColor} className='my-4' />
             <Row spacing={[24, 12]} breakpoints={[769]}>
               <div widths={[6]}>
-                <Label>Name</Label>
-                <Input color={primaryColor} placeholder='Name' />
+                <Label fontSize={labelFontSize}>Name</Label>
+                <Input
+                  fontSize={inputFontSize}
+                  color={primaryColor}
+                  placeholder='Name'
+                  padding={inputPadding}
+                />
               </div>
               <div widths={[6]}>
-                <Label>Email</Label>
-                <Input color={primaryColor} placeholder='Email' />
+                <Label fontSize={labelFontSize}>Email</Label>
+                <Input
+                  fontSize={inputFontSize}
+                  color={primaryColor}
+                  placeholder='Email'
+                  padding={inputPadding}
+                />
               </div>
               <div widths={[12]}>
-                <Label>Comment</Label>
-                <Textarea color={primaryColor}></Textarea>
+                <Label fontSize={labelFontSize}>Comment</Label>
+                <Textarea
+                  fontSize={inputFontSize}
+                  color={primaryColor}
+                  padding={inputPadding}
+                ></Textarea>
               </div>
               <div widths={[12]}>
                 <StyledButton background={primaryColor}>Comment</StyledButton>
@@ -209,10 +215,14 @@ const Line = styled.div`
 const Label = styled.label`
   margin-bottom: 8px;
   display: block;
+  font-size: ${(props) => props.fontSize}px !important;
 `;
 
 const Input = styled.input`
-  padding: 16px;
+  padding-top: ${(props) => props.padding.vertical}px;
+  padding-right: ${(props) => props.padding.horizontal}px;
+  padding-left: ${(props) => props.padding.horizontal}px;
+  padding-bottom: ${(props) => props.padding.vertical}px;
   margin: 0;
   width: 100%;
   border: 1px solid #e8e8e8;
@@ -220,6 +230,7 @@ const Input = styled.input`
   :focus {
     outline: 1px ${(props) => props.color} auto;
   }
+  font-size: ${(props) => props.fontSize}px !important;
 `;
 
 const SmallInput = styled.input`
@@ -252,8 +263,12 @@ const SmallSelect = styled.select`
 `;
 
 const Textarea = styled.textarea`
-  padding: 16px;
+  padding-top: ${(props) => props.padding.vertical}px;
+  padding-right: ${(props) => props.padding.horizontal}px;
+  padding-left: ${(props) => props.padding.horizontal}px;
+  padding-bottom: ${(props) => props.padding.vertical}px;
   width: 100%;
+  font-size: ${(props) => props.fontSize}px !important;
   margin: 0;
   border: 1px solid #e8e8e8;
   border-radius: 5px;
