@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 import Modal from '../Modal';
 import Spacer from '../Spacer';
 import Button from '../Button';
@@ -12,6 +12,11 @@ import { DatabaseContext } from '../../providers/DatabaseProvider';
 import { formatSiteId } from '../../utils/formatSiteId';
 import Row from '../grid/Row';
 import Accordion from '../Accordion';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-css';
 
 const CustomizeModal = () => {
   const [primaryColor, setPrimaryColor] = useState('#fbbe76');
@@ -22,12 +27,17 @@ const CustomizeModal = () => {
     vertical: 0,
     horizontal: 0,
   });
+  const [customLabelCSS, setCustomLabelCSS] = useState('');
+  const [customInputCSS, setCustomInputCSS] = useState('');
+  const [customButtonCSS, setCustomButtonCSS] = useState('');
 
   const {
     setCustomizeModalOpen,
     setNotificationMessage,
     setNotificationType,
   } = useContext(AppContext);
+
+  const theme = useContext(ThemeContext);
 
   return (
     <Modal
@@ -41,11 +51,7 @@ const CustomizeModal = () => {
         <p className='m-none mb-5'>
           Hover over each element in the preview to customize it.
         </p>
-        <Row
-          customStyles={`height: 100%;`}
-          spacing={[24, 0]}
-          breakpoints={[769]}
-        >
+        <Row customStyles='height: 100%;' spacing={[24, 0]} breakpoints={[769]}>
           <Sidebar widths={[4]}>
             <Accordion>
               <SidebarItem label='Colors'>
@@ -84,7 +90,27 @@ const CustomizeModal = () => {
                   type='number'
                   name=''
                   id=''
+                  className='mb-4'
                 />
+                <Label>Custom CSS</Label>
+                <CodeWrapper>
+                  <p>input {`{`}</p>
+                  <Editor
+                    value={customLabelCSS}
+                    onValueChange={(code) => setCustomLabelCSS(code)}
+                    highlight={(code) => highlight(code, languages.css)}
+                    padding={10}
+                    style={{
+                      fontFamily: '"Fira code", "Fira Mono", monospace',
+                      minHeight: '100px',
+                      background: '#ffffff',
+                      margin: '6px 0 0 2px',
+                      outline: 'none',
+                    }}
+                  />
+                  <p>{`}`}</p>
+                </CodeWrapper>
+
                 <Spacer height={12} />
               </SidebarItem>
               <SidebarItem label='Input'>
@@ -95,7 +121,7 @@ const CustomizeModal = () => {
                 <SmallInput
                   onChange={(e) => setInputFontSize(e.target.value)}
                   style={{ width: 60 }}
-                  className='mb-3'
+                  className='mb-4'
                   type='number'
                   name=''
                   id=''
@@ -103,45 +129,84 @@ const CustomizeModal = () => {
                 <Label>
                   <strong>Padding</strong>
                 </Label>
-                <Row breakpoints={[576]} spacing={[6, 0]}>
-                  <div widths={[6]}>
-                    <small>Vertical</small>
-                    <br />
-                    <SmallInput
-                      style={{ width: '100%' }}
-                      type='number'
-                      name=''
-                      placeholder='Vertical'
-                      id=''
-                      onChange={(e) => {
-                        setInputPadding({
-                          ...inputPadding,
-                          vertical: e.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                  <div widths={[6]}>
-                    <small>Horizontal</small>
-                    <br />
-                    <SmallInput
-                      style={{ width: '100%' }}
-                      type='number'
-                      name=''
-                      placeholder='Horizontal'
-                      id=''
-                      onChange={(e) => {
-                        setInputPadding({
-                          ...inputPadding,
-                          horizontal: e.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-                </Row>
+                <div className='mb-4'>
+                  {' '}
+                  <Row breakpoints={[576]} spacing={[6, 0]}>
+                    <div widths={[6]}>
+                      <small>Vertical</small>
+                      <SmallInput
+                        style={{ width: '100%' }}
+                        type='number'
+                        name=''
+                        placeholder='Vertical'
+                        id=''
+                        onChange={(e) => {
+                          setInputPadding({
+                            ...inputPadding,
+                            vertical: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                    <div widths={[6]}>
+                      <small>Horizontal</small>
+                      <SmallInput
+                        style={{ width: '100%' }}
+                        type='number'
+                        name=''
+                        placeholder='Horizontal'
+                        id=''
+                        onChange={(e) => {
+                          setInputPadding({
+                            ...inputPadding,
+                            horizontal: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                  </Row>
+                </div>
+                <Label>Custom CSS</Label>
+                <CodeWrapper>
+                  <p>input {`{`}</p>
+                  <Editor
+                    value={customLabelCSS}
+                    onValueChange={(code) => setCustomInputCSS(code)}
+                    highlight={(code) => highlight(code, languages.css)}
+                    padding={10}
+                    style={{
+                      fontFamily: '"Fira code", "Fira Mono", monospace',
+                      minHeight: '100px',
+                      background: '#ffffff',
+                      margin: '6px 0 0 2px',
+                      outline: 'none',
+                    }}
+                  />
+                  <p>{`}`}</p>
+                </CodeWrapper>
                 <Spacer height={12} />
               </SidebarItem>
-              <SidebarItem label='Button'>Button</SidebarItem>
+              <SidebarItem label='Button'>
+                <Spacer height={12} />
+                <Label>Custom CSS</Label>
+                <CodeWrapper>
+                  <p>input {`{`}</p>
+                  <Editor
+                    value={customLabelCSS}
+                    onValueChange={(code) => setCustomButtonCSS(code)}
+                    highlight={(code) => highlight(code, languages.css)}
+                    padding={10}
+                    style={{
+                      fontFamily: '"Fira code", "Fira Mono", monospace',
+                      minHeight: '100px',
+                      background: '#ffffff',
+                      margin: '6px 0 0 2px',
+                      outline: 'none',
+                    }}
+                  />
+                  <p>{`}`}</p>
+                </CodeWrapper>
+              </SidebarItem>
             </Accordion>
           </Sidebar>
           <Preview widths={[8]}>
@@ -184,6 +249,20 @@ const CustomizeModal = () => {
     </Modal>
   );
 };
+
+const CodeWrapper = styled.div`
+  background: ${(props) => props.theme.color.gray.one};
+  border-radius: ${(props) => props.theme.radius.one};
+  border: 1px solid ${(props) => props.theme.color.gray.three};
+  outline: none;
+  padding: 12px;
+  p {
+    margin: 0 !important;
+  }
+  textarea {
+    outline: none !important;
+  }
+`;
 
 const Sidebar = styled.div`
   border-right: 1px solid #e8e8e8;

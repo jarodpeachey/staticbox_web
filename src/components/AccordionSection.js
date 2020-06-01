@@ -43,10 +43,10 @@ const AccordionBody = styled.div`
   -o-transition: all 0.35s;
   transition: all 0.35s;
   overflow: hidden;
-  max-height: ${(props) => (props.open ? '300px' : '0')} !important;
+  max-height: ${(props) => (props.open ? '400px' : '0')} !important;
   padding: ${(props) => (props.open ? '0 16px' : '0px 16px')} !important;
   border-bottom: ${(props) => (props.open ? '1px solid #e8e8e8' : 'none')};
-  height: 300px;
+  height: 400px;
 `;
 
 export default AccordionSection;
