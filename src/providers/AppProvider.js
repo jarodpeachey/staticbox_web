@@ -13,7 +13,7 @@ export const AppProvider = ({ children }) => {
   const [deleteSiteModalOpen, setDeleteSiteModalOpen] = useState(false);
   const [deleteUserModalOpen, setDeleteUserModalOpen] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
-  const [customizeModalOpen, setCustomizeModalOpen] = useState(true);
+  const [customizeModalOpen, setCustomizeModalOpen] = useState(false);
   const [returnFunction, setFunction] = useState(null);
   const [signedIn, setSignedIn] = useState(false);
 

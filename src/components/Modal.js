@@ -78,8 +78,8 @@ const StyledModal = styled.div`
   @media(min-width: 576px) {
     min-width: 400px;
   }
-  width: ${props => props.full ? '100%' : 'fit-content'};
-  max-width: ${props => props.full ? '1200px' : '1200px'};
+  width: ${props => props.full ? '90%' : 'fit-content'};
+  max-width: 1200px;
   height: ${props => props.full ? 'fit-content' : 'fit-content'};
   animation: ${zoom} 170ms ease-out;
   position: relative;

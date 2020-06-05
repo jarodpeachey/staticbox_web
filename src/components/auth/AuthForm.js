@@ -111,6 +111,30 @@ const AuthForm = () => {
                       q.Var('site'),
                       false
                     ),
+                    styles: q.Create(q.Collection('styles'), {
+                      data: {
+                        user: q.Select('ref', q.Var('user')),
+                        site: q.Select('ref', q.Var('site')),
+                        color: {
+                          primary: '#1758d1',
+                          secondary: '#f9853a',
+                          text: '#666666',
+                        },
+                        label: {
+                          fontSize: 16,
+                          customCSS: 'margin: 0; padding: 0',
+                        },
+                        input: {
+                          fontSize: 16,
+                          paddingX: 12,
+                          paddingY: 12,
+                          customCSS: 'margin: 0; padding: 0',
+                        },
+                        button: {
+                          customCSS: 'margin: 0;',
+                        },
+                      },
+                    }),
                   },
                   q.Login(q.Select('ref', q.Var('user')), {
                     password: q.Select(['data', 'id'], q.Var('user')),

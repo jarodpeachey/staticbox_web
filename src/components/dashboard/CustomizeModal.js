@@ -1,35 +1,44 @@
-import React, { useState, useContext } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React, { useState, useContext, useEffect } from 'react';
+import styled, { css } from 'styled-components';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
 import Modal from '../Modal';
 import Spacer from '../Spacer';
 import Button from '../Button';
 import { AppContext } from '../../providers/AppProvider';
-import { FirebaseContext } from '../../providers/FirebaseProvider';
 // import { AuthContext } from '../../providers/DatabaseProvider';
-import { isBrowser } from '../../utils/isBrowser';
-import Loader from '../Loader';
 import { DatabaseContext } from '../../providers/DatabaseProvider';
-import { formatSiteId } from '../../utils/formatSiteId';
 import Row from '../grid/Row';
 import Accordion from '../Accordion';
-import Editor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-css';
+import DelayedLoad from '../DelayedLoad';
 
 const CustomizeModal = () => {
-  const [primaryColor, setPrimaryColor] = useState('#fbbe76');
-  const [secondaryColor, setSecondaryColor] = useState('#aacd67');
-  const [labelFontSize, setLabelFontSize] = useState(16);
-  const [inputFontSize, setInputFontSize] = useState(16);
-  const [inputPadding, setInputPadding] = useState({
-    vertical: 0,
-    horizontal: 0,
+  const { state, q } = useContext(DatabaseContext);
+  const { site, siteClient } = state;
+
+  const [colors, setColors] = useState({
+    primary: '#fbbe76',
+    secondary: '#aacd67',
   });
-  const [customLabelCSS, setCustomLabelCSS] = useState('');
-  const [customInputCSS, setCustomInputCSS] = useState('');
-  const [customButtonCSS, setCustomButtonCSS] = useState('');
+
+  const [labelStyles, setLabelStyles] = useState({
+    fontSize: 16,
+    customCSS: 'margin: 0;',
+  });
+
+  const [inputStyles, setInputStyles] = useState({
+    fontSize: 16,
+    customCSS: 'margin: 0;',
+    paddingX: 16,
+    paddingY: 16,
+  });
+
+  const [buttonStyles, setButtonStyles] = useState({
+    customCSS: 'margin: 0;',
+  });
 
   const {
     setCustomizeModalOpen,
@@ -37,7 +46,108 @@ const CustomizeModal = () => {
     setNotificationType,
   } = useContext(AppContext);
 
-  const theme = useContext(ThemeContext);
+  const [loading, setLoading] = useState(true);
+  const [reRender, setRender] = useState(true);
+  const [stylesID, setStylesID] = useState('');
+
+  useEffect(() => {
+    console.log(site.ref);
+    siteClient
+      .query(
+        q.Let(
+          {
+            styles: q.Get(q.Match(q.Index('styles_by_site'), site.ref)),
+          },
+          q.Var('styles')
+        )
+      )
+      .then((response) => {
+        console.log(response);
+        setStylesID(response.ref.value.id);
+        setColors({
+          ...response.data.color,
+        });
+        setLabelStyles({
+          ...response.data.label,
+        });
+        setInputStyles({
+          ...response.data.input,
+        });
+        setButtonStyles({
+          ...response.data.button,
+        });
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (reRender) {
+      console.log(site.ref);
+      siteClient
+        .query(
+          q.Let(
+            {
+              styles: q.Get(q.Match(q.Index('styles_by_site'), site.ref)),
+            },
+            q.Var('styles')
+          )
+        )
+        .then((response) => {
+          console.log(response);
+          setStylesID(response.ref.value.id);
+          setColors({
+            ...response.data.color,
+          });
+          setLabelStyles({
+            ...response.data.label,
+          });
+          setInputStyles({
+            ...response.data.input,
+          });
+          setButtonStyles({
+            ...response.data.button,
+          });
+
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
+        });
+
+      setRender(false);
+    }
+  }, [reRender]);
+
+  const updateStyles = () => {
+    siteClient
+      .query(
+        q.Update(q.Ref(q.Collection('styles'), stylesID), {
+          data: {
+            color: colors,
+            label: labelStyles,
+            input: inputStyles,
+            button: buttonStyles,
+          },
+        })
+      )
+      .then((faunaResponse) => {
+        console.log(faunaResponse);
+        setCustomizeModalOpen(false);
+        setNotificationMessage('Success!');
+        setNotificationType('success');
+      })
+      .catch((faunaError) => console.log(faunaError));
+  };
 
   return (
     <Modal
@@ -46,209 +156,309 @@ const CustomizeModal = () => {
       full
       noHeader
     >
-      <div className='pt-none mt-none pb-6'>
-        <h2 className='mb-3 mt-none'>Customize Form</h2>
-        <p className='m-none mb-5'>
-          Hover over each element in the preview to customize it.
-        </p>
-        <Row customStyles='height: 100%;' spacing={[24, 0]} breakpoints={[769]}>
-          <Sidebar widths={[4]}>
-            <Accordion>
-              <SidebarItem label='Colors'>
-                <Spacer height={12} />
-                <Label>Primary</Label>
-                <input
-                  onChange={(e) => setPrimaryColor(e.target.value)}
-                  className='mb-3'
-                  type='color'
-                  name=''
-                  id=''
-                />
-                <Label>Secondary</Label>
-                <input
-                  onChange={(e) => setSecondaryColor(e.target.value)}
-                  className='mb-3'
-                  type='color'
-                  name=''
-                  id=''
-                />
-                <Label>Text</Label>
-                <input
-                  onChange={(e) => setSecondaryColor(e.target.value)}
-                  className='mb-3'
-                  type='color'
-                  name=''
-                  id=''
-                />
-                <Spacer height={12} />
-              </SidebarItem>
-              <SidebarItem label='Form Labels'>
-                <Spacer height={12} />
-                <Label>Font Size</Label>
-                <SmallInput
-                  onChange={(e) => setLabelFontSize(e.target.value)}
-                  type='number'
-                  name=''
-                  id=''
-                  className='mb-4'
-                />
-                <Label>Custom CSS</Label>
-                <CodeWrapper>
-                  <p>input {`{`}</p>
-                  <Editor
-                    value={customLabelCSS}
-                    onValueChange={(code) => setCustomLabelCSS(code)}
-                    highlight={(code) => highlight(code, languages.css)}
-                    padding={10}
-                    style={{
-                      fontFamily: '"Fira code", "Fira Mono", monospace',
-                      minHeight: '100px',
-                      background: '#ffffff',
-                      margin: '6px 0 0 2px',
-                      outline: 'none',
-                    }}
-                  />
-                  <p>{`}`}</p>
-                </CodeWrapper>
+      <DelayedLoad
+        condition={!loading}
+        delay={1000}
+        fail={<h1>We can't access your form right now.</h1>}
+        render={
+          <div
+            style={{ position: 'relative' }}
+            className='pt-none mt-none pb-6'
+          >
+            <h2 className='mb-3 mt-none'>Customize Form</h2>
+            <p className='m-none mb-5'>
+              Hover over each element in the preview to customize it.
+            </p>
+            <Row
+              customStyles='height: 100%;'
+              spacing={[24, 0]}
+              breakpoints={[769]}
+            >
+              <Sidebar widths={[4]}>
+                <Accordion>
+                  <SidebarItem label='Colors'>
+                    <Spacer height={12} />
+                    <Label>Primary</Label>
+                    <input
+                      onChange={(e) =>
+                        setColors({
+                          ...colors,
+                          primary: e.target.value,
+                        })
+                      }
+                      className='mb-3'
+                      type='color'
+                      name=''
+                      id=''
+                    />
+                    <Label>Secondary</Label>
+                    <input
+                      onChange={(e) =>
+                        setColors({
+                          ...colors,
+                          secondary: e.target.value,
+                        })
+                      }
+                      className='mb-3'
+                      type='color'
+                      name=''
+                      id=''
+                    />
+                    <Label>Text</Label>
+                    <input
+                      onChange={(e) =>
+                        setColors({
+                          ...colors,
+                          text: e.target.value,
+                        })
+                      }
+                      className='mb-3'
+                      type='color'
+                      name=''
+                      id=''
+                    />
+                    <Spacer height={12} />
+                  </SidebarItem>
+                  <SidebarItem label='Form Labels'>
+                    <Spacer height={12} />
+                    <Label>Font Size</Label>
+                    <SmallInput
+                      onChange={(e) =>
+                        setLabelStyles({
+                          ...labelStyles,
+                          fontSize: e.target.value,
+                        })
+                      }
+                      type='number'
+                      name=''
+                      id=''
+                      className='mb-4'
+                      value={labelStyles.fontSize}
+                    />
+                    <Label>Custom CSS</Label>
+                    <CodeWrapper>
+                      <p>input {'{'}</p>
+                      <Editor
+                        value={labelStyles.customCSS}
+                        onValueChange={(code) =>
+                          setLabelStyles({
+                            ...labelStyles,
+                            customCSS: code,
+                          })
+                        }
+                        highlight={(code) => highlight(code, languages.css)}
+                        padding={10}
+                        style={{
+                          fontFamily: '"Fira code", "Fira Mono", monospace',
+                          minHeight: '100px',
+                          background: '#ffffff',
+                          margin: '6px 0 0 2px',
+                          outline: 'none',
+                        }}
+                      />
+                      <p>{'}'}</p>
+                    </CodeWrapper>
 
-                <Spacer height={12} />
-              </SidebarItem>
-              <SidebarItem label='Input'>
-                <Spacer height={12} />
-                <Label>
-                  <strong>Font Size</strong>
-                </Label>
-                <SmallInput
-                  onChange={(e) => setInputFontSize(e.target.value)}
-                  style={{ width: 60 }}
-                  className='mb-4'
-                  type='number'
-                  name=''
-                  id=''
-                />
-                <Label>
-                  <strong>Padding</strong>
-                </Label>
-                <div className='mb-4'>
-                  {' '}
-                  <Row breakpoints={[576]} spacing={[6, 0]}>
-                    <div widths={[6]}>
-                      <small>Vertical</small>
-                      <SmallInput
-                        style={{ width: '100%' }}
-                        type='number'
-                        name=''
-                        placeholder='Vertical'
-                        id=''
-                        onChange={(e) => {
-                          setInputPadding({
-                            ...inputPadding,
-                            vertical: e.target.value,
-                          });
+                    <Spacer height={12} />
+                  </SidebarItem>
+                  <SidebarItem label='Input'>
+                    <Spacer height={12} />
+                    <Label>
+                      <strong>Font Size</strong>
+                    </Label>
+                    <SmallInput
+                      onChange={(e) =>
+                        setInputStyles({
+                          ...inputStyles,
+                          fontSize: e.target.value,
+                        })
+                      }
+                      style={{ width: 60 }}
+                      className='mb-4'
+                      type='number'
+                      name=''
+                      id=''
+                      value={inputStyles.fontSize}
+                    />
+                    <Label>
+                      <strong>Padding</strong>
+                    </Label>
+                    <div className='mb-4'>
+                      {' '}
+                      <Row breakpoints={[576]} spacing={[6, 0]}>
+                        <div widths={[6]}>
+                          <small>Vertical</small>
+                          <SmallInput
+                            style={{ width: '100%' }}
+                            type='number'
+                            name=''
+                            placeholder='Vertical'
+                            id=''
+                            value={inputStyles.paddingY}
+                            onChange={(e) => {
+                              setInputStyles({
+                                ...inputStyles,
+                                paddingY: e.target.value,
+                              });
+                            }}
+                          />
+                        </div>
+                        <div widths={[6]}>
+                          <small>Horizontal</small>
+                          <SmallInput
+                            style={{ width: '100%' }}
+                            type='number'
+                            name=''
+                            placeholder='Horizontal'
+                            id=''
+                            value={inputStyles.paddingX}
+                            onChange={(e) => {
+                              setInputStyles({
+                                ...inputStyles,
+                                paddingX: e.target.value,
+                              });
+                            }}
+                          />
+                        </div>
+                      </Row>
+                    </div>
+                    <Label>Custom CSS</Label>
+                    <CodeWrapper>
+                      <p>input {'{'}</p>
+                      <Editor
+                        value={inputStyles.customCSS}
+                        onValueChange={(code) =>
+                          setInputStyles({
+                            ...inputStyles,
+                            customCSS: code,
+                          })
+                        }
+                        highlight={(code) => highlight(code, languages.css)}
+                        padding={10}
+                        style={{
+                          fontFamily: '"Fira code", "Fira Mono", monospace',
+                          minHeight: '100px',
+                          background: '#ffffff',
+                          margin: '6px 0 0 2px',
+                          outline: 'none',
                         }}
                       />
-                    </div>
-                    <div widths={[6]}>
-                      <small>Horizontal</small>
-                      <SmallInput
-                        style={{ width: '100%' }}
-                        type='number'
-                        name=''
-                        placeholder='Horizontal'
-                        id=''
-                        onChange={(e) => {
-                          setInputPadding({
-                            ...inputPadding,
-                            horizontal: e.target.value,
-                          });
+                      <p>{'}'}</p>
+                    </CodeWrapper>
+                    <Spacer height={12} />
+                  </SidebarItem>
+                  <SidebarItem label='Button'>
+                    <Spacer height={12} />
+                    <Label>Custom CSS</Label>
+                    <CodeWrapper>
+                      <p>input {'{'}</p>
+                      <Editor
+                        value={buttonStyles.customCSS}
+                        onValueChange={(code) =>
+                          setButtonStyles({
+                            ...buttonStyles,
+                            customCSS: code,
+                          })
+                        }
+                        highlight={(code) => highlight(code, languages.css)}
+                        padding={10}
+                        style={{
+                          fontFamily: '"Fira code", "Fira Mono", monospace',
+                          minHeight: '100px',
+                          background: '#ffffff',
+                          margin: '6px 0 0 2px',
+                          outline: 'none',
                         }}
                       />
-                    </div>
-                  </Row>
-                </div>
-                <Label>Custom CSS</Label>
-                <CodeWrapper>
-                  <p>input {`{`}</p>
-                  <Editor
-                    value={customLabelCSS}
-                    onValueChange={(code) => setCustomInputCSS(code)}
-                    highlight={(code) => highlight(code, languages.css)}
-                    padding={10}
-                    style={{
-                      fontFamily: '"Fira code", "Fira Mono", monospace',
-                      minHeight: '100px',
-                      background: '#ffffff',
-                      margin: '6px 0 0 2px',
-                      outline: 'none',
-                    }}
-                  />
-                  <p>{`}`}</p>
-                </CodeWrapper>
-                <Spacer height={12} />
-              </SidebarItem>
-              <SidebarItem label='Button'>
-                <Spacer height={12} />
-                <Label>Custom CSS</Label>
-                <CodeWrapper>
-                  <p>input {`{`}</p>
-                  <Editor
-                    value={customLabelCSS}
-                    onValueChange={(code) => setCustomButtonCSS(code)}
-                    highlight={(code) => highlight(code, languages.css)}
-                    padding={10}
-                    style={{
-                      fontFamily: '"Fira code", "Fira Mono", monospace',
-                      minHeight: '100px',
-                      background: '#ffffff',
-                      margin: '6px 0 0 2px',
-                      outline: 'none',
-                    }}
-                  />
-                  <p>{`}`}</p>
-                </CodeWrapper>
-              </SidebarItem>
-            </Accordion>
-          </Sidebar>
-          <Preview widths={[8]}>
-            <h2 className='m-none'>Connect with us!</h2>
-            <Line color={primaryColor} className='my-4' />
-            <Row spacing={[24, 12]} breakpoints={[769]}>
-              <div widths={[6]}>
-                <Label fontSize={labelFontSize}>Name</Label>
-                <Input
-                  fontSize={inputFontSize}
-                  color={primaryColor}
-                  placeholder='Name'
-                  padding={inputPadding}
-                />
-              </div>
-              <div widths={[6]}>
-                <Label fontSize={labelFontSize}>Email</Label>
-                <Input
-                  fontSize={inputFontSize}
-                  color={primaryColor}
-                  placeholder='Email'
-                  padding={inputPadding}
-                />
-              </div>
-              <div widths={[12]}>
-                <Label fontSize={labelFontSize}>Comment</Label>
-                <Textarea
-                  fontSize={inputFontSize}
-                  color={primaryColor}
-                  padding={inputPadding}
-                ></Textarea>
-              </div>
-              <div widths={[12]}>
-                <StyledButton background={primaryColor}>Comment</StyledButton>
-              </div>
+                      <p>{'}'}</p>
+                    </CodeWrapper>
+                  </SidebarItem>
+                </Accordion>
+                <Button onClick={updateStyles}>Save</Button>
+              </Sidebar>
+              <Preview widths={[8]}>
+                <h2 className='m-none'>Connect with us!</h2>
+                <Line color={colors.primary} className='my-4' />
+                <Row spacing={[24, 12]} breakpoints={[769]}>
+                  <div widths={[6]}>
+                    <Label
+                      customCSS={labelStyles.customCSS}
+                      fontSize={labelStyles.fontSize}
+                    >
+                      Name
+                    </Label>
+                    <Input
+                      customCSS={inputStyles.customCSS}
+                      fontSize={inputStyles.fontSize}
+                      color={colors.primary}
+                      placeholder='Name'
+                      padding={{
+                        vertical: inputStyles.paddingY,
+                        horizontal: inputStyles.paddingX,
+                      }}
+                    />
+                  </div>
+                  <div widths={[6]}>
+                    <Label
+                      customCSS={labelStyles.customCSS}
+                      fontSize={labelStyles.fontSize}
+                    >
+                      Email
+                    </Label>
+                    <Input
+                      customCSS={inputStyles.customCSS}
+                      fontSize={inputStyles.fontSize}
+                      color={colors.primary}
+                      placeholder='Email'
+                      padding={{
+                        vertical: inputStyles.paddingY,
+                        horizontal: inputStyles.paddingX,
+                      }}
+                    />
+                  </div>
+                  <div widths={[12]}>
+                    <Label
+                      customCSS={labelStyles.customCSS}
+                      fontSize={labelStyles.fontSize}
+                    >
+                      Comment
+                    </Label>
+                    <Textarea
+                      customCSS={inputStyles.customCSS}
+                      fontSize={inputStyles.fontSize}
+                      color={colors.primary}
+                      padding={{
+                        vertical: inputStyles.paddingY,
+                        horizontal: inputStyles.paddingX,
+                      }}
+                    ></Textarea>
+                  </div>
+                  <div widths={[12]}>
+                    <StyledButton
+                      customCSS={buttonStyles.customCSS}
+                      background={colors.primary}
+                    >
+                      Comment
+                    </StyledButton>
+                  </div>
+                </Row>
+              </Preview>
             </Row>
-          </Preview>
-        </Row>
-      </div>
+          </div>
+        }
+      />
     </Modal>
   );
 };
+
+const Loading = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: ${(props) => props.theme.color.gray.one};
+`;
 
 const CodeWrapper = styled.div`
   background: ${(props) => props.theme.color.gray.one};
@@ -295,6 +505,11 @@ const Label = styled.label`
   margin-bottom: 8px;
   display: block;
   font-size: ${(props) => props.fontSize}px !important;
+  ${(props) =>
+    props.customCSS &&
+    css`
+      ${props.customCSS}
+    `}
 `;
 
 const Input = styled.input`
@@ -310,6 +525,11 @@ const Input = styled.input`
     outline: 1px ${(props) => props.color} auto;
   }
   font-size: ${(props) => props.fontSize}px !important;
+  ${(props) =>
+    props.customCSS &&
+    css`
+      ${props.customCSS}
+    `}
 `;
 
 const SmallInput = styled.input`
@@ -355,6 +575,11 @@ const Textarea = styled.textarea`
   :focus {
     outline: 1px ${(props) => props.color} auto;
   }
+  ${(props) =>
+    props.customCSS &&
+    css`
+      ${props.customCSS}
+    `}
 `;
 
 const StyledButton = styled.button`
@@ -363,8 +588,14 @@ const StyledButton = styled.button`
   color: white;
   border: none;
   outline: none;
+  cursor: pointer;
   border-radius: 5px;
   margin-left: auto;
+  ${(props) =>
+    props.customCSS &&
+    css`
+      ${props.customCSS}
+    `}
 `;
 
 export default CustomizeModal;
