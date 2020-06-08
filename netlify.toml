@@ -4,8 +4,8 @@
   publish = "public"
 
 [[redirects]]
-  from = "/dashboard/*"
-  to = "/dashboard"
+  from = "/*"
+  to = "/"
   status = 200
 
 [[plugins]]

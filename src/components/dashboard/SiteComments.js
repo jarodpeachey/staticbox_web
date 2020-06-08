@@ -444,7 +444,7 @@ const SiteComments = () => {
                   window.history.pushState(
                     {},
                     '',
-                    `/dashboard/sites/${site.data.id}/comments/published`
+                    `/sites/${site.data.id}/comments/published`
                   );
                 }
                 setActiveTab('published');
@@ -460,7 +460,7 @@ const SiteComments = () => {
                   window.history.pushState(
                     {},
                     '',
-                    `/dashboard/sites/${site.data.id}/comments/held-for-review`
+                    `/sites/${site.data.id}/comments/held-for-review`
                   );
                 }
                 setActiveTab('held');

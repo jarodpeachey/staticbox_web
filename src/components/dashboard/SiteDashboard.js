@@ -143,7 +143,7 @@ const SiteDashboard = () => {
             })}
             <Spacer />
             <Button
-              link={`/dashboard/sites/${formatSiteId(site.data.name)}/comments`}
+              link={`/sites/${formatSiteId(site.data.name)}/comments`}
               gray
               small
             >

@@ -47,7 +47,7 @@ const Billing = () => {
               <p className='small m-none'>Last Payment Date: 10/07/01</p>
               <p className='small m-none'>Last Payment Amount: $15.00</p>
               <Spacer />
-              <Button link='/dashboard/billing' gray small>
+              <Button link='/billing' gray small>
                 More
               </Button>
             </>

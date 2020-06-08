@@ -77,7 +77,7 @@ const NewSite = () => {
                 },
               });
 
-              window.location.href = `/dashboard/sites/${formatSiteId(name)}`;
+              window.location.href = `/sites/${formatSiteId(name)}`;
             })
             .catch((errorTwo) => {
               console.log(errorTwo);

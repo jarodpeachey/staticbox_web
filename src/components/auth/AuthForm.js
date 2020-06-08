@@ -88,7 +88,8 @@ const AuthForm = () => {
                       q.Function('create_user'),
                       q.Select(0, q.Var('data')),
                       q.Select(1, q.Var('data')),
-                      q.Select(2, q.Var('data'))
+                      q.Select(2, q.Var('data')),
+                      false
                     ),
                     site: q.Call(
                       q.Function('create_site'),
@@ -254,6 +255,11 @@ const AuthForm = () => {
               .query(q.Get(q.Match(q.Index('user_by_id'), response.user.uid)))
               .then((faunaResponseTwo) => {
                 console.log(faunaResponseTwo);
+                if (faunaResponseTwo.data.plan === false) {
+                  window.location.pathname = '/setup';
+                } else {
+                  window.location.pathname = '/dashboard';
+                }
                 dispatch({
                   type: 'login',
                   data: {

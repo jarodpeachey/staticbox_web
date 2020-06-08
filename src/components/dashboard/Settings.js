@@ -308,13 +308,13 @@ const Settings = ({ loadedKeys, setLoadedKeys }) => {
             <Tab
               active={
                 (isBrowser() &&
-                  window.location.pathname === '/dashboard/settings/') ||
+                  window.location.pathname === '/settings/') ||
                 (isBrowser() &&
-                  window.location.pathname === '/dashboard/settings')
+                  window.location.pathname === '/settings')
               }
               onClick={() => {
                 if (typeof window !== 'undefined') {
-                  window.history.pushState({}, '', '/dashboard/settings');
+                  window.history.pushState({}, '', '/settings');
                 }
                 setActiveTab('general');
               }}
@@ -329,7 +329,7 @@ const Settings = ({ loadedKeys, setLoadedKeys }) => {
               }
               onClick={() => {
                 if (isBrowser()) {
-                  window.history.pushState({}, '', '/dashboard/settings/api');
+                  window.history.pushState({}, '', '/settings/api');
                 }
                 setActiveTab('api');
               }}

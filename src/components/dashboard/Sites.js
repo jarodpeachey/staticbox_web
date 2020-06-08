@@ -15,7 +15,7 @@ import { formatDate } from '../../utils/formatDate';
 import Spacer from '../Spacer';
 import { formatSiteId } from '../../utils/formatSiteId';
 
-const Dashboard = ({ setSitesFunction, loadedSites }) => {
+const Sites = ({ setSitesFunction, loadedSites }) => {
   const { setEditModalOpen } = useContext(AppContext);
   const { firebase, firebaseUser } = useContext(FirebaseContext);
   const [sites, setSites] = useState(
@@ -91,10 +91,10 @@ const Dashboard = ({ setSitesFunction, loadedSites }) => {
     <span>
       <Row spacing={[12]} breakpoints={[0]}>
         <div widths={[6]}>
-          <h2 className='m-none'>Sites</h2>
+          <h1 className='m-none'>Sites</h1>
         </div>
         <div widths={[6]}>
-          <Button link='/dashboard/new' right small secondary>
+          <Button link='/new' right small secondary>
             <span
               style={{
                 fontSize: 26,
@@ -109,7 +109,7 @@ const Dashboard = ({ setSitesFunction, loadedSites }) => {
           </Button>
         </div>
       </Row>
-      {/* <Spacer height={48} /> */}
+      <Spacer height={38} />
       {loading && (
         <Row breakpoints={[0, 576, 769]} spacing={[24]}>
           <div widths={[12, 6, 4]}>
@@ -154,7 +154,7 @@ const Dashboard = ({ setSitesFunction, loadedSites }) => {
                   return (
                     <Site
                       widths={[12, 6, 4]}
-                      to={`/dashboard/sites/${formatSiteId(site.data.name)}`}
+                      to={`/sites/${formatSiteId(site.data.name)}`}
                     >
                       <Card
                         customStyles={`
@@ -310,4 +310,4 @@ const SlideWrapper = styled.div`
   animation: ${animation} 250ms ease-out;
 `;
 
-export default Dashboard;
+export default Sites;

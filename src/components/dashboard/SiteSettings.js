@@ -264,7 +264,7 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
                   window.history.pushState(
                     {},
                     '',
-                    `/dashboard/sites/${site.data.id}/settings`
+                    `/sites/${site.data.id}/settings`
                   );
                 }
                 setActiveTab('general');
@@ -280,7 +280,7 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
                   window.history.pushState(
                     {},
                     '',
-                    `/dashboard/sites/${site.data.id}/settings/api`
+                    `/sites/${site.data.id}/settings/api`
                   );
                 }
                 setActiveTab('api');
@@ -296,7 +296,7 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
                   window.history.pushState(
                     {},
                     '',
-                    `/dashboard/sites/${site.data.id}/settings/customize`
+                    `/sites/${site.data.id}/settings/customize`
                   );
                 }
                 setActiveTab('customize');

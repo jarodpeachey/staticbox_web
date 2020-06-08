@@ -203,7 +203,7 @@ export const DatabaseReducer = (state, action) => {
         deleteCookie('site_secret');
         deleteCookie('site_id');
 
-        window.location.href = '/dashboard/sites';
+        window.location.href = '/sites';
       }
 
       return {

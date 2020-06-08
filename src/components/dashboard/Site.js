@@ -78,14 +78,14 @@ const Site = () => {
             setNotificationMessage(
               'There was an error accessing your site data.'
             );
-            // window.location.href = '/dashboard/sites';
+            // window.location.href = '/sites';
             console.log('Error getting and logging in site: ', errorTwo);
           });
       })
       .catch((errorTwo) => {
         setNotificationType('error');
         setNotificationMessage('There was an error accessing your site data.');
-        // window.location.href = '/dashboard/sites';
+        // window.location.href = '/sites';
         console.log('Error getting site data: ', errorTwo);
       });
   }, [user]);
@@ -142,7 +142,7 @@ const Site = () => {
                         window.history.pushState(
                           {},
                           '',
-                          `/dashboard/sites/${formatSiteId(site.data.name)}`
+                          `/sites/${formatSiteId(site.data.name)}`
                         );
                       }
                       setActiveTab('home');
@@ -158,7 +158,7 @@ const Site = () => {
                         window.history.pushState(
                           {},
                           '',
-                          `/dashboard/sites/${formatSiteId(
+                          `/sites/${formatSiteId(
                             site.data.name
                           )}/comments`
                         );
@@ -176,7 +176,7 @@ const Site = () => {
                         window.history.pushState(
                           {},
                           '',
-                          `/dashboard/sites/${formatSiteId(
+                          `/sites/${formatSiteId(
                             site.data.name
                           )}/settings`
                         );
@@ -191,11 +191,11 @@ const Site = () => {
                   {/* <Tab
                       active={
                         typeof window !== 'undefined' &&
-                        window.location.pathname.includes('/dashboard/settings')
+                        window.location.pathname.includes('/settings')
                       }
                       onClick={() => {
                         if (typeof window !== 'undefined') {
-                          window.history.pushState({}, '', '/dashboard/dashboard/billing');
+                          window.history.pushState({}, '', '/billing');
                         }
                         setActiveTab('billing');
                       }}
