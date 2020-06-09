@@ -10,6 +10,7 @@ const Button = ({
   small,
   margin,
   secondary,
+  external,
   gray,
   outlined,
   solid,
@@ -27,39 +28,78 @@ const Button = ({
   return (
     <span>
       {link ? (
-        <Link
-          className={
-            left
-              ? 'no-styling left'
-              : center
-              ? 'no-styling center'
-              : right
-              ? 'no-styling right'
-              : 'no-styling'
-          }
-          to={link}
-        >
-          <StyledButton
-            disabled={disabled}
-            error={error}
-            small={small}
-            medium={medium}
-            className={className ? className : ''}
-            right={right}
-            left={left}
-            center={center}
-            margin={margin}
-            secondary={secondary}
-            gray={gray}
-            outlined={outlined}
-            onClick={onClick || null}
-            lightText={lightText}
-            darkText={darkText}
-            link
-          >
-            {children}
-          </StyledButton>
-        </Link>
+        <>
+          {external ? (
+            <a
+              href={link}
+              className={
+                left
+                  ? 'no-styling left'
+                  : center
+                  ? 'no-styling center'
+                  : right
+                  ? 'no-styling right'
+                  : 'no-styling'
+              }
+            >
+              {' '}
+              <StyledButton
+                disabled={disabled}
+                error={error}
+                small={small}
+                medium={medium}
+                className={className ? className : ''}
+                right={right}
+                left={left}
+                center={center}
+                margin={margin}
+                secondary={secondary}
+                gray={gray}
+                outlined={outlined}
+                onClick={onClick || null}
+                lightText={lightText}
+                darkText={darkText}
+                link
+              >
+                {children}
+              </StyledButton>
+            </a>
+          ) : (
+            <Link
+              className={
+                left
+                  ? 'no-styling left'
+                  : center
+                  ? 'no-styling center'
+                  : right
+                  ? 'no-styling right'
+                  : 'no-styling'
+              }
+              to={link}
+            >
+              <StyledButton
+                disabled={disabled}
+                error={error}
+                small={small}
+                medium={medium}
+                className={className ? className : ''}
+                right={right}
+                left={left}
+                center={center}
+                margin={margin}
+                secondary={secondary}
+                gray={gray}
+                outlined={outlined}
+                onClick={onClick || null}
+                lightText={lightText}
+                darkText={darkText}
+                link
+              >
+                {children}
+              </StyledButton>
+            </Link>
+          )}
+        </>
       ) : (
         <StyledButton
           disabled={disabled}

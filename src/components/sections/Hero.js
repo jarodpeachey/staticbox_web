@@ -60,7 +60,7 @@ const Hero = ({ children }) => {
               </SubTitle>
               <ButtonFlex>
                 <ButtonWrapper>
-                  <Button primary link='/'>
+                  <Button primary external link='https://app.staticbox.io/signup'>
                     Get Started
                   </Button>
                 </ButtonWrapper>
