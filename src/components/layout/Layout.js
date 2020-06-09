@@ -98,10 +98,10 @@ const Layout = (props) => {
 
   return (
     <Wrapper>
-      <Header siteTitle={props.title} />
-      {!pathnameIncludes('/signup') && !pathnameIncludes('/login') && (
+      {/* <Header siteTitle={props.title} /> */}
+      {/* {!pathnameIncludes('/signup') && !pathnameIncludes('/login') && (
         <ContentWrapper />
-      )}
+      )} */}
       {props.children}
       <Footer />
       {editUserInfoModalOpen && <EditUserInfoModal />}

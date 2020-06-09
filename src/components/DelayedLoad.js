@@ -46,7 +46,6 @@ const DelayedLoad = ({
 
   useEffect(() => {
     if (state === 'success') {
-      console.log('State is success. Clearing ', timeout);
       setGlobalState('success');
       clearTimeout(timeout);
     }

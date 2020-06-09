@@ -13,8 +13,9 @@ import Row from '../grid/Row';
 import { FirebaseContext } from '../../providers/FirebaseProvider';
 import { DatabaseContext } from '../../providers/DatabaseProvider';
 import { isBrowser } from '../../utils/isBrowser';
+import Spacer from '../Spacer';
 
-const Header = ({ siteTitle }) => {
+const Header = ({ siteTitle, children }) => {
   const {
     scrolled,
     setScrolled,
@@ -77,15 +78,14 @@ const Header = ({ siteTitle }) => {
       !window.location.pathname.includes('/signup') &&
       !window.location.pathname.includes('/login') ? (
         <>
-          <Wrapper id='header' scrolled={scrolled}>
+          <Wrapper id='header'>
             <div className='container'>
-              <Flex>
-                <SiteTitle className='logo' scrolled={scrolled}>
+              <Flex className='mb-6'>
+                <SiteTitle className='logo'>
                   <FontAwesomeIcon icon='comment-alt' />
                   Staticbox
                 </SiteTitle>
                 <AccountMenuToggle
-                  scrolled={scrolled}
                   onClick={accountToggleFunction}
                   open={accountOpen}
                 >
@@ -123,6 +123,7 @@ const Header = ({ siteTitle }) => {
                   </AccountMenu>
                 </AccountMenuToggle>
               </Flex>
+              {children}
             </div>
             {/* <MobileMenuOverlay open={open}> */}
             {/* </MobileMenuOverlay> */}
@@ -143,20 +144,12 @@ Header.defaultProps = {
 
 const Wrapper = styled.header`
   .container {
-    padding-top: 32px;
-    padding-bottom: 32px;
+    padding-top: 36px;
+    padding-bottom: 36px;
   }
   z-index: 999999999999999;
-  background: transparent;
+  background: ${(props) => props.theme.color.primary.backgroundDark};
   color: white !important;
-  transition-duration: 0.25s;
-  transition: all 0.25s ease-in;
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: auto;
-  z-index: 999;
 `;
 
 const Flex = styled.div`

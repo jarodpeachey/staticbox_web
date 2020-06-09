@@ -462,7 +462,7 @@ function CommentsTable({
     let location = null;
     data.forEach((dataItem, index) => {
       console.log('Data Item: ', dataItem);
-      console.log('Item: ', item);
+      // console.log('Item: ', item);
 
       if (dataItem.ref === item.original.ref) {
         console.log('Match!');

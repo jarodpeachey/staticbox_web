@@ -14,6 +14,8 @@ import { shortenText } from '../../utils/shortenText';
 import { DatabaseContext } from '../../providers/DatabaseProvider';
 import Row from '../grid/Row';
 import CommentsTable, { SelectColumnFilter } from '../CommentsTable';
+import { formatSiteId } from '../../utils/formatSiteId';
+import Header from '../layout/Header';
 
 const SiteComments = () => {
   const { setNotificationType, setNotificationMessage } = useContext(
@@ -434,6 +436,7 @@ const SiteComments = () => {
   return (
     // <DelayedLoad>
     <span>
+
       <Row spacing={[32]} breakpoints={[769]}>
         <div widths={[3]}>
           <Tabs>
@@ -444,7 +447,7 @@ const SiteComments = () => {
                   window.history.pushState(
                     {},
                     '',
-                    `/sites/${site.data.id}/comments/published`
+                    `/dashboard/sites/${site.data.id}/comments/published`
                   );
                 }
                 setActiveTab('published');
@@ -460,7 +463,7 @@ const SiteComments = () => {
                   window.history.pushState(
                     {},
                     '',
-                    `/sites/${site.data.id}/comments/held-for-review`
+                    `/dashboard/sites/${site.data.id}/comments/held-for-review`
                   );
                 }
                 setActiveTab('held');
@@ -531,6 +534,42 @@ const SiteComments = () => {
     </span>
   );
 };
+
+const Title = styled.h1`
+  color: white !important;
+`;
+
+const MainTabs = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: -10px;
+`;
+
+const MainTab = styled(Link)`
+  width: fit-content;
+  display: block;
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-right: 6px;
+  font-weight: 600 !important;
+  transition-duration: 0.25s;
+  color: ${(props) => (props.active ? 'white' : '#ffffff90')};
+  :hover {
+    cursor: pointer;
+    background: #00000060;
+    transition-duration: 0.25s;
+  }
+  svg {
+    color: inherit;
+    @media (min-width: 435px) {
+      margin-right: 8px;
+    }
+  }
+  text-decoration: none;
+`;
 
 const CommentWrapper = styled.div`
   // border: 2px solid ${(props) => props.theme.color.gray.two};

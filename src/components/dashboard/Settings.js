@@ -13,6 +13,8 @@ import { isBrowser } from '../../utils/isBrowser';
 import { DatabaseContext } from '../../providers/DatabaseProvider';
 import Row from '../grid/Row';
 import KeyTable from '../KeyTable';
+import Section from '../layout/Section';
+import Header from '../layout/Header';
 
 const Settings = ({ loadedKeys, setLoadedKeys }) => {
   const {
@@ -302,101 +304,186 @@ const Settings = ({ loadedKeys, setLoadedKeys }) => {
   return (
     // <DelayedLoad>
     <span>
-      <Row spacing={[32]} breakpoints={[769]}>
-        <div widths={[3]}>
-          <Tabs>
-            <Tab
-              active={
-                (isBrowser() &&
-                  window.location.pathname === '/settings/') ||
-                (isBrowser() &&
-                  window.location.pathname === '/settings')
-              }
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.history.pushState({}, '', '/settings');
+      <Header>
+        <Title className='mb-3'>{user && user.data.name}</Title>
+        {/* <SiteLink href='https://google.com'>
+                  https://google.com
+                </SiteLink> */}
+        <MainTabs>
+          <MainTab
+            active={window.location.pathname.includes('sites')}
+            to='/sites'
+          >
+            {/* <FontAwesomeIcon icon='home' /> */}
+            Sites
+          </MainTab>
+          <MainTab
+            active={window.location.pathname.includes('billing')}
+            to='/billing'
+          >
+            {/* <FontAwesomeIcon icon='dollar-sign' /> */}
+            Billing
+          </MainTab>
+          <MainTab
+            to='/settings'
+            active={window.location.pathname.includes('settings')}
+          >
+            {/* <FontAwesomeIcon icon='cog' /> */}
+            Settings
+          </MainTab>
+
+          {/* <MainTab
+                      active={
+                        typeof window !== 'undefined' &&
+                        window.location.pathname.includes('/dashboard/settings')
+                      }
+                      onClick={() => {
+                        if (typeof window !== 'undefined') {
+                          window.history.pushState({}, '', '/dashboard/dashboard/billing');
+                        }
+                        setActiveMainTab('billing');
+                      }}
+                    >
+                      <FontAwesomeIcon icon='dollar-sign' />
+                      Billing
+                    </MainTab> */}
+        </MainTabs>
+      </Header>
+      <Section>
+        <Row spacing={[32]} breakpoints={[769]}>
+          <div widths={[3]}>
+            <Tabs>
+              <Tab
+                active={
+                  (isBrowser() && window.location.pathname === '/settings/') ||
+                  (isBrowser() && window.location.pathname === '/settings')
                 }
-                setActiveTab('general');
-              }}
-            >
-              <FontAwesomeIcon icon='home' />
-              General
-            </Tab>
-            <Tab
-              active={
-                isBrowser() &&
-                window.location.pathname.includes('/settings/api')
-              }
-              onClick={() => {
-                if (isBrowser()) {
-                  window.history.pushState({}, '', '/settings/api');
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.history.pushState({}, '', '/settings');
+                  }
+                  setActiveTab('general');
+                }}
+              >
+                <FontAwesomeIcon icon='home' />
+                General
+              </Tab>
+              <Tab
+                active={
+                  isBrowser() &&
+                  window.location.pathname.includes('/settings/api')
                 }
-                setActiveTab('api');
-              }}
-            >
-              <FontAwesomeIcon icon='cog' />
-              API
-            </Tab>
-          </Tabs>
-        </div>
-        <div widths={[9]}>
-          {activeTab === 'general' && (
-            <>
-              <Card title='Account'>
-                <p className='small m-none'>
-                  Name: {user.data.name || 'Guest'}
-                </p>
-                <p className='small m-none'>Email: {user.data.email}</p>
-                <Spacer />
-                <Button onClick={() => openEditUserInfoModal(true)} gray small>
-                  Edit
-                </Button>
-              </Card>
-              <Card title='Delete Account'>
-                <p>
-                  Deleting your account will remove all your comments from our
-                  database. Proceed with caution!
-                </p>
-                <Button onClick={() => openDeleteUserModal(true)} error small>
-                  Delete
-                </Button>
-              </Card>
-            </>
-          )}
-          <Spacer height={16} />
-          {activeTab === 'api' && (
-            <Card
-              title='API Keys'
-              subtitle='Your API keys grant access to all your comments. Keep them safe.'
-            >
-              {/* {keys.map((key) => {
+                onClick={() => {
+                  if (isBrowser()) {
+                    window.history.pushState({}, '', '/settings/api');
+                  }
+                  setActiveTab('api');
+                }}
+              >
+                <FontAwesomeIcon icon='cog' />
+                API
+              </Tab>
+            </Tabs>
+          </div>
+          <div widths={[9]}>
+            {activeTab === 'general' && (
+              <>
+                <Card title='Account'>
+                  <p className='small m-none'>
+                    Name: {user.data.name || 'Guest'}
+                  </p>
+                  <p className='small m-none'>Email: {user.data.email}</p>
+                  <Spacer />
+                  <Button
+                    onClick={() => openEditUserInfoModal(true)}
+                    gray
+                    small
+                  >
+                    Edit
+                  </Button>
+                </Card>
+                <Card title='Delete Account'>
+                  <p>
+                    Deleting your account will remove all your comments from our
+                    database. Proceed with caution!
+                  </p>
+                  <Button onClick={() => openDeleteUserModal(true)} error small>
+                    Delete
+                  </Button>
+                </Card>
+              </>
+            )}
+            <Spacer height={16} />
+            {activeTab === 'api' && (
+              <Card
+                title='API Keys'
+                subtitle='Your API keys grant access to all your comments. Keep them safe.'
+              >
+                {/* {keys.map((key) => {
                 return (
                   <APIKey key={`api-key-${key.key}`}>
                     <strong>Key:</strong> {key.key}
                   </APIKey>
                 );
               })} */}
-              <KeyTable
-                user={user}
-                animate={animate}
-                animateItems={animateItems}
-                showItems={showItems}
-                loading={loading}
-                title='Keys'
-                data={formatKeys()}
-                setRender={setRender}
-              />
-              <Spacer height={16} />
-              <Button onClick={() => createAPIKey()} small>
-                Create New
-              </Button>
-            </Card>
-          )}
-        </div>
-      </Row>
+                <KeyTable
+                  user={user}
+                  animate={animate}
+                  animateItems={animateItems}
+                  showItems={showItems}
+                  loading={loading}
+                  title='Keys'
+                  data={formatKeys()}
+                  setRender={setRender}
+                />
+                <Spacer height={16} />
+                <Button onClick={() => createAPIKey()} small>
+                  Create New
+                </Button>
+              </Card>
+            )}
+          </div>
+        </Row>
+      </Section>
     </span>
   );
 };
+
+const Title = styled.h1`
+  color: white !important;
+`;
+
+const MainTabs = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: -10px;
+`;
+
+const MainTab = styled(Link)`
+  width: fit-content;
+  display: block;
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-right: 6px;
+  font-weight: 600 !important;
+  transition-duration: 0.25s;
+  color: ${(props) => (props.active ? 'white' : '#ffffff90')};
+  :hover {
+    cursor: pointer;
+    background: #00000060;
+    transition-duration: 0.25s;
+  }
+  svg {
+    color: inherit;
+    @media (min-width: 435px) {
+      margin-right: 8px;
+    }
+  }
+  text-decoration: none;
+`;
 
 const Tabs = styled.div`
   width: 100%;
@@ -408,7 +495,7 @@ const Tab = styled.div`
   width: 100%;
   display: block;
   padding: 8px 16px;
-  border-radius: 50px;
+  border-radius: 4px;
   margin-right: 8px;
   transition-duration: 0.25s;
   background: ${(props) =>

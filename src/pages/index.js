@@ -2,8 +2,8 @@
 /* eslint-disable react/jsx-fragments */
 // src/pages/dashboard.js
 import React, { useContext, useState, useEffect } from 'react';
-import { Router, Link } from '@reach/router';
-// import { Link } from 'gatsby';
+import { Router } from '@reach/router';
+import { Link } from 'gatsby';
 import styled from 'styled-components';
 import DelayedLoad from '../components/DelayedLoad';
 import Card from '../components/Card';
@@ -12,21 +12,16 @@ import { isBrowser } from '../utils/isBrowser';
 import { DatabaseContext } from '../providers/DatabaseProvider';
 import Site from '../components/dashboard/Site';
 import Sites from '../components/dashboard/Sites';
+import Settings from '../components/dashboard/Settings';
+import Section from '../components/layout/Section';
+import Header from '../components/layout/Header';
+import SiteComments from '../components/dashboard/SiteComments';
+import SiteSettings from '../components/dashboard/SiteSettings';
+import SiteDashboard from '../components/dashboard/SiteDashboard';
 
 const IndexPage = () => {
-  const [activeTab, setActiveTab] = useState(
-    isBrowser() && window.location.pathname.includes('billing')
-      ? 'billing'
-      : isBrowser() && window.location.pathname.includes('new')
-      ? 'new'
-      : isBrowser() && window.location.pathname.includes('settings')
-      ? 'settings'
-      : 'sites'
-  );
   const { state, dispatch } = useContext(DatabaseContext);
   const { user, site } = state;
-  const [loadedSites, setLoadedSites] = useState([]);
-  const [loadedKeys, setLoadedKeys] = useState([]);
 
   return (
     <DelayedLoad
@@ -34,10 +29,18 @@ const IndexPage = () => {
       condition={user}
       delay={3000}
       render={
-        <Router>
-          <Site path='site' />
-          <Sites path='/' />
-        </Router>
+        <>
+          <Router>
+            <Sites path='/' />
+            <Sites path='/sites' />
+            <Settings path='/settings' />
+            <Site path='/sites/:siteId'>
+              <SiteDashboard path='/' />
+              <SiteComments path='/comments' />
+              <SiteSettings path='/settings' />
+            </Site>
+          </Router>
+        </>
       }
       fail={
         <div id='blur'>
@@ -61,41 +64,5 @@ const IndexPage = () => {
     />
   );
 };
-
-const Title = styled.h1`
-  color: white !important;
-`;
-
-const Tabs = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  align-items: center;
-  margin-left: -10px;
-`;
-
-const Tab = styled.div`
-  width: fit-content;
-  display: block;
-  text-align: center;
-  padding: 8px 16px;
-  border-radius: 4px;
-  margin-right: 6px;
-  font-weight: 600 !important;
-  transition-duration: 0.25s;
-  color: ${(props) => (props.active ? 'white' : '#ffffff90')};
-  :hover {
-    cursor: pointer;
-    background: #00000060;
-    transition-duration: 0.25s;
-  }
-  svg {
-    color: inherit;
-    @media (min-width: 435px) {
-      margin-right: 8px;
-    }
-  }
-  text-decoration: none;
-`;
 
 export default IndexPage;

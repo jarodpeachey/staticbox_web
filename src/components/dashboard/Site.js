@@ -6,6 +6,7 @@ import { DatabaseContext } from '../../providers/DatabaseProvider';
 import Section from '../layout/Section';
 import Row from '../grid/Row';
 import Spacer from '../Spacer';
+import { Link } from 'gatsby';
 import SiteSettings from './SiteSettings';
 import SiteDashboard from './SiteDashboard';
 import { isBrowser } from '../../utils/isBrowser';
@@ -15,8 +16,10 @@ import Button from '../Button';
 import { AppContext } from '../../providers/AppProvider';
 import SiteComments from './SiteComments';
 import { formatSiteId } from '../../utils/formatSiteId';
+import Loader from '../Loader';
+import Header from '../layout/Header';
 
-const Site = () => {
+const Site = ({ children }) => {
   const { setNotificationMessage, setNotificationType } = useContext(
     AppContext
   );
@@ -32,16 +35,17 @@ const Site = () => {
   );
   const [loading, setLoading] = useState(true);
   const [headerHeight, setHeaderHeight] = useState(0);
-  const [siteNameIndex, setSiteNameIndex] = useState(3);
   const [loadedKeys, setLoadedKeys] = useState([]);
   const [loadedComments, setLoadedComments] = useState([]);
 
   useEffect(() => {
+    let siteIdIndex = 2;
     const pathnames = window.location.pathname.split('/');
+    console.log(pathnames);
 
     pathnames.forEach((item, index) => {
       if (item === 'sites') {
-        setSiteNameIndex(index + 1);
+        siteIdIndex = index + 1;
       }
     });
 
@@ -50,7 +54,7 @@ const Site = () => {
         q.Get(
           q.Match(
             q.Index('site_by_id'),
-            isBrowser() && q.Select(siteNameIndex, pathnames)
+            isBrowser() && q.Select(siteIdIndex, pathnames)
           )
         )
       )
@@ -88,7 +92,7 @@ const Site = () => {
         // window.location.href = '/sites';
         console.log('Error getting site data: ', errorTwo);
       });
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('resize', onResize);
@@ -101,101 +105,55 @@ const Site = () => {
 
   console.log(site);
   return (
-    <span>
-      {loading ? (
-        <DelayedLoad fullHeight infinite />
-      ) : (
-        <div id='blur'>
-          <Section
-            id='background'
-            thin
-            customStyles={`
-          position: absolute;
-          top: 0;
-          padding: 96px 0 24px;
-          display: block;
-          width: 100%;
-        `}
-            dark
-          >
-            <Row
-              customStyles={`
-              align-items: flex-end !important;
-            `}
-              spacing={[12]}
-              breakpoints={[769]}
-            >
-              <div widths={[4]}>
-                {' '}
-                <Title className='mb-none'>{site && site.data.name}</Title>
-                {/* <SiteLink href='https://google.com'>
+    <div id='blur'>
+      <Header>
+        <Title className='mb-3'>{site && site.data.name}</Title>
+        {/* <SiteLink href='https://google.com'>
                   https://google.com
                 </SiteLink> */}
-                <SubTitle>{site && site.data.id}</SubTitle>
-              </div>
-              <div widths={['auto']}>
-                <Tabs>
-                  <Tab
-                    active={activeTab === 'home'}
-                    onClick={() => {
-                      if (isBrowser()) {
-                        window.history.pushState(
-                          {},
-                          '',
-                          `/sites/${formatSiteId(site.data.name)}`
-                        );
-                      }
-                      setActiveTab('home');
-                    }}
-                  >
-                    <FontAwesomeIcon icon='home' />
-                    Dashboard
-                  </Tab>
-                  <Tab
-                    active={activeTab === 'comments'}
-                    onClick={() => {
-                      if (isBrowser()) {
-                        window.history.pushState(
-                          {},
-                          '',
-                          `/sites/${formatSiteId(
-                            site.data.name
-                          )}/comments`
-                        );
-                      }
-                      setActiveTab('comments');
-                    }}
-                  >
-                    <FontAwesomeIcon icon='comment' />
-                    Comments
-                  </Tab>
-                  <Tab
-                    active={activeTab === 'settings'}
-                    onClick={() => {
-                      if (isBrowser()) {
-                        window.history.pushState(
-                          {},
-                          '',
-                          `/sites/${formatSiteId(
-                            site.data.name
-                          )}/settings`
-                        );
-                      }
-                      setActiveTab('settings');
-                    }}
-                  >
-                    <FontAwesomeIcon icon='cog' />
-                    <span className='tablet inline'>Site</span> Settings
-                  </Tab>
+        <Tabs>
+          <Tab
+            active={
+              isBrowser() &&
+              window.location.pathname ===
+                `/sites/${formatSiteId(site.data.name)}`
+            }
+            to={`/sites/${formatSiteId(site.data.name)}`}
+          >
+            <FontAwesomeIcon icon='home' />
+            Dashboard
+          </Tab>
+          <Tab
+            active={
+              isBrowser() &&
+              window.location.pathname ===
+                `/sites/${formatSiteId(site.data.name)}/comments`
+            }
+            to={`/sites/${formatSiteId(site.data.name)}/comments`}
+          >
+            <FontAwesomeIcon icon='comment' />
+            Comments
+          </Tab>
+          <Tab
+            active={
+              isBrowser() &&
+              window.location.pathname ===
+                `/sites/${formatSiteId(site.data.name)}/settings`
+            }
+            to={`/sites/${formatSiteId(site.data.name)}/settings`}
+          >
+            <FontAwesomeIcon icon='cog' />
+            <span className='tablet inline'>Site</span> Settings
+          </Tab>
 
-                  {/* <Tab
+          {/* <Tab
                       active={
                         typeof window !== 'undefined' &&
-                        window.location.pathname.includes('/settings')
+                        window.location.pathname.includes('/dashboard/settings')
                       }
                       onClick={() => {
                         if (typeof window !== 'undefined') {
-                          window.history.pushState({}, '', '/billing');
+                          window.history.pushState({}, '', '/dashboard/dashboard/billing');
                         }
                         setActiveTab('billing');
                       }}
@@ -203,69 +161,23 @@ const Site = () => {
                       <FontAwesomeIcon icon='dollar-sign' />
                       Billing
                     </Tab> */}
-                </Tabs>
-              </div>
-            </Row>
-          </Section>
-          <Section
-            customStyles={`
-              padding-top: 175px;
-              @media(min-width: 435px) {
-                padding-top: ${
-                  headerHeight > 0 ? headerHeight - 94 : 151
-                }px !important;
-              }
-              @media(min-width: 769px) {
-                padding-top: ${
-                  headerHeight > 0 ? headerHeight - 94 : 87
-                }px !important;
-              }
-            `}
-          >
-            <span>
-              {/* <Router>
+        </Tabs>
+      </Header>
+      <Section>
+        {loading && <Loader size={75} />}
+        {!loading && children}
+      </Section>
+      {/* <Router>
                       <DelayedLoad> */}
-              {activeTab === 'home' && <SiteDashboard />}
-              {activeTab === 'settings' && (
-                <SiteSettings
-                  loadedKeys={loadedKeys}
-                  setLoadedKeys={setLoadedKeys}
-                />
-              )}
-              {activeTab === 'comments' && (
-                <SiteComments
-                  loadedComments={loadedComments}
-                  setLoadedComments={setLoadedComments}
-                />
-              )}
-              {/* {activeTab === 'billing' && <Billing />} */}
-              {/* </DelayedLoad>
+      {/* {activeTab === 'billing' && <Billing />} */}
+      {/* </DelayedLoad>
                     </Router> */}
-            </span>
-          </Section>
-        </div>
-      )}
-    </span>
+    </div>
   );
 };
 
 const Title = styled.h1`
   color: white !important;
-  margin-bottom: ${(props) => props.theme.spacing.four}px !important;
-`;
-
-const SubTitle = styled.p`
-  color: #ffffffcc !important;
-  margin: 0;
-`;
-
-const SiteLink = styled.a`
-  margin: 0;
-  text-decoration: none;
-  color: #ffffffcc !important;
-  :hover {
-    color: ${(props) => props.theme.color.primary.light};
-  }
 `;
 
 const Tabs = styled.div`
@@ -273,25 +185,17 @@ const Tabs = styled.div`
   width: 100%;
   justify-content: flex-start;
   align-items: center;
-  @media(min-width: 480px) {
-    flex-direction: row;
-    margin-bottom -12px;
-    margin-left: -16px;
-  }
-  @media(min-width: 769px) {
-    justify-content: flex-end;
-    margin-left: 0;
-    margin-right: -20px;
-  }
+  margin-left: -10px;
 `;
 
-const Tab = styled.div`
+const Tab = styled(Link)`
   width: fit-content;
   display: block;
   text-align: center;
   padding: 8px 16px;
-  border-radius: 50px;
-  margin-right: 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+  font-weight: 600 !important;
   transition-duration: 0.25s;
   color: ${(props) => (props.active ? 'white' : '#ffffff90')};
   :hover {
@@ -306,13 +210,6 @@ const Tab = styled.div`
     }
   }
   text-decoration: none;
-  @media (min-width: 900px) {
-    // padding: 8px 0;
-    margin: 4px 0;
-    // background: transparent;
-    // border: none;
-    // border-radius: none;
-  }
 `;
 
 export default Site;

@@ -14,6 +14,8 @@ import Row from '../grid/Row';
 import { formatDate } from '../../utils/formatDate';
 import Spacer from '../Spacer';
 import { formatSiteId } from '../../utils/formatSiteId';
+import Header from '../layout/Header';
+import Section from '../layout/Section';
 
 const Sites = ({ setSitesFunction, loadedSites }) => {
   const { setEditModalOpen } = useContext(AppContext);
@@ -89,75 +91,118 @@ const Sites = ({ setSitesFunction, loadedSites }) => {
   return (
     // <DelayedLoad>
     <span>
-      <Row spacing={[12]} breakpoints={[0]}>
-        <div widths={[6]}>
-          <h1 className='m-none'>Sites</h1>
-        </div>
-        <div widths={[6]}>
-          <Button link='/new' right small secondary>
-            <span
-              style={{
-                fontSize: 26,
-                lineHeight: '8px',
-                position: 'relative',
-                top: 5,
-              }}
-            >
-              +
-            </span>{' '}
-            New Site
-          </Button>
-        </div>
-      </Row>
-      <Spacer height={38} />
-      {loading && (
-        <Row breakpoints={[0, 576, 769]} spacing={[24]}>
-          <div widths={[12, 6, 4]}>
-            <Site to='#' widths={[12, 6, 4]}>
-              <Skeleton animate={animate}>
-                <SiteName skeleton />
-                <SiteDate skeleton />
-              </Skeleton>
-            </Site>
+      <Header>
+        <Title className='mb-3'>{user && user.data.name}</Title>
+        {/* <SiteLink href='https://google.com'>
+                  https://google.com
+                </SiteLink> */}
+        <Tabs>
+          <Tab active={window.location.pathname.includes('sites')} to='/sites'>
+            {/* <FontAwesomeIcon icon='home' /> */}
+            Sites
+          </Tab>
+          <Tab
+            active={window.location.pathname.includes('billing')}
+            to='/billing'
+          >
+            {/* <FontAwesomeIcon icon='dollar-sign' /> */}
+            Billing
+          </Tab>
+          <Tab
+            to='/settings'
+            active={window.location.pathname.includes('settings')}
+          >
+            {/* <FontAwesomeIcon icon='cog' /> */}
+            Settings
+          </Tab>
+
+          {/* <Tab
+                      active={
+                        typeof window !== 'undefined' &&
+                        window.location.pathname.includes('/dashboard/settings')
+                      }
+                      onClick={() => {
+                        if (typeof window !== 'undefined') {
+                          window.history.pushState({}, '', '/dashboard/dashboard/billing');
+                        }
+                        setActiveTab('billing');
+                      }}
+                    >
+                      <FontAwesomeIcon icon='dollar-sign' />
+                      Billing
+                    </Tab> */}
+        </Tabs>
+      </Header>
+      <Section>
+        <Row spacing={[12]} breakpoints={[0]}>
+          <div widths={[6]}>
+            <h1 className='m-none'>Sites</h1>
           </div>
-          <div widths={[12, 6, 4]}>
-            <Site to='#' widths={[12, 6, 4]}>
-              <Skeleton animate={animate}>
-                <SiteName skeleton />
-                <SiteDate skeleton />
-              </Skeleton>
-            </Site>
-          </div>
-          <div widths={[12, 6, 4]}>
-            <Site to='#' widths={[12, 6, 4]}>
-              <Skeleton animate={animate}>
-                <SiteName skeleton />
-                <SiteDate skeleton />
-              </Skeleton>
-            </Site>
+          <div widths={[6]}>
+            <Button link='/new' right small secondary>
+              <span
+                style={{
+                  fontSize: 26,
+                  lineHeight: '8px',
+                  position: 'relative',
+                  top: 5,
+                }}
+              >
+                +
+              </span>{' '}
+              New Site
+            </Button>
           </div>
         </Row>
-      )}
-      {showItems && (
-        <>
-          {sites && sites.length > 0 ? (
-            <div
-              style={{
-                position: animateItems ? 'absolute' : 'static',
-                top: 0,
-                left: 0,
-                width: '100%',
-              }}
-            >
-              <Row breakpoints={[0, 576, 769]} spacing={[24]}>
-                {sites.map(({ site }) => {
-                  return (
-                    <Site
-                      widths={[12, 6, 4]}
-                      to={`/sites/${formatSiteId(site.data.name)}`}
-                    >
-                      <Card
-                        customStyles={`
+        <Spacer height={38} />
+        {loading && (
+          <Row breakpoints={[0, 576, 769]} spacing={[24]}>
+            <div widths={[12, 6, 4]}>
+              <Site to='#' widths={[12, 6, 4]}>
+                <Skeleton animate={animate}>
+                  <SiteName skeleton />
+                  <SiteDate skeleton />
+                </Skeleton>
+              </Site>
+            </div>
+            <div widths={[12, 6, 4]}>
+              <Site to='#' widths={[12, 6, 4]}>
+                <Skeleton animate={animate}>
+                  <SiteName skeleton />
+                  <SiteDate skeleton />
+                </Skeleton>
+              </Site>
+            </div>
+            <div widths={[12, 6, 4]}>
+              <Site to='#' widths={[12, 6, 4]}>
+                <Skeleton animate={animate}>
+                  <SiteName skeleton />
+                  <SiteDate skeleton />
+                </Skeleton>
+              </Site>
+            </div>
+          </Row>
+        )}
+        {showItems && (
+          <>
+            {sites && sites.length > 0 ? (
+              <div
+                style={{
+                  position: animateItems ? 'absolute' : 'static',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                }}
+              >
+                <Row breakpoints={[0, 576, 769]} spacing={[24]}>
+                  {sites.map(({ site }) => {
+                    return (
+                      <Site
+                        widths={[12, 6, 4]}
+                        to={`/sites/${formatSiteId(site.data.name)}`}
+                      >
+                        <Card
+                          customStyles={`
                         height: 100%;
                         text-align: center;
                         display: flex;
@@ -168,26 +213,27 @@ const Sites = ({ setSitesFunction, loadedSites }) => {
                         transform: scale(${animateItems ? 1 : loading ? 0 : 1});
                         transition: transform .2s ease-out;
                        `}
-                      >
-                        <SiteName>{site.data.name}</SiteName>
-                        <SiteDate>Created on {formatDate(site.ts)}</SiteDate>
-                      </Card>
-                    </Site>
-                  );
-                })}
-              </Row>
-            </div>
-          ) : (
-            <Card
-              customStyles={`
+                        >
+                          <SiteName>{site.data.name}</SiteName>
+                          <SiteDate>Created on {formatDate(site.ts)}</SiteDate>
+                        </Card>
+                      </Site>
+                    );
+                  })}
+                </Row>
+              </div>
+            ) : (
+              <Card
+                customStyles={`
                 transform: scale(${animateItems ? 1 : loading ? 0 : 1});
                 transition: transform .2s ease-out;`}
-            >
-              No sites!
-            </Card>
-          )}
-        </>
-      )}
+              >
+                No sites!
+              </Card>
+            )}
+          </>
+        )}
+      </Section>
     </span>
   );
 };
@@ -196,6 +242,42 @@ const shimmer = keyframes`
   100% {
     transform: translateX(100%);
   }
+`;
+
+const Title = styled.h1`
+  color: white !important;
+`;
+
+const Tabs = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: -10px;
+`;
+
+const Tab = styled(Link)`
+  width: fit-content;
+  display: block;
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-right: 6px;
+  font-weight: 600 !important;
+  transition-duration: 0.25s;
+  color: ${(props) => (props.active ? 'white' : '#ffffff90')};
+  :hover {
+    cursor: pointer;
+    background: #00000060;
+    transition-duration: 0.25s;
+  }
+  svg {
+    color: inherit;
+    @media (min-width: 435px) {
+      margin-right: 8px;
+    }
+  }
+  text-decoration: none;
 `;
 
 const Skeleton = styled.div`
