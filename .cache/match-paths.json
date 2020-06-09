@@ -12,10 +12,6 @@
         "matchPath": "/signup/"
     },
     {
-        "path": "/test/",
-        "matchPath": "/test/"
-    },
-    {
         "path": "/",
         "matchPath": "/*"
     }

@@ -18,6 +18,7 @@ import Header from '../components/layout/Header';
 import SiteComments from '../components/dashboard/SiteComments';
 import SiteSettings from '../components/dashboard/SiteSettings';
 import SiteDashboard from '../components/dashboard/SiteDashboard';
+import Setup from '../components/Setup';
 
 const IndexPage = () => {
   const { state, dispatch } = useContext(DatabaseContext);
@@ -30,16 +31,20 @@ const IndexPage = () => {
       delay={3000}
       render={
         <>
-          <Router>
-            <Sites path='/' />
-            <Sites path='/sites' />
-            <Settings path='/settings' />
-            <Site path='/sites/:siteId'>
-              <SiteDashboard path='/' />
-              <SiteComments path='/comments' />
-              <SiteSettings path='/settings' />
-            </Site>
-          </Router>
+          {user && user.data && !user.data.plan ? (
+            <Setup path='/setup' />
+          ) : (
+            <Router>
+              <Sites path='/' />
+              <Sites path='/sites' />
+              <Settings path='/settings' />
+              <Site path='/sites/:siteId'>
+                <SiteDashboard path='/' />
+                <SiteComments path='/comments' />
+                <SiteSettings path='/settings' />
+              </Site>
+            </Router>
+          )}
         </>
       }
       fail={

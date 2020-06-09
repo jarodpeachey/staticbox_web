@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import AccordionSection from './AccordionSection';
 
-const Accordion = ({ children }) => {
+const Accordion = ({ children, card }) => {
   const [openSection, setOpenSection] = useState([]);
   const onClick = (label) => {
     if (openSection === label) {
@@ -23,6 +23,7 @@ const Accordion = ({ children }) => {
               open={openSection === child.props.label}
               label={child.props.label}
               onClick={onClick}
+              card={card}
             >
               {child.props.children}
             </AccordionSection>
