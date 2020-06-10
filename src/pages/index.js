@@ -20,15 +20,17 @@ import SiteSettings from '../components/dashboard/SiteSettings';
 import SiteDashboard from '../components/dashboard/SiteDashboard';
 import Setup from '../components/Setup';
 
-const IndexPage = () => {
-  const { state, dispatch } = useContext(DatabaseContext);
+const IndexPage = ({ location }) => {
+  const { state, dispatch, loadingUser } = useContext(DatabaseContext);
   const { user, site } = state;
 
   return (
     <DelayedLoad
       fullHeight
       condition={user}
-      delay={3000}
+      loading={loadingUser}
+      min={location.state.noLoad ? 0 : 1500}
+      // min={0}
       render={
         <>
           {user && user.data && !user.data.plan ? (

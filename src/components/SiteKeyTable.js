@@ -31,27 +31,23 @@ const SiteKeyTable = ({
   // const animate = false;
   // const animateItems = false;
 
-  console.log(dataToShow);
-
   useEffect(() => {
     if (data.length !== dataToShow.length) {
       setDataToShow(data);
     }
   }, [data]);
 
-  useEffect(() => {
-    console.log(selectedKeys);
-  }, [selectedKeys]);
+  useEffect(() => {}, [selectedKeys]);
 
   const onCheck = (key, e) => {
     if (e.target.checked) {
       const newKeys = selectedKeys.filter((newKey) => newKey !== 'undefined');
       newKeys.push(key);
-      console.log(newKeys);
+
       setSelectedKeys(newKeys);
     } else if (selectedKeys.length > 0) {
       const newKeys = selectedKeys.filter((newKey) => newKey !== key);
-      console.log(newKeys);
+
       setSelectedKeys(newKeys);
     }
   };
@@ -61,7 +57,6 @@ const SiteKeyTable = ({
     const newKeys = [];
 
     if (e.target.checked) {
-      console.log(allCheckboxes);
       allCheckboxes.forEach((checkbox) => {
         checkbox.checked = true;
         newKeys.push(checkbox.getAttribute('dataKey'));
@@ -81,29 +76,25 @@ const SiteKeyTable = ({
 
     if (e.target.value === 'user') {
       const newKeys = [...data];
-      console.log(newKeys);
+
       setDataToShow(
         newKeys.filter((value) => value.type.toLowerCase() === e.target.value)
       );
     }
 
     if (e.target.value === 'all') {
-      console.log(data);
       setDataToShow(data);
     } else {
       const newKeys = [...data];
-      console.log(newKeys);
+
       setDataToShow(
         newKeys.filter((value) => value.type.toLowerCase() === e.target.value)
       );
     }
   };
 
-  console.log(selectedKeys);
-
   const deleteKeys = () => {
     const allCheckboxes = document.querySelectorAll('.checkbox');
-    console.log(selectedKeys);
 
     if (confirm('Are you sure you want to delete these keys?')) {
       const keysToDelete = [];
@@ -116,8 +107,6 @@ const SiteKeyTable = ({
         });
       });
 
-      console.log(keysToDelete);
-
       userClient
         .query(
           q.Map(
@@ -129,7 +118,6 @@ const SiteKeyTable = ({
           )
         )
         .then((response) => {
-          console.log(response);
           setRender(true);
 
           setNotificationType('success');
@@ -139,9 +127,7 @@ const SiteKeyTable = ({
             checked: false,
           });
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     }
   };
   const copyKeys = () => {};

@@ -221,6 +221,7 @@ export const DatabaseReducer = (state, action) => {
 export const DatabaseProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(DatabaseReducer, {});
   const { signedIn } = useContext(AppContext);
+  const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
     if (
@@ -244,9 +245,11 @@ export const DatabaseProvider = ({ children }) => {
               user: response,
             },
           });
+          setLoadingUser(false);
         })
         .catch((faunaErr) => {
           console.log(faunaErr);
+          setLoadingUser(false);
         });
     } else if (
       isBrowser() &&
@@ -273,10 +276,12 @@ export const DatabaseProvider = ({ children }) => {
                   user: response,
                 },
               });
+              setLoadingUser(false);
             });
         })
         .catch((faunaErr) => {
           console.log(faunaErr);
+          setLoadingUser(false);
         });
     }
 
@@ -322,6 +327,7 @@ export const DatabaseProvider = ({ children }) => {
     q,
     state,
     dispatch,
+    loadingUser,
   };
 
   return (

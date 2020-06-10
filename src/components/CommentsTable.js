@@ -461,21 +461,13 @@ function CommentsTable({
   const getItemPositionInDataArray = (item) => {
     let location = null;
     data.forEach((dataItem, index) => {
-      console.log('Data Item: ', dataItem);
-      // console.log('Item: ', item);
-
       if (dataItem.ref === item.original.ref) {
-        console.log('Match!');
         location = index + 1;
       }
     });
 
-    console.log(location);
-
     return location;
   };
-
-  console.log(getPagesMapped);
 
   // Render the UI for your table
   return (
@@ -984,8 +976,10 @@ const TR = styled.tr`
 `;
 
 const TH = styled.th`
-  // border-top: 1px solid ${(props) => props.theme.color.gray.three} !important;
-  border-bottom: 1px solid ${(props) => props.theme.color.gray.three} !important;
+  // border-top: 1px solid ${(props) =>
+    props.theme.color.gray.three} !important;
+  border-bottom: 1px solid ${(props) =>
+    props.theme.color.gray.three} !important;
   span {
     font-weight: 600 !important;
   }
@@ -1067,8 +1061,10 @@ const TH = styled.th`
 `;
 
 const TD = styled.td`
-  // border-top: 1px solid ${(props) => props.theme.color.gray.three} !important;
-  border-bottom: 1px solid ${(props) => props.theme.color.gray.three} !important;
+  // border-top: 1px solid ${(props) =>
+    props.theme.color.gray.three} !important;
+  border-bottom: 1px solid ${(props) =>
+    props.theme.color.gray.three} !important;
   font-weight: 400;
   padding: 12px 24px 12px 0;
   font-weight: 500;

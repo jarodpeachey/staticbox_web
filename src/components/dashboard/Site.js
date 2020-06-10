@@ -41,7 +41,6 @@ const Site = ({ children }) => {
   useEffect(() => {
     let siteIdIndex = 2;
     const pathnames = window.location.pathname.split('/');
-    console.log(pathnames);
 
     pathnames.forEach((item, index) => {
       if (item === 'sites') {

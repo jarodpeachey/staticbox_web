@@ -10,8 +10,6 @@ const Accordion = ({ children, card }) => {
     } else {
       setOpenSection(label);
     }
-
-    console.log('On click: ', openSection);
   };
 
   return (

@@ -30,8 +30,6 @@ const PasswordModal = ({
   const updatePassword = () => {
     setLoading(true);
 
-    console.log(statePassword);
-
     firebase
       .auth()
       .currentUser.reauthenticateWithCredential(
@@ -42,7 +40,6 @@ const PasswordModal = ({
           )
       )
       .then((res) => {
-        console.log('Success! ', res);
         setPasswordModalOpen(false);
         setNotificationMessage('Success!');
         setNotificationType('success');
@@ -50,7 +47,7 @@ const PasswordModal = ({
         onSuccessFunction();
       })
       .catch((err) => {
-        console.log('Error: ', err);
+        console.log(err);
         setPasswordModalOpen(false);
         setNotificationMessage('Something went wrong.');
         setNotificationType('error');

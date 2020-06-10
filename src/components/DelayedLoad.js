@@ -1,55 +1,63 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-fragments */
 // src/pages/DelayedLoad.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Loader from './Loader';
+import { DatabaseContext } from '../providers/DatabaseProvider';
 
 const DelayedLoad = ({
   fullHeight,
   condition,
-  delay,
+  loading,
+  min,
   render,
   fail,
   infinite,
+  isFunction,
 }) => {
-  const [state, setState] = useState('load');
+  const [loadState, setLoadState] = useState(
+    !condition && loading ? 'load' : 'success'
+  );
   const [passedMin, setPassedMin] = useState(false);
   const [globalState, setGlobalState] = useState('');
 
-  const callback = () => {};
+  // const callback = () => {};
 
   setTimeout(() => {
     setPassedMin(true);
-  }, 2000);
+  }, min);
 
-  const timeout = (function (condition) {
-    return setTimeout(function () {
-      if (!condition && globalState !== 'success') {
-        setState('fail');
-      } else {
-        setState('success');
-      }
-    }, delay);
-  })(condition);
+  // const timeout = (function (condition) {
+  //   return setTimeout(function () {
+  //     if (!condition && globalState !== 'success') {
+  //       setLoadState('fail');
+  //     } else {
+  //       setLoadState('success');
+  //     }
+  //   }, delay);
+  // })(condition);
   // window.setTimeout(callback, delay);
 
   useEffect(() => {
-    if (condition && condition.data) {
-      setState('success');
+    if (condition) {
+      setLoadState('success');
       setGlobalState('success');
-      clearTimeout(timeout);
+      isFunction && render();
+      // clearTimeout(timeout);
 
-      return () => clearTimeout(timeout);
+      // return () => clearTimeout(timeout);
+    } else if (!condition && !loading) {
+      setLoadState('fail');
     }
-  }, [condition]);
+  }, [condition, loading]);
 
-  useEffect(() => {
-    if (state === 'success') {
-      setGlobalState('success');
-      clearTimeout(timeout);
-    }
-  }, [state]);
+  // useEffect(() => {
+  //   if (state === 'success') {
+  //     setGlobalState('success');
+  //     clearTimeout(timeout);
+  //   }
+  // }, [loadState]);
 
   return (
     <span>
@@ -59,7 +67,7 @@ const DelayedLoad = ({
         </Wrapper>
       ) : (
         <>
-          {state === 'load' || !passedMin ? (
+          {loadState === 'load' || !passedMin ? (
             <span>
               {fullHeight ? (
                 <Wrapper>
@@ -69,8 +77,8 @@ const DelayedLoad = ({
                 <Loader size={75} text='Loading...' />
               )}
             </span>
-          ) : globalState === 'success' ? (
-            <span>{render}</span>
+          ) : loadState === 'success' ? (
+            <span>{isFunction ? null : render}</span>
           ) : (
             <span>{fail}</span>
           )}

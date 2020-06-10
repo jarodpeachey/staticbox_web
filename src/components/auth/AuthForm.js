@@ -61,8 +61,6 @@ const AuthForm = () => {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
-        console.log(response);
-
         serverClient
           .query(
             q.Map(
@@ -157,13 +155,9 @@ const AuthForm = () => {
             )
           )
           .then((faunaResponse) => {
-            console.log(faunaResponse);
-            console.log(faunaResponse[0].ref.id);
-
             serverClient
               .query(q.Get(q.Match(q.Index('user_by_id'), response.user.uid)))
               .then((faunaResponseTwo) => {
-                console.log(faunaResponseTwo);
                 dispatch({
                   type: 'register',
                   data: {
@@ -234,8 +228,6 @@ const AuthForm = () => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
-        console.log(response);
-
         serverClient
           .query(
             q.Let(
@@ -248,13 +240,9 @@ const AuthForm = () => {
             )
           )
           .then((faunaResponse) => {
-            console.log(faunaResponse);
-            // console.log(faunaResponse[0].ref.id);
-
             serverClient
               .query(q.Get(q.Match(q.Index('user_by_id'), response.user.uid)))
               .then((faunaResponseTwo) => {
-                console.log(faunaResponseTwo);
                 if (faunaResponseTwo.data.plan === false) {
                   window.location.pathname = '/setup';
                 } else {

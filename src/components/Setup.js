@@ -8,6 +8,7 @@ import Card from './Card';
 import Button from './Button';
 import Accordion from './Accordion';
 import Row from './grid/Row';
+import { getCookie } from '../utils/cookies';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe(
@@ -23,7 +24,13 @@ const Setup = ({}) => {
     const { error } = await stripe.redirectToCheckout({
       lineItems: [
         // Replace with the ID of your price
-        { price: 'price_1Gr3MLKyL3kUtkPFNHorrSve', quantity: 1 },
+        {
+          price:
+            getCookie('selectedPlan') === 'monthly'
+              ? 'price_1GsUwJKyL3kUtkPFMSMOB4kN'
+              : 'price_1Gr3MLKyL3kUtkPFnhncjTRQ',
+          quantity: 1,
+        },
       ],
       mode: 'subscription',
       successUrl: 'https://app.staticbox.io',
@@ -41,9 +48,7 @@ const Setup = ({}) => {
       </Header>
       <Section>
         <h1>Finish Setting Up Your Account</h1>
-        <Card
-          className='my-3 p-5'
-        >
+        <Card className='my-3 p-5'>
           <h4 className='m-none'>Add Billing Info</h4>
           <p>
             Your free trial does not start until you activate your account. Add
