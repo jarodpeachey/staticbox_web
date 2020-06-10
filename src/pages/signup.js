@@ -12,14 +12,6 @@ const SignupPage = ({ location }) => {
   const { state, loadingUser } = useContext(DatabaseContext);
   const { user } = state;
 
-  const urlParams = new URLSearchParams(location.search);
-
-  if (urlParams.get('plan')) {
-    setCookie('selectedPlan', urlParams.get('plan'));
-  }
-
-  console.log(urlParams.get('plan'));
-
   return (
     // <div id='blur'>
     //   <AuthForm />

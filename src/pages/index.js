@@ -29,7 +29,7 @@ const IndexPage = ({ location }) => {
       fullHeight
       condition={user}
       loading={loadingUser}
-      min={location.state.noLoad ? 0 : 1500}
+      min={location && location.state && location.state.noLoad && location.state.noLoad ? 0 : 1500}
       // min={0}
       render={
         <>

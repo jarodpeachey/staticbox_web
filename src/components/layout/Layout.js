@@ -45,6 +45,7 @@ import DeleteUserModal from '../dashboard/DeleteUserModal';
 import CustomizeModal from '../dashboard/CustomizeModal';
 import { DatabaseContext } from '../../providers/DatabaseProvider';
 import { Helmet } from 'react-helmet';
+import { setCookie } from '../../utils/cookies';
 
 library.add(
   faBars,
