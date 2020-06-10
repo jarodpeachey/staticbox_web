@@ -36,7 +36,9 @@ const CustomizeSection = ({ data }) => {
     setCookie('selectedPlan', inputChecked ? 'yearly' : 'monthly');
 
     if (isBrowser()) {
-      window.location.href = 'https://app.staticbox.io/signup';
+      window.location.href = `https://app.staticbox.io/signup?plan=${
+        inputChecked ? 'yearly' : 'monthly'
+      }`;
     }
   };
 
