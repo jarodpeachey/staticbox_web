@@ -11,6 +11,8 @@ import Switch from 'react-switch';
 import Card from '../Card';
 import Button from '../Button';
 import { loadStripe } from '@stripe/stripe-js';
+import { setCookie } from '../../utils/cookies';
+import { isBrowser } from '../../utils/isBrowser';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe(
@@ -31,6 +33,11 @@ const CustomizeSection = ({ data }) => {
 
   const onClick = async () => {
     // TODO: Set FaunaDB temp selected plan option
+    setCookie('selectedPlan', inputChecked ? 'yearly' : 'monthly');
+
+    if (isBrowser()) {
+      window.location.href = 'https://app.staticbox.io/signup';
+    }
   };
 
   return (
@@ -75,9 +82,9 @@ const CustomizeSection = ({ data }) => {
         margin: 38px auto;
       `}
       >
-        <PriceIndicator></PriceIndicator>
-        <Price>$10</Price>
-        <PriceFrequency>per month</PriceFrequency>
+        {inputChecked ? <Alert>Save $21 a year!</Alert> : null}
+        <Price>${inputChecked ? '99' : '10'}</Price>
+        <PriceFrequency>per {inputChecked ? 'year' : 'month'}</PriceFrequency>
         <List>
           <ListItem>
             <FontAwesomeIcon
@@ -129,6 +136,16 @@ const CustomizeSection = ({ data }) => {
     </Section>
   );
 };
+
+const Alert = styled.div`
+  padding: 12px;
+  width: 100%;
+  margin: 0 auto;
+  margin: 8px auto;
+  background: ${(props) => props.theme.color.success};
+  color: white;
+  border-radius: 4px;
+`;
 
 const List = styled.div`
   margin: 0 auto;

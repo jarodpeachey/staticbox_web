@@ -1,26 +1,6 @@
 [
     {
         "path": "/dashboard/",
-        "matchPath": "/dashboard/"
-    },
-    {
-        "path": "/dev-404-page/",
-        "matchPath": "/dev-404-page/"
-    },
-    {
-        "path": "/login/",
-        "matchPath": "/login/"
-    },
-    {
-        "path": "/signup/",
-        "matchPath": "/signup/"
-    },
-    {
-        "path": "/test/",
-        "matchPath": "/test/"
-    },
-    {
-        "path": "/",
-        "matchPath": "/*"
+        "matchPath": "/dashboard/*"
     }
 ]
