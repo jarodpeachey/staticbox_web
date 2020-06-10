@@ -4,12 +4,21 @@ import { Redirect, navigate } from '@reach/router';
 import AuthForm from '../components/auth/AuthForm';
 import DelayedLoad from '../components/DelayedLoad';
 import { DatabaseContext } from '../providers/DatabaseProvider';
+import { setCookie } from '../utils/cookies';
 
 // Instantiate the GoTrue auth client with an optional configuration
 
-const SignupPage = () => {
+const SignupPage = ({ location }) => {
   const { state, loadingUser } = useContext(DatabaseContext);
   const { user } = state;
+
+  const urlParams = new URLSearchParams(location.search);
+
+  if (urlParams.get('plan')) {
+    setCookie('selectedPlan', urlParams.get('plan'));
+  }
+
+  console.log(urlParams.get('plan'));
 
   return (
     // <div id='blur'>

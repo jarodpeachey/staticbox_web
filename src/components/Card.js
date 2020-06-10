@@ -2,9 +2,20 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'gatsby';
 
-const Card = ({ children, title, subtitle, customStyles, className = '' }) => {
+const Card = ({
+  children,
+  title,
+  subtitle,
+  customStyles,
+  className = '',
+  onClick = null,
+}) => {
   return (
-    <StyledCard customStyles={customStyles} className={className}>
+    <StyledCard
+      onClick={onClick}
+      customStyles={customStyles}
+      className={className}
+    >
       {title && <Title border={!subtitle}>{title}</Title>}
       {subtitle && <Subtitle className='weight-light'>{subtitle}</Subtitle>}
       {children}
