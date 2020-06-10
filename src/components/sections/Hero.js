@@ -60,12 +60,16 @@ const Hero = ({ children }) => {
               </SubTitle>
               <ButtonFlex>
                 <ButtonWrapper>
-                  <Button primary external link='https://app.staticbox.io/signup'>
+                  <Button
+                    color='primary'
+                    external
+                    link='https://app.staticbox.io/signup'
+                  >
                     Get Started
                   </Button>
                 </ButtonWrapper>
                 <ButtonWrapper>
-                  <Button outlined link='/'>
+                  <Button color='primary' variant='outlined' outlined link='/'>
                     Learn More
                   </Button>
                 </ButtonWrapper>

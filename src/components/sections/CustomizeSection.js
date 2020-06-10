@@ -131,7 +131,11 @@ const CustomizeSection = ({ data }) => {
             Free support
           </ListItem>
         </List>
-        <Button onClick={onClick} className='full-width mt-6 mb-4'>
+        <Button
+          color='primary'
+          onClick={onClick}
+          className='full-width mt-6 mb-4'
+        >
           Start Free Trial
         </Button>
       </PricingCard>

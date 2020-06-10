@@ -10,8 +10,6 @@ import Menu from './Menu';
 import { AppContext } from '../../providers/AppProvider';
 import Button from '../Button';
 import Row from '../grid/Row';
-import { FirebaseContext } from '../../providers/FirebaseProvider';
-import { DatabaseContext } from '../../providers/DatabaseProvider';
 import { isBrowser } from '../../utils/isBrowser';
 
 const Header = ({ siteTitle }) => {
@@ -21,11 +19,9 @@ const Header = ({ siteTitle }) => {
     setNotificationMessage,
     setNotificationType,
   } = useContext(AppContext);
-  const { firebase } = useContext(FirebaseContext);
   const [open, setOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [width, setWidth] = useState(0);
-  const { dispatch } = useContext(DatabaseContext);
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
@@ -87,78 +83,23 @@ const Header = ({ siteTitle }) => {
           >
             <div className='container'>
               <Flex>
-                <SiteTitle
-                  className='logo'
-                  light={
-                    isBrowser() &&
-                    window.location.pathname.includes('dashboard')
-                  }
-                  scrolled={scrolled}
-                >
+                <SiteTitle className='logo' scrolled={scrolled}>
                   <FontAwesomeIcon icon='comment-alt' />
                   Staticbox
                 </SiteTitle>
-                {isBrowser() &&
-                !window.location.pathname.includes('dashboard') ? (
-                  <>
-                    <Menu scrolled={scrolled} />
-                    {/* <MobileMenu scrolled={scrolled} /> */}
-                    <MobileMenuToggle
-                      scrolled={scrolled}
-                      onClick={toggleFunction}
-                      open={open}
-                    >
-                      <MobileMenuRotate open={open}>
-                        <span />
-                        <span />
-                        <span />
-                      </MobileMenuRotate>
-                    </MobileMenuToggle>
-                  </>
-                ) : (
-                  <AccountMenuToggle
-                    scrolled={scrolled}
-                    onClick={accountToggleFunction}
-                    open={accountOpen}
-                  >
-                    <FontAwesomeIcon icon='user' />
-                    <AccountMenu open={accountOpen} scolled={scrolled}>
-                      <MobileMenuItems open={accountOpen}>
-                        <AccountMenuItem to='/'>Home</AccountMenuItem>
-                        <AccountMenuItem to='/dashboard/profile'>
-                          Profile
-                        </AccountMenuItem>
-                        <AccountMenuItem
-                          onClick={() => {
-                            firebase
-                              .auth()
-                              .signOut()
-                              .then(function () {
-                                console.log('Signed out!');
-                                setNotificationType('success');
-                                setNotificationMessage(
-                                  'You are now signed out.'
-                                );
-                                // window.location.href = '/';
-                                dispatch({ type: 'logout', data: {} });
-                                dispatch({ type: 'logoutSite', data: {} });
-                              })
-                              .catch(function (error) {
-                                console.log(error);
-                                setNotificationType('error');
-                                setNotificationMessage(
-                                  'There was an error signing you out.'
-                                );
-                              });
-                          }}
-                          to=''
-                        >
-                          Log Out
-                        </AccountMenuItem>
-                      </MobileMenuItems>
-                    </AccountMenu>
-                  </AccountMenuToggle>
-                )}
+                <Menu scrolled={scrolled} />
+                {/* <MobileMenu scrolled={scrolled} /> */}
+                <MobileMenuToggle
+                  scrolled={scrolled}
+                  onClick={toggleFunction}
+                  open={open}
+                >
+                  <MobileMenuRotate open={open}>
+                    <span />
+                    <span />
+                    <span />
+                  </MobileMenuRotate>
+                </MobileMenuToggle>
               </Flex>
             </div>
             {/* <MobileMenuOverlay open={open}> */}
@@ -172,55 +113,12 @@ const Header = ({ siteTitle }) => {
           >
             <div className='container'>
               <Row spacing={[8]} breakpoints={[576]} flexDirections={['row']}>
-                <div
-                  widths={
-                    isBrowser() && firebase.auth().currentUser ? [12] : [8]
-                  }
-                >
+                <div widths={[12]}>
                   <MobileMenuItems open={open}>
                     <MobileMenuItem to='/'>Home</MobileMenuItem>
-                    {isBrowser() && firebase.auth().currentUser && (
-                      <MobileMenuItem to='/dashboard'>Account</MobileMenuItem>
-                    )}
-                    <MobileMenuItem to='https://github.com/jarodpeachey/triangle-comments'>
-                      Docs
-                    </MobileMenuItem>
+                    <MobileMenuItem to='/dashboard'>Account</MobileMenuItem>
                   </MobileMenuItems>
                 </div>
-                {!isBrowser() && firebase.auth().currentUser && (
-                  <div widths={[4]}>
-                    <Row
-                      spacing={[8]}
-                      breakpoints={[0, 576]}
-                      flexDirections={['row', 'column']}
-                    >
-                      {/* <div widths={[6, 12]}>
-                        <Button
-                          light={
-                            isBrowser() &&
-                            window.location.pathname.includes('dashboard')
-                          }
-                          link='/signup'
-                          medium
-                          className='full-width'
-                          outlined
-                        >
-                          Sign Up
-                        </Button>
-                      </div>
-                      <div widths={[6, 12]}>
-                        <Button
-                          link='/login'
-                          medium
-                          className='full-width'
-                          outlined
-                        >
-                          Log In
-                        </Button>
-                      </div> */}
-                    </Row>
-                  </div>
-                )}
               </Row>
             </div>
           </MobileMenu>

@@ -2,28 +2,20 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'gatsby';
+import { pSBC } from '../utils/color';
 
 const Button = ({
   children,
-  primary,
-  className,
-  small,
-  margin,
-  secondary,
-  external,
-  gray,
-  outlined,
-  solid,
+  className = '',
   onClick,
-  right,
+  link,
+  color,
+  variant = '',
+  size,
+  external,
   left,
   center,
-  medium,
-  link,
-  disabled,
-  lightText,
-  darkText,
-  error,
+  right,
 }) => {
   return (
     <span>
@@ -42,23 +34,12 @@ const Button = ({
                   : 'no-styling'
               }
             >
-              {' '}
               <StyledButton
-                disabled={disabled}
-                error={error}
-                small={small}
-                medium={medium}
-                className={className ? className : ''}
-                right={right}
-                left={left}
-                center={center}
-                margin={margin}
-                secondary={secondary}
-                gray={gray}
-                outlined={outlined}
+                color={color}
+                size={size}
+                variant={variant}
+                className={className}
                 onClick={onClick || null}
-                lightText={lightText}
-                darkText={darkText}
                 link
               >
                 {children}
@@ -78,21 +59,11 @@ const Button = ({
               to={link}
             >
               <StyledButton
-                disabled={disabled}
-                error={error}
-                small={small}
-                medium={medium}
-                className={className ? className : ''}
-                right={right}
-                left={left}
-                center={center}
-                margin={margin}
-                secondary={secondary}
-                gray={gray}
-                outlined={outlined}
+                color={color}
+                size={size}
+                variant={variant}
+                className={className}
                 onClick={onClick || null}
-                lightText={lightText}
-                darkText={darkText}
                 link
               >
                 {children}
@@ -102,21 +73,11 @@ const Button = ({
         </>
       ) : (
         <StyledButton
-          disabled={disabled}
-          error={error}
-          small={small}
-          medium={medium}
-          className={className ? className : ''}
-          right={right}
-          left={left}
-          center={center}
-          margin={margin}
-          secondary={secondary}
-          gray={gray}
-          outlined={outlined}
+          color={color}
+          size={size}
+          variant={variant}
+          className={className}
           onClick={onClick || null}
-          lightText={lightText}
-          darkText={darkText}
         >
           {children}
         </StyledButton>
@@ -126,123 +87,142 @@ const Button = ({
 };
 
 const StyledButton = styled.button`
+  box-shadow: ${(props) =>
+    props.variant === 'secondary' ? props.theme.shadow.two : 'none'};
+
+  outline: none;
+  padding: 12px 24px;
+  border: none;
+  font-size: 16px;
+  // font-weight: 500;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
   padding: ${(props) =>
-    props.small
-      ? `${props.theme.spacing.two}px ${props.theme.spacing.three}px`
-      : `${props.theme.spacing.three}px ${props.theme.spacing.four}px`} !important;
-  border: none !important;
-  text-transform: ${(props) =>
-    !props.gray && !props.error && 'uppercase'} !important;
-  cursor: ${(props) => (props.disabled ? 'initial' : 'pointer')} !important;
-  transition-duration: 0.5s !important;
-  letter-spacing: 1.1px !important;
-  font-size: ${(props) => (props.small ? '13px' : '16px')} !important;
-  font-weight: 600 !important;
-  z-index: 999999 !important;
-  display: block;
-  overflow: hidden !important;
-  position: relative !important;
-  outline: none !important;
-  border-radius: 5px !important;
-  margin: ${(props) => (props.margin ? '0 8px' : 0)};
+    props.size === 'small'
+      ? '8px 12px'
+      : props.size === 'large'
+      ? '14px 29px'
+      : '12px 18px'};
+  font-size: ${(props) =>
+    props.size === 'small' ? '14px' : props.size === 'large' ? '18px' : '16px'};
+  border-radius: ${(props) => props.theme.radius.one};
+  cursor: pointer;
+  transition: all 0.25s;
   background: ${(props) =>
-    props.outlined
+    props.variant === 'secondary'
+      ? 'white'
+      : props.variant === 'outlined'
       ? 'transparent'
-      : props.gray
-      ? props.theme.color.gray.two
-      : props.error
+      : props.color === 'primary'
+      ? props.theme.color.primary.main
+      : props.color === 'secondary'
+      ? props.theme.color.secondary.main
+      : props.color === 'error'
       ? props.theme.color.error
-      : props.secondary
-      ? `linear-gradient(
-    to right top,
-    ${props.theme.color.secondary.light},
-    ${props.theme.color.secondary.dark}
-  )`
-      : `linear-gradient(
-    to right top,
-    ${props.theme.color.primary.light},
-    ${props.theme.color.primary.dark}
-  )`} !important;
+      : props.color === 'success'
+      ? props.theme.color.success
+      : ''};
   color: ${(props) =>
-    props.lightText
+    props.variant === 'outlined' || props.variant === 'secondary'
+      ? props.color === 'primary'
+        ? props.theme.color.primary.main
+        : props.color === 'secondary'
+        ? props.theme.color.secondary.main
+        : props.color === 'error'
+        ? props.theme.color.error
+        : props.color === 'success'
+        ? props.theme.color.success
+        : ''
+      : props.color === 'primary' ||
+        props.color === 'secondary' ||
+        props.color === 'error' ||
+        props.color === 'success'
       ? 'white'
-      : props.darkText
-      ? props.theme.color.text.heading
-      : props.outlined || props.gray
-      ? props.theme.color.text.heading
-      : props.secondary
-      ? 'white'
-      : 'white'} !important;
+      : ''};
   border: 2px solid
     ${(props) =>
-      props.outlined
-        ? props.gray
-          ? props.theme.color.gray.two
-          : props.secondary
-          ? props.theme.color.secondary.main
-          : props.theme.color.primary.main
-        : props.secondary
-        ? `linear-gradient(
-    to right top,
-    ${props.theme.color.secondary.light},
-    ${props.theme.color.secondary.dark}
-  )`
-        : `linear-gradient(
-            to right top,
-    ${props.theme.color.primary.light},
-    ${props.theme.color.primary.dark},
-  )`} !important;
-
-  :hover {
-    box-shadow: 2px 4px 22px -10px ${(props) =>
-      props.disabled
-        ? 'none'
-        : props.gray || props.error
+      props.variant === 'secondary'
         ? 'transparent'
-        : props.secondary
-        ? `${props.theme.color.secondary.main}90`
-        : `${props.theme.color.primary.main}90`};
+        : props.color === 'primary'
+        ? props.theme.color.primary.main
+        : props.color === 'secondary'
+        ? props.theme.color.secondary.main
+        : props.color === 'error'
+        ? props.theme.color.error
+        : props.color === 'success'
+        ? props.theme.color.success
+        : props.color === 'white'
+        ? '#ffffff'
+        : '#efefef'};
+  :hover,
+  :focus,
+  :focus {
+    color: ${(props) =>
+      (props.color === 'primary' ||
+        props.color === 'secondary' ||
+        props.color === 'primary' ||
+        props.color === 'error' ||
+        props.color === 'success') &&
+      props.variant !== 'secondary'
+        ? 'white'
+        : props.color === 'primary'
+        ? props.theme.color.primary.main
+        : props.color === 'secondary'
+        ? props.theme.color.secondary.main
+        : props.color === 'error'
+        ? props.theme.color.error
+        : props.color === 'success'
+        ? props.theme.color.success
+        : ''};
     background: ${(props) =>
-      props.gray && props.theme.color.gray.three} !important;
-    transform: ${(props) =>
-      props.gray || props.disabled || props.error ? 'none' : 'scale(1.03)'};
+      props.variant === 'outlined'
+        ? props.color === 'primary'
+          ? props.theme.color.primary.main
+          : props.color === 'secondary'
+          ? props.theme.color.secondary.main
+          : props.color === 'error'
+          ? props.theme.color.error
+          : props.color === 'success'
+          ? props.theme.color.success
+          : '#efefef'
+        : props.variant === 'secondary'
+        ? 'white'
+        : props.variant === 'outlined'
+        ? 'transparent'
+        : `${
+            props.color === 'primary'
+              ? pSBC(props.theme.color.primary.main, -25)
+              : props.color === 'secondary'
+              ? pSBC(props.theme.color.secondary.main, -25)
+              : props.color === 'error'
+              ? pSBC(props.theme.color.error, -25)
+              : props.color === 'success'
+              ? pSBC(props.theme.color.success, -25)
+              : pSBC('#efefef', -10)
+          }`};
+    border: 2px solid
+      ${(props) =>
+        props.variant === 'secondary'
+          ? 'transparent'
+          : `${
+              props.color === 'primary'
+                ? props.theme.color.primary.main
+                : props.color === 'secondary'
+                ? props.theme.color.secondary.main
+                : props.color === 'error'
+                ? props.theme.color.error
+                : props.color === 'success'
+                ? props.theme.color.success
+                : '#efefef'
+            }00`} !important;
+    box-shadow: ${(props) =>
+      props.variant === 'secondary' ? props.theme.shadow.three : 'none'};
+
+    // transform: translateY(-1px);
   }
-  // :active ::before {
-  //   right: 0 !important;
-  // }
-  a {
-    text-decoration: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  color: ${(props) =>
-    props.lightText
-      ? 'white'
-      : props.darkText
-      ? props.theme.color.text.dark
-      : props.outlined || props.gray
-      ? props.theme.color.text.heading
-      : props.secondary
-      ? 'white'
-      : 'white'} !important;
+  :active {
+    box-shadow: none !important;
   }
-  display: block;
-  ${(props) =>
-    props.right &&
-    css`
-      margin: 0 !important;
-      margin-left: auto !important;
-    `}
-  ${(props) =>
-    props.left &&
-    css`
-      margin: 0 !important;
-      margin-right: auto !important;
-    `}
-  ${(props) =>
-    props.center &&
-    css`
-      margin: 0 auto !important;
-    `}
 `;
 
 export default Button;

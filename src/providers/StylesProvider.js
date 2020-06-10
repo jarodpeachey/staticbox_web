@@ -2,12 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import React from 'react';
 import '../components/style.css';
-import '../components/prism.css';
-import styled, {
-  css,
-  ThemeProvider,
-  createGlobalStyle,
-} from 'styled-components';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { CustomThemeProvider } from '../components/theme';
 import { isBrowser } from '../utils/isBrowser';
 

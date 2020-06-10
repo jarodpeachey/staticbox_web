@@ -35,15 +35,8 @@ import Footer from './Footer';
 import Header from './Header';
 import { AppContext } from '../../providers/AppProvider';
 import { pathnameIncludes } from '../../utils/pathnameIncludes';
-import EditUserInfoModal from '../dashboard/EditUserInfoModal';
 import Notification from '../Notification';
-import PasswordModal from '../auth/PasswordModal';
 import { isBrowser } from '../../utils/isBrowser';
-import EditSiteInfoModal from '../dashboard/EditSiteInfoModal';
-import DeleteSiteModal from '../dashboard/DeleteSiteModal';
-import DeleteUserModal from '../dashboard/DeleteUserModal';
-import CustomizeModal from '../dashboard/CustomizeModal';
-import { DatabaseContext } from '../../providers/DatabaseProvider';
 import { Helmet } from 'react-helmet';
 
 library.add(
@@ -78,23 +71,7 @@ library.add(
 );
 
 const Layout = (props) => {
-  const {
-    editUserInfoModalOpen,
-    passwordModalOpen,
-    notificationMessage,
-    notificationType,
-    editSiteInfoModalOpen,
-    deleteSiteModalOpen,
-    deleteUserModalOpen,
-    customizeModalOpen,
-  } = useContext(AppContext);
-  const { state, dispatch } = useContext(DatabaseContext);
-  const { user, site } = state;
-
-  if (isBrowser() && !/\/sites\/(.*)/.test(window.location.pathname) && site) {
-    // dispatch({ type: 'logoutSite', data: {} });
-  } else {
-  }
+  const { notificationMessage, notificationType } = useContext(AppContext);
 
   return (
     <Wrapper>
@@ -104,12 +81,6 @@ const Layout = (props) => {
       )}
       {props.children}
       <Footer />
-      {editUserInfoModalOpen && <EditUserInfoModal />}
-      {editSiteInfoModalOpen && <EditSiteInfoModal />}
-      {deleteSiteModalOpen && <DeleteSiteModal />}
-      {deleteUserModalOpen && <DeleteUserModal />}
-      {passwordModalOpen && <PasswordModal />}
-      {customizeModalOpen && <CustomizeModal />}
       {notificationMessage && (
         <Notification message={notificationMessage} type={notificationType} />
       )}
@@ -142,8 +113,7 @@ const Wrapper = styled.div`
   select,
   input,
   td,
-  th,
-  button {
+  th {
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
       sans-serif !important;

@@ -2,62 +2,25 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import Button from '../Button';
-import { FirebaseContext } from '../../providers/FirebaseProvider';
 import { isBrowser } from '../../utils/isBrowser';
 import { AppContext } from '../../providers/AppProvider';
-import { DatabaseContext } from '../../providers/DatabaseProvider';
 
 const Menu = ({ scrolled }) => {
-  const { firebase } = useContext(FirebaseContext);
-  const { dispatch } = useContext(DatabaseContext);
   const { setNotificationMessage, setNotificationType } = useContext(
     AppContext
   );
+
+  const loggedIn = false;
 
   return (
     <MenuWrapper scrolled={scrolled}>
       {/* <MenuItem scrolled={scrolled}>
         <Link to='/'>Home</Link>
       </MenuItem> */}
-      {isBrowser() && firebase.auth().currentUser ? (
+      {loggedIn ? (
         <>
-          <MenuItem
-            light={
-              isBrowser() && window.location.pathname.includes('dashboard')
-            }
-          >
-            <Link to='/dashboard'>Account</Link>
-          </MenuItem>
-          <MenuItem button>
-            <Button
-              onClick={() => {
-                firebase
-                  .auth()
-                  .signOut()
-                  .then(function () {
-                    console.log('Signed out!');
-                    setNotificationType('success');
-                    setNotificationMessage('You are now signed out.');
-                    // window.location.href = '/';
-                    dispatch({ type: 'logout', data: {} });
-                    dispatch({ type: 'logoutSite', data: {} });
-                  })
-                  .catch(function (error) {
-                    console.log(err);
-                    setNotificationType('error');
-                    setNotificationMessage(
-                      'There was an error signing you out.'
-                    );
-                  });
-              }}
-              lightText={
-                isBrowser() && window.location.pathname.includes('dashboard')
-              }
-              small
-              outlined
-            >
-              Log Out
-            </Button>
+          <MenuItem>
+            <a href='https://app.staticbox.io'>Dashboard</a>
           </MenuItem>
         </>
       ) : (
@@ -65,16 +28,27 @@ const Menu = ({ scrolled }) => {
           <MenuItem>
             <Link to='/'>Home</Link>
           </MenuItem>
-          {/* <MenuItem button>
-            <Button link='/signup' small outlined>
+          <MenuItem button>
+            <Button
+              link='https://app.staticbox.io/signup'
+              external
+              size='small'
+              variant='outlined'
+              className='mr-3'
+            >
               Sign Up
             </Button>
           </MenuItem>
           <MenuItem button>
-            <Button link='/login' margin small>
+            <Button
+              link='https://app.staticbox.io/login'
+              external
+              color='primary'
+              size='small'
+            >
               Log In
             </Button>
-          </MenuItem> */}
+          </MenuItem>
         </>
       )}
     </MenuWrapper>

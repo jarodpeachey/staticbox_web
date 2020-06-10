@@ -19,7 +19,7 @@ const GetStartedSection = ({ data }) => {
       subtitle='Staticbox is the simplest, most intuive commenting system built specifically with static websites in mind.'
     >
       <br />
-      <Button link='/' center>
+      <Button color='primary' link='/' center>
         Start Now
       </Button>
     </Section>

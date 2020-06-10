@@ -19,12 +19,5 @@ exports.onCreatePage = ({ page, actions }) => {
         pathname: page.path,
       },
     });
-
-    if (page.path.match(/^\/dashboard/)) {
-      page.matchPath = '/dashboard/*';
-
-      // Update the page.
-      createPage(page);
-    }
   }
 };

@@ -7,7 +7,7 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: 'Triangle',
+    title: 'Staticbox',
     description: 'A comment system for modern-day web development.',
     author: '@jarodpeachey',
   },
