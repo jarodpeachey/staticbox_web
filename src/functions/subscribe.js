@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
   // };
   const q = faunadb.query;
 
-  const response = {};
+  let response = {};
 
   const client = new faunadb.Client({
     secret: 'fnADq29sx9ACE4FItI0Ps8suOAzL0UHyqDNFNjgV',
