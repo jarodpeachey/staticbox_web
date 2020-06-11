@@ -26,7 +26,7 @@ const Header = ({ siteTitle, children }) => {
   const [open, setOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [width, setWidth] = useState(0);
-  const { dispatch } = useContext(DatabaseContext);
+  const { dispatch, user } = useContext(DatabaseContext);
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
@@ -80,48 +80,52 @@ const Header = ({ siteTitle, children }) => {
         <>
           <Wrapper id='header'>
             <div className='container'>
-              <Flex className='mb-6'>
+              <Flex className={user ? 'mb-6' : ''}>
                 <SiteTitle className='logo'>
                   <FontAwesomeIcon icon='comment-alt' />
                   Staticbox
                 </SiteTitle>
-                <AccountMenuToggle
-                  onClick={accountToggleFunction}
-                  open={accountOpen}
-                >
-                  <FontAwesomeIcon icon='user' />
-                  <AccountMenu open={accountOpen} scolled={scrolled}>
-                    <MobileMenuItems open={accountOpen}>
-                      <AccountMenuItem to='/'>Home</AccountMenuItem>
-                      <AccountMenuItem to='/profile'>Profile</AccountMenuItem>
-                      <AccountMenuItem
-                        onClick={() => {
-                          firebase
-                            .auth()
-                            .signOut()
-                            .then(function () {
-                              console.log('Signed out!');
-                              setNotificationType('success');
-                              setNotificationMessage('You are now signed out.');
-                              // window.location.href = '/';
-                              dispatch({ type: 'logout', data: {} });
-                              dispatch({ type: 'logoutSite', data: {} });
-                            })
-                            .catch(function (error) {
-                              console.log(error);
-                              setNotificationType('error');
-                              setNotificationMessage(
-                                'There was an error signing you out.'
-                              );
-                            });
-                        }}
-                        to=''
-                      >
-                        Log Out
-                      </AccountMenuItem>
-                    </MobileMenuItems>
-                  </AccountMenu>
-                </AccountMenuToggle>
+                {user && (
+                  <AccountMenuToggle
+                    onClick={accountToggleFunction}
+                    open={accountOpen}
+                  >
+                    <FontAwesomeIcon icon='user' />
+                    <AccountMenu open={accountOpen} scolled={scrolled}>
+                      <MobileMenuItems open={accountOpen}>
+                        <AccountMenuItem to='/'>Home</AccountMenuItem>
+                        <AccountMenuItem to='/profile'>Profile</AccountMenuItem>
+                        <AccountMenuItem
+                          onClick={() => {
+                            firebase
+                              .auth()
+                              .signOut()
+                              .then(function () {
+                                console.log('Signed out!');
+                                setNotificationType('success');
+                                setNotificationMessage(
+                                  'You are now signed out.'
+                                );
+                                // window.location.href = '/';
+                                dispatch({ type: 'logout', data: {} });
+                                dispatch({ type: 'logoutSite', data: {} });
+                              })
+                              .catch(function (error) {
+                                console.log(error);
+                                setNotificationType('error');
+                                setNotificationMessage(
+                                  'There was an error signing you out.'
+                                );
+                              });
+                          }}
+                          to=''
+                        >
+                          Log Out
+                        </AccountMenuItem>
+                      </MobileMenuItems>
+                    </AccountMenu>
+                  </AccountMenuToggle>
+                )}
               </Flex>
               {children}
             </div>

@@ -19,17 +19,55 @@ import SiteComments from '../components/dashboard/SiteComments';
 import SiteSettings from '../components/dashboard/SiteSettings';
 import SiteDashboard from '../components/dashboard/SiteDashboard';
 import Setup from '../components/Setup';
+import Row from '../components/grid/Row';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe(
+  'pk_test_51Gr3KVKyL3kUtkPFJMQdsezF9hqGudJNNnwfdA9ZdH4i7MCdwni4qjxl32KSe1ClUpdapbLCMUkMeLfBeEHbwm5G00sPUTEKHc'
+);
 
 const IndexPage = ({ location }) => {
   const { state, dispatch, loadingUser } = useContext(DatabaseContext);
   const { user, site } = state;
+
+  const getEvents = async () => {
+    const events = await stripe.events.list({
+      type: 'checkout.session.completed',
+      created: {
+        // Check for events created in the last 24 hours.
+        gte: Math.floor((Date.now() - 24 * 60 * 60 * 1000) / 1000),
+      },
+    });
+
+    console.log(events);
+
+    const newEvents = await events;
+    console.log(newEvents);
+
+    // return events;
+  };
+
+  // console.log('Events: ', getEvents());
+  // // For older versions of Node, see https://github.com/stripe/stripe-node/#auto-pagination
+  // for await (const event of events) {
+  //   const session = event.data.object;
+
+  //   // Fulfill the purchase...
+  //   handleCheckoutSession(session);
+  // }
 
   return (
     <DelayedLoad
       fullHeight
       condition={user}
       loading={loadingUser}
-      min={location && location.state && location.state.noLoad && location.state.noLoad ? 0 : 1500}
+      min={
+        location &&
+        location.state &&
+        location.state.noLoad &&
+        location.state.noLoad
+          ? 0
+          : 1500
+      }
       // min={0}
       render={
         <>
@@ -50,26 +88,39 @@ const IndexPage = ({ location }) => {
         </>
       }
       fail={
-        <div id='blur'>
-          <Card>
-            <h1>
-              This page is top-secret!
-              <span aria-label='Shushing Emoji' role='img'>
-                🤫
-              </span>
-            </h1>
-            <p>
-              This page is only available to Triangle users. You can join the
-              club by signing up for an dashboard.
+        <>
+          <Header></Header>
+          <Section>
+            <h1 className='center'>You're not signed in.</h1>
+            <p className='center'>
+              Sign in to access your comments, or create an account to get
+              started.
             </p>
-            <Button link='/' secondary>
-              Let's Go!
-            </Button>
-          </Card>
-        </div>
+            <ButtonFlex className='mt-5'>
+              <Button
+                className='mr-4'
+                color='primary'
+                variant='outlined'
+                link='/signup'
+              >
+                Create Account
+              </Button>
+              <Button color='primary' link='/login'>
+                Login
+              </Button>
+            </ButtonFlex>
+          </Section>
+        </>
       }
     />
   );
 };
+
+const ButtonFlex = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
 
 export default IndexPage;

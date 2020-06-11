@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-fragments */
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { loadStripe } from '@stripe/stripe-js';
@@ -8,8 +9,9 @@ import Card from './Card';
 import Button from './Button';
 import Accordion from './Accordion';
 import Row from './grid/Row';
-import { getCookie } from '../utils/cookies';
+import { getCookie, setCookie } from '../utils/cookies';
 import { ThemeContext } from './theme';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe(
@@ -20,7 +22,10 @@ const Setup = ({}) => {
   const { state, q } = useContext(DatabaseContext);
   const { user, userClient } = state;
   const theme = useContext(ThemeContext);
-  const [planSelectOpen, setPlanSelectOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(getCookie('selectedPlan'));
+  const [planSelectOpen, setPlanSelectOpen] = useState(selectedPlan === '');
+
+  console.log(selectedPlan);
 
   const onClick = async () => {
     const stripe = await stripePromise;
@@ -38,6 +43,7 @@ const Setup = ({}) => {
       mode: 'subscription',
       successUrl: 'https://app.staticbox.io',
       cancelUrl: 'https://app.staticbox.io',
+      customerEmail: user.data.email,
     });
   };
 
@@ -67,48 +73,111 @@ const Setup = ({}) => {
               cursor: pointer;
               padding: 27.5px;
               transition-duration: .2s;
-              border-radius: 6px;
+              border-radius: 4px;
+              border-bottom-right-radius: ${planSelectOpen ? '0px' : '4px'};
+              border-bottom-left-radius: ${planSelectOpen ? '0px' : '4px'};
               color: ${
-                planSelectOpen ? null : `${theme.color.success}`
+                planSelectOpen
+                  ? null
+                  : selectedPlan !== '' && `${theme.color.success}`
               } !important;
               background: ${
-                planSelectOpen ? '#ffffff' : `${theme.color.success}10`
+                planSelectOpen
+                  ? '#ffffff'
+                  : selectedPlan !== '' && `${theme.color.success}10`
               };
               :hover {
                 background: ${
-                  planSelectOpen ? '#00000010' : `${theme.color.success}20`
+                  planSelectOpen
+                    ? '#00000010'
+                    : selectedPlan !== '' && `${theme.color.success}20`
                 };
               }
             }
             border: 1px solid ${
-              planSelectOpen ? null : `${theme.color.success}`
+              planSelectOpen
+                ? null
+                : selectedPlan !== '' && `${theme.color.success}`
             } !important;
           `}
           className='my-4 p-none'
         >
-          <h4 onClick={togglePlanSelect}>Select Your Plan</h4>
+          <h4
+            style={{ display: 'flex', alignItems: 'center' }}
+            onClick={togglePlanSelect}
+          >
+            {selectedPlan !== '' && (
+              <FontAwesomeIcon
+                style={{
+                  fontSize: 22,
+                  marginRight: 8,
+                  position: 'relative',
+                  top: -1,
+                }}
+                icon='check'
+              />
+            )}
+            Select Your Plan
+            <FontAwesomeIcon
+              style={{
+                fontSize: 22,
+                position: 'relative',
+                top: 1,
+                left: 6,
+                marginLeft: 'auto',
+                transform: `${planSelectOpen ? 'rotate(180deg)' : 'none'}`,
+                transitionDuration: '.2s',
+                display: 'block',
+              }}
+              icon='chevron-down'
+            />
+          </h4>
           <Content className='px-5' open={planSelectOpen}>
-            <Row spacing={[24]} breakpoints={[769]}>
+            <Row spacing={[8, 18]} breakpoints={[769]}>
               <div widths={[6]}>
                 <Card
                   customStyles={`
-                  margin: 0 auto !important;
-                  width: 100%;
-                  height: 250px;
-                `}
+                    margin: 0 auto !important;
+                    width: 100%;
+                    cursor: pointer;
+                    border: ${
+                      selectedPlan === 'monthly'
+                        ? `1px solid ${theme.color.success}`
+                        : null
+                    };
+                  `}
+                  onClick={() => {
+                    setSelectedPlan('monthly');
+                    setCookie('selectedPlan', 'monthly');
+                  }}
                 >
-                  $25
+                  <Flex>
+                    <h1 className='m-none'>Monthly</h1>
+                    <Price>$10</Price>
+                  </Flex>
                 </Card>
               </div>
               <div widths={[6]}>
                 <Card
                   customStyles={`
-                  margin: 0 auto !important;
-                  width: 100%;
-                  height: 250px;
-                `}
+                    margin: 0 auto !important;
+                    width: 100%;
+                    cursor: pointer;
+                    border: ${
+                      selectedPlan === 'yearly'
+                        ? `1px solid ${theme.color.success}`
+                        : null
+                    };
+                  `}
+                  onClick={() => {
+                    setSelectedPlan('yearly');
+                    setCookie('selectedPlan', 'yearly');
+                  }}
                 >
-                  $25
+                  <Flex>
+                    <h1 className='m-none'>Yearly</h1>
+                    <Price>$99</Price>
+                  </Flex>
                 </Card>
               </div>
             </Row>
@@ -134,16 +203,25 @@ const Title = styled.h1`
 `;
 
 const Content = styled.div`
-  -webkit-transition: all 0.35s;
-  -moz-transition: all 0.35s;
-  -ms-transition: all 0.35s;
-  -o-transition: all 0.35s;
-  transition: all 0.35s;
+  transition-duration: 0.15s;
   overflow: hidden;
   max-height: ${(props) => (props.open ? '300px' : '0')} !important;
   border-bottom: ${(props) => (props.open ? '1px solid #e8e8e8' : 'none')};
   padding-top: ${(props) => (props.open ? '18px' : '0px')};
-  height: 300px;
+  padding-bottom: ${(props) => (props.open ? '27.5px' : '0px')};
+  height: fit-content;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Price = styled.h1`
+  font-size: 48px !important;
+  font-weight: bold !important;
+  margin: 0 !important;
 `;
 
 export default Setup;

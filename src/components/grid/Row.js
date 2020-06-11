@@ -14,6 +14,7 @@ const Row = ({
   vertical,
   flexDirections,
   customStyles,
+  fitContent,
 }) => {
   return (
     <Wrapper
@@ -22,6 +23,7 @@ const Row = ({
       breakpoint={breakpoints[0]}
       breakpointTwo={breakpoints[1] || breakpoints[0]}
       spacingX={spacing[0]}
+      fitContent={fitContent}
       spacingY={typeof spacing[1] === 'number' ? spacing[1] : spacing[0]}
       vertical={vertical}
       flexDirections={flexDirections || null}
@@ -60,11 +62,12 @@ const Wrapper = styled.div`
     css`
       ${props.customStyles}
     `};
-  margin: -${(props) => props.spacingY}px -${(props) => props.spacingX}px -${(
-  props
-) => props.spacingY}px -${(props) => props.spacingX}px !important;
+  margin: ${(props) =>
+    props.fitContent
+      ? '0 auto'
+      : `-${props.spacingY}px -${props.spacingX}px -${props.spacingY}px -${props.spacingX}px`}  !important;
   width: ${(props) =>
-    props.standardWidth ? '100%' : `calc(100% + ${props.spacingX * 2}px)`};
+    props.fitContent ? 'fit-content' : `calc(100% + ${props.spacingX * 2}px)`};
   @media (min-width: ${(props) => props.breakpoint}px) {
     flex-direction: ${(props) =>
       props.flexDirections ? props.flexDirections[0] || 'row' : 'row'};
@@ -72,8 +75,8 @@ const Wrapper = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
     margin: ${(props) =>
-      props.standardWidth
-        ? '0'
+      props.fitContent
+        ? '0 auto'
         : `0 -${props.spacingX}px 0 -${props.spacingX}px`};
 
   ${(props) =>
@@ -88,8 +91,8 @@ const Wrapper = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
     margin: ${
-      props.standardWidth
-        ? '0'
+      props.fitContent
+        ? '0 auto'
         : `0 -${props.spacingX}px 0 -${props.spacingX}px`
     };
   `};

@@ -283,6 +283,8 @@ export const DatabaseProvider = ({ children }) => {
           console.log(faunaErr);
           setLoadingUser(false);
         });
+    } else {
+      setLoadingUser(false);
     }
 
     if (
