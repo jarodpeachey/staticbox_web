@@ -20,31 +20,10 @@ import SiteSettings from '../components/dashboard/SiteSettings';
 import SiteDashboard from '../components/dashboard/SiteDashboard';
 import Setup from '../components/Setup';
 import Row from '../components/grid/Row';
-import { loadStripe } from '@stripe/stripe-js';
-const stripePromise = loadStripe(
-  'pk_test_51Gr3KVKyL3kUtkPFJMQdsezF9hqGudJNNnwfdA9ZdH4i7MCdwni4qjxl32KSe1ClUpdapbLCMUkMeLfBeEHbwm5G00sPUTEKHc'
-);
 
 const IndexPage = ({ location }) => {
   const { state, dispatch, loadingUser } = useContext(DatabaseContext);
   const { user, site } = state;
-
-  const getEvents = async () => {
-    const events = await stripe.events.list({
-      type: 'checkout.session.completed',
-      created: {
-        // Check for events created in the last 24 hours.
-        gte: Math.floor((Date.now() - 24 * 60 * 60 * 1000) / 1000),
-      },
-    });
-
-    console.log(events);
-
-    const newEvents = await events;
-    console.log(newEvents);
-
-    // return events;
-  };
 
   // console.log('Events: ', getEvents());
   // // For older versions of Node, see https://github.com/stripe/stripe-node/#auto-pagination
