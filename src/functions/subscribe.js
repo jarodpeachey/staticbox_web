@@ -5,12 +5,6 @@ const stripe = stripeSdk(
 const nodemailer = require('nodemailer');
 const faunadb = require('faunadb');
 
-const q = faunadb.query;
-
-const client = new faunadb.Client({
-  secret: 'fnADq29sx9ACE4FItI0Ps8suOAzL0UHyqDNFNjgV',
-});
-
 exports.handler = async (event, context) => {
   const body = JSON.parse(event.body);
 
@@ -20,16 +14,18 @@ exports.handler = async (event, context) => {
   //     body,
   //   }),
   // };
+  const q = faunadb.query;
+
+  const client = new faunadb.Client({
+    secret: 'fnADq29sx9ACE4FItI0Ps8suOAzL0UHyqDNFNjgV',
+  });
 
   client
     .query(
       q.Let(
         {
           user: q.Get(
-            q.Match(
-              q.Index('user_by_email'),
-              body.data.object.customer_email
-            )
+            q.Match(q.Index('user_by_email'), body.data.object.customer_email)
           ),
           userRef: q.Select('ref', q.Var('user')),
         },
@@ -44,6 +40,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 200,
         body: JSON.stringify({
+          test: 'Test',
           res,
         }),
       };
@@ -52,6 +49,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 200,
         body: JSON.stringify({
+          test: 'Test',
           err,
         }),
       };
