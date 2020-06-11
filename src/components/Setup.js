@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-fragments */
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { loadStripe } from '@stripe/stripe-js';
 import Header from './layout/Header';
 import Section from './layout/Section';
 import { DatabaseContext } from '../providers/DatabaseProvider';
@@ -14,6 +13,7 @@ import { ThemeContext } from './theme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
+import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe(
   'pk_test_51Gr3KVKyL3kUtkPFJMQdsezF9hqGudJNNnwfdA9ZdH4i7MCdwni4qjxl32KSe1ClUpdapbLCMUkMeLfBeEHbwm5G00sPUTEKHc'
 );

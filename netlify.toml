@@ -1,12 +1,8 @@
 [build]
-  command = "npm run build"
-  functions = "functions"
+  command = "npm run functions"
   publish = "public"
+  functions = "functions"
 
-[[redirects]]
-  from = "/*"
-  to = "/"
-  status = 200
-
-[[plugins]]
-  package = "@netlify/plugin-functions-install-core"
+[dev]
+  publish = "public"
+  functions = "functions"

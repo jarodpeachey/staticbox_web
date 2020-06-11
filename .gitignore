@@ -16,3 +16,6 @@ sendgrid.env
 .env.development
 .env.production
 .env
+
+# Local Netlify folder
+.netlify
