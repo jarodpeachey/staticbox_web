@@ -24,38 +24,40 @@ const Billing = () => {
 
   return (
     // <DelayedLoad>
-      <span>
-        <h2 className='mt-none'>Account Info</h2>
-        <Card title='Personal Info'>
-          {currentUser ? (
-            <>
-              <p className='small m-none'>Name: {currentUser.displayName || 'Anonymous'}</p>
-              <p className='small m-none'>Email: {currentUser.email}</p>
-              <Spacer />
-              <Button onClick={() => openEditModal(true)} gray small>
-                Edit
-              </Button>
-            </>
-          ) : (
-            <Loader />
-          )}
-        </Card>
-        <Card title='Billing Info'>
-          {currentUser ? (
-            <>
-              <p className='small m-none'>Plan: Developer</p>
-              <p className='small m-none'>Last Payment Date: 10/07/01</p>
-              <p className='small m-none'>Last Payment Amount: $15.00</p>
-              <Spacer />
-              <Button link='/billing' gray small>
-                More
-              </Button>
-            </>
-          ) : (
-            <Loader />
-          )}
-        </Card>
-      </span>
+    <span>
+      <h2 className='mt-none'>Account Info</h2>
+      <Card title='Personal Info'>
+        {currentUser ? (
+          <>
+            <p className='small m-none'>
+              Name: {currentUser.displayName || 'Anonymous'}
+            </p>
+            <p className='small m-none'>Email: {currentUser.email}</p>
+            <Spacer />
+            <Button onClick={() => openEditModal(true)} size='small'>
+              Edit
+            </Button>
+          </>
+        ) : (
+          <Loader />
+        )}
+      </Card>
+      <Card title='Billing Info'>
+        {currentUser ? (
+          <>
+            <p className='small m-none'>Plan: Developer</p>
+            <p className='small m-none'>Last Payment Date: 10/07/01</p>
+            <p className='small m-none'>Last Payment Amount: $15.00</p>
+            <Spacer />
+            <Button link='/billing' size='small'>
+              More
+            </Button>
+          </>
+        ) : (
+          <Loader />
+        )}
+      </Card>
+    </span>
     //</DelayedLoad>
   );
 };

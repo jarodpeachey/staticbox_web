@@ -189,7 +189,7 @@ const Setup = ({}) => {
             Your free trial does not start until you activate your account. Add
             your billing info to start your 7-day trial.
           </p>
-          <Button onClick={onClick} className='m-none'>
+          <Button color='primary' onClick={onClick} className='m-none'>
             Add Info
           </Button>
         </Card>

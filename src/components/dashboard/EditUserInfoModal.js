@@ -124,7 +124,7 @@ const EditUserInfoModal = () => {
       <Input onChange={onNameChange} value={stateName} />
       <Input onChange={onEmailChange} value={stateEmail} />
       <Spacer height={16} />
-      <Button onClick={updateNameAndEmail} right medium secondary>
+      <Button onClick={updateNameAndEmail} color='primary' size='small' className='right'>
         {loading ? (
           <span>
             <HiddenText>Save</HiddenText>{' '}

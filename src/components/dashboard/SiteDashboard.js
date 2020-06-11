@@ -117,14 +117,14 @@ const SiteDashboard = () => {
             </p>
             <p className='small m-none'>Email: {user.data.email}</p>
             <Spacer />
-            <Button onClick={() => openEditModal(true)} gray small>
+            <Button onClick={() => openEditModal(true)} size="small">
               Edit
             </Button>
           </Card> */}
           <Card title='Details'>
             <p className='small m-none'>Name: {site.data.name || 'Guest'}</p>
             <Spacer />
-            <Button onClick={() => openEditModal()} gray small>
+            <Button onClick={() => openEditModal()} size='small'>
               Edit
             </Button>
           </Card>
@@ -144,8 +144,7 @@ const SiteDashboard = () => {
             <Spacer />
             <Button
               link={`/sites/${formatSiteId(site.data.name)}/comments`}
-              gray
-              small
+              size='small'
             >
               More
             </Button>

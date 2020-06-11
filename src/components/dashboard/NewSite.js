@@ -47,7 +47,7 @@ const NewSite = () => {
                 q.Function('create_comment'),
                 `comment-${new Date().getTime()}`,
                 'Jarod (Founder)',
-                'Hey! Welcome to this comment. It\'s a long one, because I need to test the ability to shorten it so the table actually works.',
+                "Hey! Welcome to this comment. It's a long one, because I need to test the ability to shorten it so the table actually works.",
                 new Date().getTime(),
                 '/best-react-tools',
                 true,
@@ -155,7 +155,7 @@ const NewSite = () => {
             <Label>Name</Label>
             <Input value={name} onChange={onNameChange} />
             <Spacer height={12} />
-            <Button onClick={() => addSite()} primary medium>
+            <Button onClick={() => addSite()} color='primary'>
               Add Site
             </Button>
           </Wrapper>

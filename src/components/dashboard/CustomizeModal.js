@@ -374,7 +374,9 @@ const CustomizeModal = () => {
                     </CodeWrapper>
                   </SidebarItem>
                 </Accordion>
-                <Button onClick={updateStyles}>Save</Button>
+                <Button color='primary' onClick={updateStyles}>
+                  Save
+                </Button>
               </Sidebar>
               <Preview widths={[8]}>
                 <h2 className='m-none'>Connect with us!</h2>

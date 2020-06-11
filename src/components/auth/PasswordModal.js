@@ -67,9 +67,7 @@ const PasswordModal = ({
       <Button
         className='full-width'
         onClick={updatePassword}
-        right
-        medium
-        secondary
+        color='primary'
       >
         {loading ? (
           <span>

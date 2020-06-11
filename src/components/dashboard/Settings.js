@@ -396,8 +396,7 @@ const Settings = ({ loadedKeys, setLoadedKeys }) => {
                   <Spacer />
                   <Button
                     onClick={() => openEditUserInfoModal(true)}
-                    gray
-                    small
+                    size='small'
                   >
                     Edit
                   </Button>
@@ -407,7 +406,11 @@ const Settings = ({ loadedKeys, setLoadedKeys }) => {
                     Deleting your account will remove all your comments from our
                     database. Proceed with caution!
                   </p>
-                  <Button onClick={() => openDeleteUserModal(true)} error small>
+                  <Button
+                    onClick={() => openDeleteUserModal(true)}
+                    size='small'
+                    color='error'
+                  >
                     Delete
                   </Button>
                 </Card>
@@ -437,7 +440,11 @@ const Settings = ({ loadedKeys, setLoadedKeys }) => {
                   setRender={setRender}
                 />
                 <Spacer height={16} />
-                <Button onClick={() => createAPIKey()} small>
+                <Button
+                  onClick={() => createAPIKey()}
+                  size='small'
+                  color='primary'
+                >
                   Create New
                 </Button>
               </Card>

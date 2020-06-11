@@ -21,7 +21,7 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
     setNotificationType,
     setDeleteSiteModalOpen,
     setEditSiteInfoModalOpen,
-    setCustomizeModalOpen
+    setCustomizeModalOpen,
   } = useContext(AppContext);
   const { state, q, serverClient } = useContext(DatabaseContext);
   const { site, user, siteClient } = state;
@@ -315,7 +315,10 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
                   Site Name: {site.data.name || 'Guest'}
                 </p>
                 <Spacer />
-                <Button onClick={() => openEditSiteInfoModal(true)} gray small>
+                <Button
+                  onClick={() => openEditSiteInfoModal(true)}
+                  size='small'
+                >
                   Edit
                 </Button>
               </Card>
@@ -325,7 +328,7 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
                   Deleting your site will remove all your comments from our
                   database. Proceed with caution!
                 </p>
-                <Button onClick={() => openDeleteSiteModal(true)} error small>
+                <Button onClick={() => openDeleteSiteModal(true)} size="small" color="error">
                   Delete
                 </Button>
               </Card>
@@ -354,14 +357,21 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
                 setRender={setRender}
               />
               <Spacer height={16} />
-              <Button onClick={() => createAPIKey()} small>
+              <Button
+                onClick={() => createAPIKey()}
+                size='small'
+                color='primary'
+              >
                 Create New
               </Button>
             </Card>
           )}
           {activeTab === 'customize' && (
             <>
-              <Button onClick={() => setCustomizeModalOpen(true)} right secondary medium>
+              <Button
+                onClick={() => setCustomizeModalOpen(true)}
+                color='primary'
+              >
                 Edit With Live Preview
               </Button>
               <Spacer height={36} />
@@ -389,7 +399,7 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
                 <p className='m-none'>Form Heading: Chat With Us!</p>
                 <p className='mb-none mt-3'>Button Text: Comment</p>
                 <Spacer height={16} />
-                <Button small>Edit</Button>
+                <Button size='small'>Edit</Button>
               </Card>
               <Spacer height={36} />
               <Card title='Colors' subtitle='Edit your brand colors.'>
@@ -398,7 +408,7 @@ const SiteSettings = ({ setLoadedKeys, loadedKeys }) => {
                 <p className='mb-none mt-3'>Secondary</p>
                 <input type='color' name='' id='' />
                 <Spacer height={16} />
-                <Button small>Edit</Button>
+                <Button size='small'>Edit</Button>
               </Card>
             </>
           )}

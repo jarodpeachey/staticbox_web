@@ -115,7 +115,7 @@ const DeleteUserModal = () => {
       <p> Are you sure you want to continue?</p>
       {/* <Input onChange={onNameChange} value={stateName} /> */}
       <Spacer height={16} />
-      <Button onClick={updateName} right small error>
+      <Button onClick={updateName} color='error' size='small' className='right'>
         {loading ? (
           <span>
             <HiddenText>Delete</HiddenText>

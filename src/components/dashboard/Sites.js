@@ -139,7 +139,7 @@ const Sites = ({ setSitesFunction, loadedSites }) => {
             <h1 className='m-none'>Sites</h1>
           </div>
           <div widths={[6]}>
-            <Button link='/new' right small secondary>
+            <Button link='/new' color='primary' size='small' className='right'>
               <span
                 style={{
                   fontSize: 26,

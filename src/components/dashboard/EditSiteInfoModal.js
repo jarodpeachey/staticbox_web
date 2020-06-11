@@ -63,7 +63,7 @@ const EditSiteInfoModal = () => {
     >
       <Input onChange={onNameChange} value={stateName} />
       <Spacer height={16} />
-      <Button onClick={updateName} right medium secondary>
+      <Button onClick={updateName} color='primary' size='small' className='right'>
         {loading ? (
           <span>
             <HiddenText>Save</HiddenText>{' '}
