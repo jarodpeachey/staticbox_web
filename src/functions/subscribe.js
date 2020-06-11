@@ -16,11 +16,13 @@ exports.handler = async (event, context) => {
   // };
   const q = faunadb.query;
 
+  const response = {};
+
   const client = new faunadb.Client({
     secret: 'fnADq29sx9ACE4FItI0Ps8suOAzL0UHyqDNFNjgV',
   });
 
-  client
+  await client
     .query(
       q.Let(
         {
@@ -37,6 +39,7 @@ exports.handler = async (event, context) => {
       )
     )
     .then((res) => {
+      response = res;
       return {
         statusCode: 200,
         body: JSON.stringify({
@@ -46,6 +49,7 @@ exports.handler = async (event, context) => {
       };
     })
     .catch((err) => {
+      response = err;
       return {
         statusCode: 200,
         body: JSON.stringify({
@@ -54,4 +58,10 @@ exports.handler = async (event, context) => {
         }),
       };
     });
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      response,
+    }),
+  };
 };
