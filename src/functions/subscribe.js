@@ -12,12 +12,12 @@ const client = new faunadb.Client({
 });
 
 exports.handler = async (event, context) => {
-  const eventJSON = JSON.parse(event);
+  const body = JSON.parse(event.body);
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      event: event,
+      body,
     }),
   };
 
