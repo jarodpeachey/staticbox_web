@@ -115,9 +115,9 @@ const Site = ({ children }) => {
             active={
               isBrowser() &&
               window.location.pathname ===
-                `/sites/${formatSiteId(site.data.name)}`
+                `/sites/${formatSiteId(site && site.data.name)}`
             }
-            to={`/sites/${formatSiteId(site.data.name)}`}
+            to={`/sites/${formatSiteId(site && site.data.name)}`}
           >
             <FontAwesomeIcon icon='home' />
             Dashboard
@@ -126,9 +126,9 @@ const Site = ({ children }) => {
             active={
               isBrowser() &&
               window.location.pathname ===
-                `/sites/${formatSiteId(site.data.name)}/comments`
+                `/sites/${formatSiteId(site && site.data.name)}/comments`
             }
-            to={`/sites/${formatSiteId(site.data.name)}/comments`}
+            to={`/sites/${formatSiteId(site && site.data.name)}/comments`}
           >
             <FontAwesomeIcon icon='comment' />
             Comments
@@ -137,9 +137,9 @@ const Site = ({ children }) => {
             active={
               isBrowser() &&
               window.location.pathname ===
-                `/sites/${formatSiteId(site.data.name)}/settings`
+                `/sites/${formatSiteId(site && site.data.name)}/settings`
             }
-            to={`/sites/${formatSiteId(site.data.name)}/settings`}
+            to={`/sites/${formatSiteId(site && site.data.name)}/settings`}
           >
             <FontAwesomeIcon icon='cog' />
             <span className='tablet inline'>Site</span> Settings
