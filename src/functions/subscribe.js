@@ -12,39 +12,46 @@ const client = new faunadb.Client({
 });
 
 exports.handler = async (event, context) => {
-  client
-    .query(
-      q.Let(
-        {
-          user: q.Get(
-            q.Match(
-              q.Index('user_by_email'),
-              event.body.data.object.customer_email
-            )
-          ),
-          userRef: q.Select('ref', q.Var('user')),
-        },
-        q.Update(q.Var('userRef'), {
-          data: {
-            plan: event.body.data.object.subscription,
-          },
-        })
-      )
-    )
-    .then((res) => {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          res,
-        }),
-      };
-    })
-    .catch((err) => {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          err,
-        }),
-      };
-    });
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      event: event,
+    }),
+  };
+
+  // client
+  //   .query(
+  //     q.Let(
+  //       {
+  //         user: q.Get(
+  //           q.Match(
+  //             q.Index('user_by_email'),
+  //             event.body.data.object.customer_email
+  //           )
+  //         ),
+  //         userRef: q.Select('ref', q.Var('user')),
+  //       },
+  //       q.Update(q.Var('userRef'), {
+  //         data: {
+  //           plan: event.body.data.object.subscription,
+  //         },
+  //       })
+  //     )
+  //   )
+  //   .then((res) => {
+  //     return {
+  //       statusCode: 200,
+  //       body: JSON.stringify({
+  //         res,
+  //       }),
+  //     };
+  //   })
+  //   .catch((err) => {
+  //     return {
+  //       statusCode: 200,
+  //       body: JSON.stringify({
+  //         err,
+  //       }),
+  //     };
+  //   });
 };
