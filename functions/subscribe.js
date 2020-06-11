@@ -30,45 +30,11 @@ exports.handler = async (event, context) => {
     }
   });
 
-  let stripeEvent;
-
-  try {
-    stripeEvent = stripe.webhooks.constructEvent(
-      event.body,
-      sig,
-      endpointSecret
-    );
-  } catch (err) {
-    return {
-      statusCode: 400,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-      body: JSON.stringify({
-        error: err,
-      }),
-    };
-
-    console.log('ERROR');
-  }
-
-  // Handle the checkout.session.completed stripeEvent
-  if (stripeEvent.type === 'checkout.session.completed') {
-    const session = stripeEvent.data.object;
-
-    // Fulfill the purchase...
-    handleCheckoutSession(session);
-  }
-
   return {
     statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
     body: JSON.stringify({
-      received: true,
+      test: true,
+      testTwo: 'test',
     }),
   };
 };
