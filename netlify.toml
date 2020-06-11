@@ -6,3 +6,9 @@
 [dev]
   publish = "public"
   functions = "functions"
+
+[[redirects]]
+  from = "/dashboard/*"
+  to = "/dashboard"
+  status = 200
+
