@@ -17,8 +17,8 @@ exports.handler = async (event, context) => {
 
   const mailOptions = {
     from: 'jarodpeachey@gmail.com',
-    to: 'jarodpeachey@gmail.com',
-    subject: 'User signed up.',
+    to: 'jwpeachey107@aol.com',
+    subject: 'Staticbox Test Email',
     text: `${JSON.stringify(event)}`,
   };
 
