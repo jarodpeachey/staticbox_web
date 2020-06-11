@@ -106,46 +106,48 @@ const Site = ({ children }) => {
   return (
     <div id='blur'>
       <Header>
-        <Title className='mb-3'>{site && site.data.name}</Title>
-        {/* <SiteLink href='https://google.com'>
+        {!loading && (
+          <>
+            <Title className='mb-3'>{site && site.data.name}</Title>
+            {/* <SiteLink href='https://google.com'>
                   https://google.com
                 </SiteLink> */}
-        <Tabs>
-          <Tab
-            active={
-              isBrowser() &&
-              window.location.pathname ===
-                `/sites/${formatSiteId(site && site.data.name)}`
-            }
-            to={`/sites/${formatSiteId(site && site.data.name)}`}
-          >
-            <FontAwesomeIcon icon='home' />
-            Dashboard
-          </Tab>
-          <Tab
-            active={
-              isBrowser() &&
-              window.location.pathname ===
-                `/sites/${formatSiteId(site && site.data.name)}/comments`
-            }
-            to={`/sites/${formatSiteId(site && site.data.name)}/comments`}
-          >
-            <FontAwesomeIcon icon='comment' />
-            Comments
-          </Tab>
-          <Tab
-            active={
-              isBrowser() &&
-              window.location.pathname ===
-                `/sites/${formatSiteId(site && site.data.name)}/settings`
-            }
-            to={`/sites/${formatSiteId(site && site.data.name)}/settings`}
-          >
-            <FontAwesomeIcon icon='cog' />
-            <span className='tablet inline'>Site</span> Settings
-          </Tab>
+            <Tabs>
+              <Tab
+                active={
+                  isBrowser() &&
+                  window.location.pathname ===
+                    `/sites/${formatSiteId(site && site.data.name)}`
+                }
+                to={`/sites/${formatSiteId(site && site.data.name)}`}
+              >
+                <FontAwesomeIcon icon='home' />
+                Dashboard
+              </Tab>
+              <Tab
+                active={
+                  isBrowser() &&
+                  window.location.pathname ===
+                    `/sites/${formatSiteId(site && site.data.name)}/comments`
+                }
+                to={`/sites/${formatSiteId(site && site.data.name)}/comments`}
+              >
+                <FontAwesomeIcon icon='comment' />
+                Comments
+              </Tab>
+              <Tab
+                active={
+                  isBrowser() &&
+                  window.location.pathname ===
+                    `/sites/${formatSiteId(site && site.data.name)}/settings`
+                }
+                to={`/sites/${formatSiteId(site && site.data.name)}/settings`}
+              >
+                <FontAwesomeIcon icon='cog' />
+                <span className='tablet inline'>Site</span> Settings
+              </Tab>
 
-          {/* <Tab
+              {/* <Tab
                       active={
                         typeof window !== 'undefined' &&
                         window.location.pathname.includes('/dashboard/settings')
@@ -160,7 +162,9 @@ const Site = ({ children }) => {
                       <FontAwesomeIcon icon='dollar-sign' />
                       Billing
                     </Tab> */}
-        </Tabs>
+            </Tabs>
+          </>
+        )}
       </Header>
       <Section>
         {loading && <Loader size={75} />}
