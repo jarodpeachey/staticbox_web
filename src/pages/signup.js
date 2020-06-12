@@ -12,6 +12,8 @@ const SignupPage = ({ location }) => {
   const { state, loadingUser } = useContext(DatabaseContext);
   const { user } = state;
 
+  console.log(user);
+
   return (
     // <div id='blur'>
     //   <AuthForm />
@@ -26,7 +28,10 @@ const SignupPage = ({ location }) => {
         // <>
         //   <Redirect from='/signup' to='/?noload' />
         // </>
-        navigate('/', { state: { noLoad: true } })
+        () => {
+          console.log('Navigating.');
+          navigate('/', { state: { noLoad: true } });
+        }
       }
       isFunction
       fail={<AuthForm />}
