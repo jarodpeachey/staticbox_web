@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
       q.Let(
         {
           user: q.Get(
-            q.Match(q.Index('user_by_email'), body.data.object.customer_email)
+            q.Match(q.Index('user_by_stripe_id'), body.data.object.customer)
           ),
           userRef: q.Select('ref', q.Var('user')),
         },
