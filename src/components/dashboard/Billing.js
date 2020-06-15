@@ -24,7 +24,9 @@ const Billing = () => {
   const onClick = async () => {
     fetch('/.netlify/functions/portal')
       .then((res) => {
-        res.json().then((json) => console.log(json));
+        console.log(res.body);
+        const bodyTwo = JSON.parse(res.body);
+        console.log(bodyTwo);
       })
       .catch((err) => console.log(err));
   };
