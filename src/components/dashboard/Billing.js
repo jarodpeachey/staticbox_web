@@ -24,9 +24,13 @@ const Billing = () => {
   const onClick = async () => {
     fetch('/.netlify/functions/portal', {
       method: 'POST',
-      body: {
-        customer: user.data.stripeId,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        customer: user.data.stripeId,
+      }),
     })
       .then((res) => {
         console.log(res);
