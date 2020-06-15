@@ -23,6 +23,7 @@ const Billing = () => {
 
   const onClick = async () => {
     fetch('/.netlify/functions/portal', {
+      method: 'POST',
       body: {
         customer: user.data.stripeId,
       },
