@@ -12,11 +12,7 @@ exports.handler = async (event, context) => {
     function (err, session) {
       return {
         statusCode: 200,
-        body: JSON.stringify({
-          error: err,
-          session,
-        }),
-      };
+        body: session
     }
   );
 };

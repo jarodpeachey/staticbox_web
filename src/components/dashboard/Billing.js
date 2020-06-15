@@ -25,8 +25,8 @@ const Billing = () => {
     fetch('/.netlify/functions/portal')
       .then((res) => {
         console.log(res.body);
-        const bodyTwo = JSON.parse(res.body);
-        console.log(bodyTwo);
+        // const bodyTwo = JSON.parse(res.body);
+        // console.log(bodyTwo);
       })
       .catch((err) => console.log(err));
   };
