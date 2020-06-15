@@ -21,11 +21,10 @@ const Billing = () => {
 
   useEffect(() => {}, [user]);
 
-  const onClick = () => {
+  const onClick = async () => {
     fetch('/.netlify/functions/portal')
       .then((res) => {
-        console.log(res);
-        res.json().then((json) => console.log(json));
+        console.log(res.body);
       })
       .catch((err) => console.log(err));
   };
