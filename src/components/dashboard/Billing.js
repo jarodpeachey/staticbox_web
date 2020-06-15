@@ -22,7 +22,7 @@ const Billing = () => {
   useEffect(() => {}, [user]);
 
   const onClick = () => {
-    fetch('https://app.staticbox.io/.netlify/functions/portal');
+    fetch('/.netlify/functions/portal');
   };
 
   return (

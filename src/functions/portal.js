@@ -4,8 +4,6 @@ const stripe = stripeSdk(
 );
 
 exports.handler = async (event, context) => {
-  const body = JSON.parse(event.body);
-
   stripe.billingPortal.sessions.create(
     {
       customer: 'cus',
@@ -14,7 +12,10 @@ exports.handler = async (event, context) => {
     function (err, session) {
       return {
         statusCode: 200,
-        body: session,
+        body: JSON.stringify({
+          error: err,
+          session,
+        }),
       };
     }
   );
