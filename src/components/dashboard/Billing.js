@@ -23,7 +23,10 @@ const Billing = () => {
 
   const onClick = () => {
     fetch('/.netlify/functions/portal')
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        res.json().then((json) => console.log(json));
+      })
       .catch((err) => console.log(err));
   };
 
