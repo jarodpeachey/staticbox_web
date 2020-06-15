@@ -8,21 +8,8 @@ exports.handler = async (event, context) => {
   const body = JSON.parse(event.body);
   let response;
 
-  const res = await stripe.billingPortal.sessions.create(
-    {
-      customer: body.customer,
-      return_url: 'https://example.com/account',
-    },
-    function (err, session) {
-      console.log('test');
-      console.log(err);
-
-      response = session;
-    }
-  );
-
   return {
     statusCode: 200,
-    body: JSON.stringify({ test: 'test' }),
+    body: 'Test',
   };
 };
