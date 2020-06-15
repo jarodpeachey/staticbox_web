@@ -4,15 +4,17 @@ const stripe = stripeSdk(
 );
 
 exports.handler = async (event, context) => {
+  const body = JSON.parse(event.body);
+
   stripe.billingPortal.sessions.create(
     {
-      customer: 'cus',
+      customer: body.customer,
       return_url: 'https://app.staticbox.io',
     },
     function (err, session) {
       return {
         statusCode: 200,
-        body: session
+        body: session,
     }
-  );
+  )
 };

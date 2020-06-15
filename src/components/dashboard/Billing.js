@@ -22,7 +22,11 @@ const Billing = () => {
   useEffect(() => {}, [user]);
 
   const onClick = async () => {
-    fetch('/.netlify/functions/portal')
+    fetch('/.netlify/functions/portal', {
+      body: {
+        customer: user.data.stripeId,
+      },
+    })
       .then((res) => {
         console.log(res);
         // const bodyTwo = JSON.parse(res.body);
