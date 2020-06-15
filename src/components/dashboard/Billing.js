@@ -22,7 +22,9 @@ const Billing = () => {
   useEffect(() => {}, [user]);
 
   const onClick = () => {
-    fetch('/.netlify/functions/portal');
+    fetch('/.netlify/functions/portal')
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (
