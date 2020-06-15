@@ -45,6 +45,16 @@ const Setup = ({}) => {
       cancelUrl: 'https://app.staticbox.io',
       customerEmail: user.data.email,
     });
+
+    stripe.billingPortal.sessions.create(
+      {
+        customer: 'cus',
+        return_url: 'https://app.staticbox.io',
+      },
+      function (err, session) {
+        console.log('test');
+      }
+    );
   };
 
   const togglePlanSelect = () => {

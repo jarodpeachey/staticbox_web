@@ -20,6 +20,7 @@ import SiteSettings from '../components/dashboard/SiteSettings';
 import SiteDashboard from '../components/dashboard/SiteDashboard';
 import Setup from '../components/Setup';
 import Row from '../components/grid/Row';
+import Billing from '../components/dashboard/Billing';
 
 const IndexPage = ({ location }) => {
   const { state, dispatch, loadingUser } = useContext(DatabaseContext);
@@ -57,6 +58,7 @@ const IndexPage = ({ location }) => {
               <Sites path='/' />
               <Sites path='/sites' />
               <Settings path='/settings' />
+              <Billing path='/billing' />
               <Site path='/sites/:siteId'>
                 <SiteDashboard path='/' />
                 <SiteComments path='/comments' />

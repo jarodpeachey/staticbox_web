@@ -97,7 +97,13 @@ const Sites = ({ setSitesFunction, loadedSites }) => {
                   https://google.com
                 </SiteLink> */}
         <Tabs>
-          <Tab active={window.location.pathname.includes('sites')} to='/sites'>
+          <Tab
+            active={
+              window.location.pathname.includes('sites') ||
+              window.location.pathname === '/'
+            }
+            to='/sites'
+          >
             {/* <FontAwesomeIcon icon='home' /> */}
             Sites
           </Tab>
