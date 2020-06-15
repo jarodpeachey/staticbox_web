@@ -34,7 +34,7 @@ const Billing = () => {
     })
       .then((res) => {
         console.log(res);
-        res.body().then((resTwo) => console.log(resTwo));
+        res.json().then((resTwo) => console.log(resTwo));
         // const bodyTwo = JSON.parse(res.body);
         // console.log(bodyTwo);
       })
