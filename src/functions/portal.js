@@ -5,7 +5,7 @@ const stripe = stripeSdk(
   'pk_test_51Gr3KVKyL3kUtkPFJMQdsezF9hqGudJNNnwfdA9ZdH4i7MCdwni4qjxl32KSe1ClUpdapbLCMUkMeLfBeEHbwm5G00sPUTEKHc'
 );
 
-exports.handler = async (event, context) => {
+exports.handler = async (event, context, callback) => {
   const body = JSON.parse(event.body);
   let response;
 
