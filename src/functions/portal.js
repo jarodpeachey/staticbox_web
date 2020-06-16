@@ -8,12 +8,29 @@ const stripe = stripeSdk(
 exports.handler = async (event, context, callback) => {
   const body = JSON.parse(event.body);
   let response;
+  const res = await stripe.billingPortal.sessions
+    .create(
+      {
+        customer: body.customer,
+        return_url: 'https://example.com/account',
+      },
+      function (err, session) {
+        console.log('test');
+        console.log(err);
 
-  callback(null, {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    statusCode: 200,
-    body: 'test',
-  });
+        response = session;
+      }
+    )
+    .then((res) => {
+      callback('Success', {
+        statusCode: 200,
+        body: { msg: 'Success!', data: res },
+      });s
+    })
+    .catch((err) => {
+      callback(null, {
+        statusCode: 400,
+        body: { msg: 'Error.', data: err },
+      });
+    });
 };

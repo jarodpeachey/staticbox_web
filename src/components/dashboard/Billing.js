@@ -22,23 +22,16 @@ const Billing = () => {
   useEffect(() => {}, [user]);
 
   const onClick = async () => {
-    fetch('/.netlify/functions/portal', {
+    const res = await fetch('/.netlify/functions/portal', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        customer: user.data.stripeId,
-      }),
+      body: JSON.stringify({ customer: user.data.stripeId }),
     })
-      .then((res) => {
-        console.log(res);
-        res.json().then((resTwo) => console.log(resTwo));
-        // const bodyTwo = JSON.parse(res.body);
-        // console.log(bodyTwo);
-      })
-      .catch((err) => console.log(err));
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
   };
 
   return (
