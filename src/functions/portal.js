@@ -30,22 +30,22 @@ exports.handler = async function (event, context, callback) {
         // });
       }
     )
-    .then((res) => {
-      callback(null, {
-        statusCode: 200,
-        body: JSON.stringify({
-          body: res,
-        }),
-      });
-    })
-    .catch((err) => {
-      callback(null, {
-        statusCode: 200,
-        body: JSON.stringify({
-          body: { msg: 'Error!', data: err },
-        }),
-      });
-    });
+    // .then((res) => {
+    //   callback(null, {
+    //     statusCode: 200,
+    //     body: JSON.stringify({
+    //       body: res,
+    //     }),
+    //   });
+    // })
+    // .catch((err) => {
+    //   callback(null, {
+    //     statusCode: 200,
+    //     body: JSON.stringify({
+    //       body: { msg: 'Error!', data: err },
+    //     }),
+    //   });
+    // });
 
   callback(null, {
     statusCode: 200,
