@@ -8,39 +8,48 @@ const stripe = stripeSdk(
 exports.handler = async function (event, context, callback) {
   const json = JSON.parse(event.body);
   let response;
-  const res = await stripe.billingPortal.sessions.create(
-    {
+
+  callback(null, {
+    statusCode: 200,
+    body: JSON.stringify({
       customer: json.customer,
-      return_url: 'https://example.com/account',
-    },
-    function (err, session) {
-      console.log('test');
-      console.log(err);
+    }),
+  });
 
-      response = session;
+  // const res = await stripe.billingPortal.sessions
+  //   .create(
+  //     {
+  //       customer: json.customer,
+  //       return_url: 'https://app.staticbox.io',
+  //     },
+  //     function (err, session) {
+  //       console.log('test');
+  //       console.log(err);
 
-      callback(null, {
-        statusCode: 200,
-        body: JSON.stringify({
-          msg: 'Test'
-        }),
-      });
-    }
-  );
-  // .then((res) => {
-  //   callback(null, {
-  //     statusCode: 200,
-  //     body: JSON.stringify({
-  //       body: res,
-  //     }),
+  //       response = session;
+
+  //       // callback(null, {
+  //       //   statusCode: 200,
+  //       //   body: JSON.stringify({
+  //       //     msg: 'Test'
+  //       //   }),
+  //       // });
+  //     }
+  //   )
+  //   .then((res) => {
+  //     callback(null, {
+  //       statusCode: 200,
+  //       body: JSON.stringify({
+  //         body: res,
+  //       }),
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     callback(null, {
+  //       statusCode: 200,
+  //       body: JSON.stringify({
+  //         body: { msg: 'Error!', data: err },
+  //       }),
+  //     });
   //   });
-  // })
-  // .catch((err) => {
-  //   callback(null, {
-  //     statusCode: 200,
-  //     body: JSON.stringify({
-  //       body: { msg: 'Error!', data: err },
-  //     }),
-  //   });
-  // });
 };
