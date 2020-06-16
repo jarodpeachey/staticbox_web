@@ -22,15 +22,19 @@ exports.handler = async function (event, context, callback) {
       }
     )
     .then((res) => {
-      callback('Success', {
+      callback(null, {
         statusCode: 200,
-        body: { msg: 'Success!', data: res },
-      });s
+        body: JSON.stringify({
+          body: { msg: 'Success!', data: res },
+        }),
+      });
     })
     .catch((err) => {
       callback(null, {
-        statusCode: 400,
-        body: { msg: 'Error.', data: err },
+        statusCode: 200,
+        body: JSON.stringify({
+          body: { msg: 'Error!', data: err },
+        }),
       });
     });
 };
