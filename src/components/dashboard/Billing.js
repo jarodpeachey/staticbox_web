@@ -30,7 +30,10 @@ const Billing = () => {
       },
       body: JSON.stringify({ customer: user.data.stripeId }),
     })
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response);
+        response.json().then((json) => console.log(json));
+      })
       .catch((error) => console.log(error));
   };
 
