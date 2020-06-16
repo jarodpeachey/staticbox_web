@@ -5,13 +5,13 @@ const stripe = stripeSdk(
   'pk_test_51Gr3KVKyL3kUtkPFJMQdsezF9hqGudJNNnwfdA9ZdH4i7MCdwni4qjxl32KSe1ClUpdapbLCMUkMeLfBeEHbwm5G00sPUTEKHc'
 );
 
-exports.handler = async (event, context, callback) => {
-  const body = JSON.parse(event.body);
+exports.handler = async function (event, context, callback) {
+  const json = JSON.parse(event.body);
   let response;
   const res = await stripe.billingPortal.sessions
     .create(
       {
-        customer: body.customer,
+        customer: json.customer,
         return_url: 'https://example.com/account',
       },
       function (err, session) {
