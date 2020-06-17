@@ -22,6 +22,13 @@ exports.handler = async function (event, context, callback) {
       console.log(err);
 
       response = session;
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          session,
+        }),
+      };
     }
   );
 
