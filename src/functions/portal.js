@@ -7,7 +7,9 @@ const stripe = stripeSdk(
 
 exports.handler = async function (event, context, callback) {
   const json = JSON.parse(event.body);
-  let response;
+  let response = {
+    test: 'Test',
+  };
 
   const res = await stripe.billingPortal.sessions.create(
     {
