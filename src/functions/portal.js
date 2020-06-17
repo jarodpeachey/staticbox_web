@@ -9,6 +9,7 @@ exports.handler = async function (event, context, callback) {
   const json = JSON.parse(event.body);
   let response = {
     test: 'Test',
+    testTwo: 'Test',
   };
 
   const res = await stripe.billingPortal.sessions.create(
