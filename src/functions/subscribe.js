@@ -34,7 +34,7 @@ exports.handler = async (event, context) => {
         q.Update(q.Var('userRef'), {
           data: {
             plan: body.data.object.subscription,
-            stripeId: body.data.object.id,
+            stripeId: body.data.object.customer,
           },
         })
       )
