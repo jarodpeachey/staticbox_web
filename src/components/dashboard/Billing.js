@@ -32,7 +32,10 @@ const Billing = () => {
     })
       .then((response) => {
         console.log(response);
-        response.json().then((json) => console.log(json));
+        response.json().then((json) => {
+          console.log(json);
+          window.location = json.url;
+        });
       })
       .catch((error) => console.log(error));
   };
