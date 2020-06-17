@@ -19,11 +19,13 @@ exports.handler = async function (event, context, callback) {
       console.log(err);
 
       response = session;
-
-      callback(null, {
-        statusCode: 200,
-        body: 'Message',
-      });
     }
   );
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      test: 'Test',
+    }),
+  };
 };
