@@ -24,7 +24,7 @@ exports.handler = async function (event, context, callback) {
         statusCode: 200,
         body: JSON.stringify({
           msg: 'Test',
-          res: session,
+          res: "Test",
         }),
       });
     }
