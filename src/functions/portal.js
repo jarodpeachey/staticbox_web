@@ -7,26 +7,42 @@ const stripe = stripeSdk(
 
 exports.handler = async function (event, context, callback) {
   const json = JSON.parse(event.body);
-  let response = {
-    test: 'Test',
-    testTwo: 'Test',
-  };
+  // let response = {
+  //   test: 'Test',
+  //   testTwo: 'Test',
+  // };
 
-  const res = await stripe.billingPortal.sessions.create(
-    {
+  // const res = await stripe.billingPortal.sessions.create(
+  //   {
+  //     customer: json.customer,
+  //     return_url: 'https://app.staticbox.io',
+  //   },
+  //   function (err, session) {
+  //     console.log('test');
+  //     console.log(err);
+
+  //     response = session;
+
+  //     return {
+  //       statusCode: 200,
+  //       body: JSON.stringify(session),
+  //     };
+  //   }
+  // );
+
+  try {
+    const res = await stripe.billingPortal.sessions.create({
       customer: json.customer,
       return_url: 'https://app.staticbox.io',
-    },
-    function (err, session) {
-      console.log('test');
-      console.log(err);
-
-      response = session;
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify(session),
-      };
-    }
-  );
+    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify(res),
+    };
+  } catch (e) {
+    return {
+      statusCode: 422,
+      body: JSON.stringify(e),
+    };
+  }
 };
