@@ -1,58 +1,31 @@
 /* eslint-disable prefer-arrow-callback */
 const stripeSdk = require('stripe');
-const { callbackPromise } = require('nodemailer/lib/shared');
 
 const stripe = stripeSdk(
-  'pk_test_51Gr3KVKyL3kUtkPFJMQdsezF9hqGudJNNnwfdA9ZdH4i7MCdwni4qjxl32KSe1ClUpdapbLCMUkMeLfBeEHbwm5G00sPUTEKHc'
+  'sk_test_51Gr3KVKyL3kUtkPFScDjdRzYyQWVKxDLdsLzxXge8D3pfFzJSpqh0ocbszyUBJwilRlAnfhZ1Pkii8dP3t1K4jUA00BruwtUWI'
 );
 
 exports.handler = async function (event, context, callback) {
   const json = JSON.parse(event.body);
   let response;
 
-  const res = await stripe.billingPortal.sessions
-    .create(
-      {
-        customer: json.customer,
-        return_url: 'https://app.staticbox.io',
-      },
-      function (err, session) {
-        console.log('test');
-        console.log(err);
+  const res = await stripe.billingPortal.sessions.create(
+    {
+      customer: json.customer,
+      return_url: 'https://app.staticbox.io',
+    },
+    function (err, session) {
+      console.log('test');
+      console.log(err);
 
-        response = session;
+      response = session;
 
-        // callback(null, {
-        //   statusCode: 200,
-        //   body: JSON.stringify({
-        //     msg: 'Test'
-        //   }),
-        // });
-      }
-    )
-    // .then((res) => {
-    //   callback(null, {
-    //     statusCode: 200,
-    //     body: JSON.stringify({
-    //       body: res,
-    //     }),
-    //   });
-    // })
-    // .catch((err) => {
-    //   callback(null, {
-    //     statusCode: 200,
-    //     body: JSON.stringify({
-    //       body: { msg: 'Error!', data: err },
-    //     }),
-    //   });
-    // });
-
-  callback(null, {
-    statusCode: 200,
-    body: JSON.stringify({
-      res,
-      response,
-      msg: 'Test',
-    }),
-  });
+      callback(null, {
+        statusCode: 200,
+        body: JSON.stringify({
+          session,
+        }),
+      });
+    }
+  );
 };
