@@ -1,6 +1,6 @@
 const stripeSdk = require('stripe');
 const stripe = stripeSdk(
-  'pk_test_51Gr3KVKyL3kUtkPFJMQdsezF9hqGudJNNnwfdA9ZdH4i7MCdwni4qjxl32KSe1ClUpdapbLCMUkMeLfBeEHbwm5G00sPUTEKHc'
+  'sk_test_51Gr3KVKyL3kUtkPFScDjdRzYyQWVKxDLdsLzxXge8D3pfFzJSpqh0ocbszyUBJwilRlAnfhZ1Pkii8dP3t1K4jUA00BruwtUWI'
 );
 const nodemailer = require('nodemailer');
 const faunadb = require('faunadb');
@@ -35,7 +35,7 @@ exports.handler = async (event, context) => {
           data: {
             plan: body.data.object.subscription,
             stripeId: body.data.object.customer,
-            status: body.data.status
+            status: body.data.status,
           },
         })
       )
