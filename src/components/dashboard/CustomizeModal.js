@@ -534,35 +534,6 @@ const Input = styled.input`
     `}
 `;
 
-const SmallInput = styled.input`
-  padding: 4px 10px;
-  margin: 0;
-  width: fit-content;
-  display: inline-block;
-  border: 1px solid #e8e8e8;
-  border-radius: 5px;
-  height: 31px;
-  :focus {
-    outline: 1px ${(props) => props.color} auto;
-  }
-`;
-
-const SmallSelect = styled.select`
-  padding-left: 6px;
-  padding-bottom: 4px;
-  height: 31px;
-  margin-left: 6px;
-  width: fit-content;
-  border: 1px solid #e8e8e8;
-  border-radius: 5px;
-  display: inline-block;
-  position: relative;
-  top: -2px;
-  :focus {
-    outline: 1px ${(props) => props.color} auto;
-  }
-`;
-
 const Textarea = styled.textarea`
   padding-top: ${(props) => props.padding.vertical}px;
   padding-right: ${(props) => props.padding.horizontal}px;
@@ -598,6 +569,35 @@ const StyledButton = styled.button`
     css`
       ${props.customCSS}
     `}
+`;
+
+const SmallInput = styled.input`
+  padding: 4px 10px;
+  margin: 0;
+  width: fit-content;
+  display: inline-block;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  height: 31px;
+  :focus {
+    outline: 1px ${(props) => props.color} auto;
+  }
+`;
+
+const SmallSelect = styled.select`
+  padding-left: 6px;
+  padding-bottom: 4px;
+  height: 31px;
+  margin-left: 6px;
+  width: fit-content;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  top: -2px;
+  :focus {
+    outline: 1px ${(props) => props.color} auto;
+  }
 `;
 
 export default CustomizeModal;

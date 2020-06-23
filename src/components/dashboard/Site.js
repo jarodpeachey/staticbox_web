@@ -98,11 +98,9 @@ const Site = ({ children }) => {
   }, []);
 
   const onResize = () => {
-    console.log('Resize!');
     setHeaderHeight(document.getElementById('background').clientHeight);
   };
 
-  console.log(site);
   return (
     <div id='blur'>
       <Header>

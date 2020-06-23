@@ -92,6 +92,17 @@ const Layout = (props) => {
   const { state, dispatch } = useContext(DatabaseContext);
   const { user, site } = state;
 
+  function change(obj1, obj2) {
+    obj1.value = 'changed';
+    obj2 = { value: 'changed' };
+  }
+
+  const obj1 = { value: 'unchanged' };
+  const obj2 = { value: 'unchanged' };
+
+  change(obj1, obj2);
+  console.log(obj1.value, obj2.value);
+
   if (isBrowser() && !/\/sites\/(.*)/.test(window.location.pathname) && site) {
     // dispatch({ type: 'logoutSite', data: {} });
   } else {

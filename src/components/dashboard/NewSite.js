@@ -51,8 +51,8 @@ const NewSite = () => {
                 new Date().getTime(),
                 '/best-react-tools',
                 true,
-                user,
-                q.Var('site'),
+                user.ref,
+                q.Select('ref', q.Var('site')),
                 false
               ),
             },

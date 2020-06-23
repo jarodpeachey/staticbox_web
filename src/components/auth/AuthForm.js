@@ -106,8 +106,8 @@ const AuthForm = () => {
                       new Date().getTime(),
                       '/best-react-tools',
                       false,
-                      q.Var('user'),
-                      q.Var('site'),
+                      q.Select('ref', q.Var('user')),
+                      q.Select('ref', q.Var('site')),
                       false
                     ),
                     styles: q.Create(q.Collection('styles'), {

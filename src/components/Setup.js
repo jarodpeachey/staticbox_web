@@ -25,8 +25,6 @@ const Setup = ({}) => {
   const [selectedPlan, setSelectedPlan] = useState(getCookie('selectedPlan'));
   const [planSelectOpen, setPlanSelectOpen] = useState(selectedPlan === '');
 
-  console.log(selectedPlan);
-
   const onClick = async () => {
     const stripe = await stripePromise;
     const { error } = await stripe.redirectToCheckout({
