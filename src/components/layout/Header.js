@@ -14,6 +14,7 @@ import { FirebaseContext } from '../../providers/FirebaseProvider';
 import { DatabaseContext } from '../../providers/DatabaseProvider';
 import { isBrowser } from '../../utils/isBrowser';
 import Spacer from '../Spacer';
+import { calculateDaysRemaining } from '../../utils/calculateDaysRemaining';
 
 const Header = ({ siteTitle, children }) => {
   const {
@@ -101,7 +102,11 @@ const Header = ({ siteTitle, children }) => {
                         left: 4,
                       }}
                     >
-                      Trial
+                      {calculateDaysRemaining(
+                        new Date().getTime(),
+                        user.data.trialEnd
+                      )}{' '}
+                      days left in trial
                     </div>
                   )}
                 </SiteTitle>
