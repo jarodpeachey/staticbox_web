@@ -35,7 +35,7 @@ exports.handler = async (event, context) => {
           data: {
             plan: body.data.object.subscription,
             stripeId: body.data.object.customer,
-            status: body.data.status,
+            status: body.data.object.status,
           },
         })
       )
