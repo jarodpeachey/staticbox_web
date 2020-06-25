@@ -7,6 +7,7 @@ const faunadb = require('faunadb');
 
 exports.handler = async (event, context) => {
   const body = JSON.parse(event.body);
+  let response = null;
 
   // return {
   //   statusCode: 200,
@@ -21,7 +22,7 @@ exports.handler = async (event, context) => {
   });
 
   try {
-    const res = await stripe.customers.retrieve(body.data.object.customer);
+    const customer = await stripe.customers.retrieve(body.data.object.customer);
 
     // return {
     //   statusCode: 200,
@@ -32,7 +33,7 @@ exports.handler = async (event, context) => {
       .query(
         q.Let(
           {
-            user: q.Get(q.Match(q.Index('user_by_email'), res.email)),
+            user: q.Get(q.Match(q.Index('user_by_email'), customer.email)),
             userRef: q.Select('ref', q.Var('user')),
           },
           q.Update(q.Var('userRef'), {
@@ -42,25 +43,27 @@ exports.handler = async (event, context) => {
           })
         )
       )
-      .then((response) => {
-        return {
-          statusCode: 200,
-          body: JSON.stringify({
-            test: 'Test',
-            response,
-          }),
-        };
+      .then((res) => {
+        response = res;
       })
       .catch((err) => {
         response = err;
-        return {
-          statusCode: 200,
-          body: JSON.stringify({
-            test: 'Test',
-            err,
-          }),
-        };
+        // return {
+        //   statusCode: 200,
+        //   body: JSON.stringify({
+        //     test: 'Test',
+        //     err,
+        //   }),
+        // };
       });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        test: 'Test',
+        response,
+      }),
+    };
   } catch (e) {
     return {
       statusCode: 422,
