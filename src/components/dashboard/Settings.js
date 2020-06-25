@@ -416,7 +416,6 @@ const Settings = ({ loadedKeys, setLoadedKeys }) => {
                 </Card>
               </>
             )}
-            <Spacer height={16} />
             {activeTab === 'api' && (
               <Card
                 title='API Keys'

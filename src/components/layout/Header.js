@@ -26,7 +26,10 @@ const Header = ({ siteTitle, children }) => {
   const [open, setOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const [width, setWidth] = useState(0);
-  const { dispatch, user } = useContext(DatabaseContext);
+  const { dispatch, state } = useContext(DatabaseContext);
+  const { user } = state;
+
+  console.log('Header', user);
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
@@ -84,6 +87,23 @@ const Header = ({ siteTitle, children }) => {
                 <SiteTitle className='logo'>
                   <FontAwesomeIcon icon='comment-alt' />
                   Staticbox
+                  {user && user.data.status === 'trialing' && (
+                    <div
+                      style={{
+                        background: 'white',
+                        padding: '1px 8px',
+                        borderRadius: 999,
+                        display: 'inline',
+                        color: 'black',
+                        fontSize: 14,
+                        position: 'relative',
+                        top: '-2px',
+                        left: 4,
+                      }}
+                    >
+                      Trial
+                    </div>
+                  )}
                 </SiteTitle>
                 {user && (
                   <AccountMenuToggle

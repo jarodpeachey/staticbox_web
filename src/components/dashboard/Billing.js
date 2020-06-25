@@ -98,7 +98,6 @@ const Billing = () => {
           </div>
           <div widths={[6]}></div>
         </Row> */}
-        <Spacer height={38} />
         <Card title='Billing'>
           <p>
             Your billing information is secured by Stripe. To edit your

@@ -39,6 +39,7 @@ exports.handler = async (event, context) => {
           q.Update(q.Var('userRef'), {
             data: {
               status: body.data.object.status,
+              trialEnd: body.data.object.trial_end
             },
           })
         )
