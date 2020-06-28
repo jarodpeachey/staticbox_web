@@ -29,7 +29,7 @@ import {
   faChevronLeft,
   faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
-import { fab, faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { fab, faLinkedin, faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import Footer from './Footer';
 import Header from './Header';
@@ -67,7 +67,8 @@ library.add(
   faChevronDown,
   faChevronRight,
   faChevronLeft,
-  faPalette
+  faPalette,
+  faTwitter
 );
 
 const Layout = (props) => {
@@ -75,15 +76,15 @@ const Layout = (props) => {
 
   return (
     <Wrapper>
-      <Header siteTitle={props.title} />
+      {/* <Header siteTitle={props.title} />
       {!pathnameIncludes('/signup') && !pathnameIncludes('/login') && (
         <ContentWrapper />
-      )}
+      )} */}
       {props.children}
-      <Footer />
+      {/* <Footer />
       {notificationMessage && (
         <Notification message={notificationMessage} type={notificationType} />
-      )}
+      )} */}
     </Wrapper>
   );
 };

@@ -104,7 +104,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-y: auto;
-  background: #f7f7f7;
+  background: #ffffff;
 }
 
 html {
@@ -112,7 +112,7 @@ html {
   /* overflow-y: hidden; */
   scroll-behavior: smooth;
   width: 100%;
-  background: #f7f7f7;
+  background: #ffffff;
 }
 
 /* 
@@ -288,7 +288,7 @@ h6,
 .center {
   margin-left: auto !important;
   margin-right: auto !important;
-  display: block !important;
+  /* display: block !important; */
   width: fit-content !important;
 }
 

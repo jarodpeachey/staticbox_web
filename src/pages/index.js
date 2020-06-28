@@ -34,7 +34,9 @@ const IndexPage = ({ data }) => {
           className='mobile block'
           style={{
             height: '150px',
-            position: 'relative',
+            position: 'fixed',
+            bottom: 0,
+            width: '100%',
             overflow: 'hidden',
           }}
         >
@@ -53,7 +55,9 @@ const IndexPage = ({ data }) => {
           className='tablet block'
           style={{
             height: '150px',
-            position: 'relative',
+            position: 'fixed',
+            bottom: 0,
+            width: '100%',
             overflow: 'hidden',
           }}
         >
@@ -72,7 +76,9 @@ const IndexPage = ({ data }) => {
           className='desktop block'
           style={{
             height: '150px',
-            position: 'relative',
+            position: 'fixed',
+            bottom: 0,
+            width: '100%',
             overflow: 'hidden',
           }}
         >
@@ -90,13 +96,15 @@ const IndexPage = ({ data }) => {
         <AboutSection />
       </BackgroundWrap>
 
-      <FeaturesSection />
-      <CustomizeSection />
-      <div
+      {/* <FeaturesSection /> */}
+      {/* <CustomizeSection /> */}
+      {/* <div
         className='mobile block'
         style={{
           height: '150px',
-          position: 'relative',
+          position: 'fixed',
+          bottom: 0,
+          width: '100%'
           // marginTop: '-110px',
           overflow: 'hidden',
         }}
@@ -116,7 +124,9 @@ const IndexPage = ({ data }) => {
         className='tablet block'
         style={{
           height: '150px',
-          position: 'relative',
+          position: 'fixed',
+          bottom: 0,
+          width: '100%'
           // marginTop: '-110px',
           overflow: 'hidden',
         }}
@@ -136,7 +146,9 @@ const IndexPage = ({ data }) => {
         className='desktop block'
         style={{
           height: '150px',
-          position: 'relative',
+          position: 'fixed',
+          bottom: 0,
+          width: '100%'
           // marginTop: '-110px',
           overflow: 'hidden',
         }}
@@ -153,7 +165,7 @@ const IndexPage = ({ data }) => {
         </SVGTwo>
       </div>
       <GetStartedSection />
-      <SEO title='Home' />
+      <SEO title='Home' /> */}
     </Wrapper>
   );
 };
