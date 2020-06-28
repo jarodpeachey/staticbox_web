@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import Button from '../Button';
 import heroImage from '../../images/hero.png';
 import heroImageTwo from '../../images/heroTwo.png';
-import logo from '../../images/logo.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Hero = ({ children }) => {
   const [scrollValue, setScrollValue] = useState(0);
@@ -50,39 +48,34 @@ const Hero = ({ children }) => {
       <div id='blur'>
         <MainWrapper>
           <BackgroundImage heroImage={heroImageTwo} />
-          <Container className='container'>
-            <img style={{ marginBottom: 8, width: 120 }} src={logo} />
-            <Title>Staticbox</Title>
-            <SubTitle className='mb-6'>
-              A blazing-fast commenting system built specifically for static
-              sites. Say goodbye to page bloat.
-            </SubTitle>
-            <p>
-              Staticbox will be released soon! Get notified by following us on
-              Twitter.
-            </p>
-            <br />
-            <Button
-              center
-              size='large'
-              color='primary'
-              link='https://twitter.com/staticbox_io'
-              external
-              className='center mt-none'
-              customStyles={`display: flex; align-items: center; height: fit-content;`}
-            >
-              <FontAwesomeIcon
-                style={{
-                  fontSize: 28,
-                  marginRight: 16,
-                  position: 'relative',
-                  top: 0,
-                }}
-                icon={['fab', 'twitter']}
-              />
-              <span style={{marginTop: -1, display: 'block'}}>Get Updates</span>
-            </Button>
-          </Container>
+          <HeroContainer>
+            <ChildContainer className='container'>
+              <Title>A Modern Commenting System for Modern Static Sites</Title>
+              <SubTitle>
+                A blazing-fast commenting system built on customizability,
+                simplicity and performance.
+                <br />
+                <br />
+                Static sites just got even cooler.
+              </SubTitle>
+              <ButtonFlex>
+                <ButtonWrapper>
+                  <Button
+                    color='primary'
+                    external
+                    link='https://app.staticbox.io/signup'
+                  >
+                    Get Started
+                  </Button>
+                </ButtonWrapper>
+                <ButtonWrapper>
+                  <Button color='primary' variant='outlined' outlined link='/'>
+                    Learn More
+                  </Button>
+                </ButtonWrapper>
+              </ButtonFlex>
+            </ChildContainer>
+          </HeroContainer>
           {/* </BackgroundImage> */}
         </MainWrapper>
       </div>
@@ -96,8 +89,9 @@ const Hero = ({ children }) => {
 const BackgroundImage = styled.div`
   background-image: url(${(props) => props.heroImage});
   position: absolute;
+  top: -94px;
   z-index: 0;
-  height: calc(100%);
+  height: calc(100% + 94px + 150px);
   width: 100%;
   opacity: 1;
   background-size: cover;
@@ -111,10 +105,26 @@ const BackgroundImage = styled.div`
 
 const MainWrapper = styled.div`
   // padding-top: 64px;
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   position: relative;
   align-items: center;
+  margin-top: -60px;
+  // margin-bottom: -60px;
+  padding-bottom: 60px;
+  // @media (min-width: 576px) {
+  //   padding-bottom: 150px !important;
+  // }
+  // @media (min-width: 670px) {
+  //   padding-bottom: 220px !important;
+  // }
+  @media (min-width: 769px) {
+    padding-bottom: 100px !important;
+  }
+  p {
+    line-height: 30px;
+    font-size: 24px !important;
+  }
 `;
 
 const HeroContainer = styled.div`
@@ -126,34 +136,32 @@ const HeroContainer = styled.div`
   margin: 0 auto;
   width: 100%;
   z-index: 1;
-  text-align: center;
 `;
 
-const Container = styled.div`
+const ChildContainer = styled.div`
+  margin-top: 0;
+  padding-top: 120px !important;
+  padding-bottom: 0px !important;
   z-index: 1;
-  margin-top: -200px;
-  text-align: center;
 `;
 
 const Title = styled.h1`
-  font-size: 48px;
-  margin: 0 auto;
+  font-size: 38px;
   @media (min-width: 769px) {
-    font-size: 64px;
+    font-size: 44px;
   }
-  font-family: Exo;
   // font-family: 'overpass', sans-serif !important;
   margin-bottom: ${(props) => props.theme.spacing.five}px;
+  max-width: 550px;
 `;
 
 const SubTitle = styled.div`
   // color: rgba(81, 160, 249, 0.4);
-  font-size: 30px !important;
+  font-size: 22px !important;
+  max-width: 550px;
   font-weight: 400 !important;
   margin-bottom: ${(props) => props.theme.spacing.five}px;
   color: ${(props) => props.theme.color.primary.backgroundDark}cc !important;
-  margin: 0 auto;
-  max-width: 700px;
 `;
 
 const ButtonFlex = styled.div`
