@@ -20,6 +20,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { theme } from '../components/theme';
 import Alert from '../components/Alert';
+import SEO from '../components/SEO';
+import image from '../images/main.png';
 
 library.add(faBolt, faPuzzlePiece, faPalette, faCheck, faExclamationCircle);
 
@@ -71,6 +73,11 @@ const IndexPage = ({ data }) => {
   return (
     <StylesProvider>
       <Hero />
+      <SEO
+        title='Staticbox - JAMstack Commenting System'
+        description='A blazing-fast commenting system built for static websites. Fully customizable, fully static.'
+        image={image}
+      />
       <BackgroundWrap id='blur'>
         <div
           className='mobile block'

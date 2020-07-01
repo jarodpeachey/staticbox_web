@@ -7,9 +7,14 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: 'Staticbox',
-    description: 'A comment system for modern-day web development.',
-    author: '@jarodpeachey',
+    title: 'Staticbox - JAMstack Commenting System',
+    description:
+      'A blazing-fast commenting system built for static websites. Fully customizable, fully static.',
+    defaultTitle: 'Jarod Peachey - JAMstack Commenting System',
+    defaultDescription:
+      'A blazing-fast commenting system built for static websites. Fully customizable, fully static.',
+    baseUrl: '/',
+    author: '@jarod_peachey',
   },
   plugins: [
     {
