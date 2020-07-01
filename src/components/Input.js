@@ -24,7 +24,7 @@ const Input = ({
   const [hover, setHover] = useState(false);
   const [focus, setFocus] = useState(false);
   const [value, setValue] = useState(
-    defaultValue || type === 'number' ? 0 : '',
+    defaultValue || type === 'number' ? 0 : ''
   );
 
   console.log(hover);
@@ -72,7 +72,7 @@ const Input = ({
         <>
           <StyledInput
             color={color}
-            unselectable="on"
+            unselectable='on'
             fullWidth={fullWidth}
             size={size}
             state={state}
@@ -91,12 +91,12 @@ const Input = ({
             <NumberButtons focus={focus}>
               <NumberButton focus={focus} onClick={() => increment()}>
                 <FontAwesomeIcon
-                  icon="chevron-down"
+                  icon='chevron-down'
                   style={{ transform: 'rotate(180deg)', fontSize: 13 }}
                 />
               </NumberButton>
               <NumberButton focus={focus} onClick={() => decrement()}>
-                <FontAwesomeIcon icon="chevron-down" style={{ fontSize: 13 }} />
+                <FontAwesomeIcon icon='chevron-down' style={{ fontSize: 13 }} />
               </NumberButton>
             </NumberButtons>
           )}
@@ -106,7 +106,7 @@ const Input = ({
         <>
           <StyledInput
             color={color}
-            unselectable="on"
+            unselectable='on'
             hover={hover}
             fullWidth={fullWidth}
             size={size}
@@ -123,12 +123,12 @@ const Input = ({
             <NumberButtons focus={focus}>
               <NumberButton focus={focus} onClick={() => increment()}>
                 <FontAwesomeIcon
-                  icon="chevron-down"
+                  icon='chevron-down'
                   style={{ transform: 'rotate(180deg)', fontSize: 13 }}
                 />
               </NumberButton>
               <NumberButton focus={focus} onClick={() => decrement()}>
-                <FontAwesomeIcon icon="chevron-down" style={{ fontSize: 13 }} />
+                <FontAwesomeIcon icon='chevron-down' style={{ fontSize: 13 }} />
               </NumberButton>
             </NumberButtons>
           )}
@@ -199,29 +199,29 @@ const Icon = styled.div`
   color: ${(props) => pSBC(props.theme.color.gray.three, -25)};
   position: absolute;
   left: ${(props) =>
-    props.size === 'xs' ?
-      '10px' :
-      props.size === 'small' ?
-      '12px' :
-      props.size === 'large' ?
-      '18px' :
-      '16px'};
+    props.size === 'xs'
+      ? '10px'
+      : props.size === 'small'
+      ? '12px'
+      : props.size === 'large'
+      ? '18px'
+      : '16px'};
   top: ${(props) =>
-    props.size === 'xs' ?
-      'calc(50% - 9px)' :
-      props.size === 'small' ?
-      'calc(50% - 11px)' :
-      props.size === 'large' ?
-      'calc(50% - 14px)' :
-      'calc(50% - 13px)'};
+    props.size === 'xs'
+      ? 'calc(50% - 9px)'
+      : props.size === 'small'
+      ? 'calc(50% - 11px)'
+      : props.size === 'large'
+      ? 'calc(50% - 14px)'
+      : 'calc(50% - 13px)'};
   font-size: ${(props) =>
-    props.size === 'xs' ?
-      '15px' :
-      props.size === 'small' ?
-      '17px' :
-      props.size === 'large' ?
-      '22px' :
-      '20px'};
+    props.size === 'xs'
+      ? '15px'
+      : props.size === 'small'
+      ? '17px'
+      : props.size === 'large'
+      ? '22px'
+      : '20px'};
   font-weight: 400;
 `;
 
@@ -231,62 +231,60 @@ const Label = styled.label`
   margin-bottom: 8px;
   font-weight: 600;
   color: ${(props) =>
-    props.state === 'success' ?
-      props.theme.color.success :
-      props.state === 'error' ?
-      props.theme.color.error :
-      ''} !important;
+    props.state === 'success'
+      ? props.theme.color.success
+      : props.state === 'error'
+      ? props.theme.color.error
+      : ''} !important;
 `;
 
 const StyledInput = styled.input`
-  -webkit-user-select: none; /* Chrome/Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
   display: inline-block;
-
-  /* Rules below not implemented in browsers yet */
-  -o-user-select: none;
-  user-select: none;
+  -webkit-user-select: initial;
+  -khtml-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
   display: inline-block;
   padding: ${(props) =>
-    props.size === 'xs' ?
-      '4px 8px' :
-      props.size === 'small' ?
-      '8px 12px' :
-      props.size === 'large' ?
-      '16px 18px' :
-      '13px 15px'};
+    props.size === 'xs'
+      ? '4px 8px'
+      : props.size === 'small'
+      ? '8px 12px'
+      : props.size === 'large'
+      ? '16px 18px'
+      : '13px 15px'};
   font-size: ${(props) =>
-    props.size === 'xs' ?
-      '13px' :
-      props.size === 'small' ?
-      '14px' :
-      props.size === 'large' ?
-      '17px' :
-      '15px'};
+    props.size === 'xs'
+      ? '13px'
+      : props.size === 'small'
+      ? '14px'
+      : props.size === 'large'
+      ? '17px'
+      : '15px'};
   transition-duration: 0.15s;
   display: inline-block;
   width: ${(props) => (props.fullWidth ? '100%' : 'fit-content')};
   ${(props) =>
-    props.variant === 'filled' ?
-      css`
+    props.variant === 'filled'
+      ? css`
           border-radius: ${props.theme.radius.one};
           background: ${props.theme.color.gray.one};
           border: 1px solid
-            ${props.state === 'success' ?
-              props.theme.color.success :
-              props.state === 'error' ?
-              props.theme.color.error :
-              props.theme.color.gray.one};
-        ` :
-      css`
+            ${props.state === 'success'
+              ? props.theme.color.success
+              : props.state === 'error'
+              ? props.theme.color.error
+              : props.theme.color.gray.one};
+        `
+      : css`
           border-radius: ${props.theme.radius.one};
           border: 1px solid
-            ${props.state === 'success' ?
-              props.theme.color.success :
-              props.state === 'error' ?
-              props.theme.color.error :
-              props.theme.color.gray.four};
+            ${props.state === 'success'
+              ? props.theme.color.success
+              : props.state === 'error'
+              ? props.theme.color.error
+              : props.theme.color.gray.four};
         `};
   ${(props) =>
     props.hover &&
@@ -294,11 +292,11 @@ const StyledInput = styled.input`
       // border: 1px solid ${props.theme.color.primary.main};
     border: 1px solid
       ${
-        props.state === 'success' || props.color === 'success' ?
-          props.theme.color.success :
-          props.state === 'error' || props.color === 'error' ?
-          props.theme.color.error :
-          `${props.theme.color.primary.main}60`
+        props.state === 'success' || props.color === 'success'
+          ? props.theme.color.success
+          : props.state === 'error' || props.color === 'error'
+          ? props.theme.color.error
+          : `${props.theme.color.primary.main}60`
       };
   `}
   :hover {
@@ -309,24 +307,24 @@ const StyledInput = styled.input`
     outline: none;
     border: 1px solid
       ${(props) =>
-        props.color === 'secondary' ?
-          props.theme.color.secondary.main :
-          props.color === 'success' ?
-          props.theme.color.success :
-          props.color === 'error' ?
-          props.theme.color.error :
-          props.theme.color.primary.main};
+        props.color === 'secondary'
+          ? props.theme.color.secondary.main
+          : props.color === 'success'
+          ? props.theme.color.success
+          : props.color === 'error'
+          ? props.theme.color.error
+          : props.theme.color.primary.main};
   }
   padding-left: ${(props) =>
-    props.withIcon ?
-      props.size === 'xs' ?
-        '30px' :
-        props.size === 'small' ?
-        '37px' :
-        props.size === 'large' ?
-        '50px' :
-        '46px' :
-      ''};
+    props.withIcon
+      ? props.size === 'xs'
+        ? '30px'
+        : props.size === 'small'
+        ? '37px'
+        : props.size === 'large'
+        ? '50px'
+        : '46px'
+      : ''};
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     margin: 0;
