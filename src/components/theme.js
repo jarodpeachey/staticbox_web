@@ -42,13 +42,13 @@ export const theme = {
     success: '#00ab66',
     error: '#ff6347',
     text: {
-      paragraph: '#4c5267',
+      paragraph: '#4b5563',
       heading: '#2c2f3b',
       headingLight: '#ffffff',
       paragraphLight: '#ffffff',
       dark: {
         one: '#2c2f3b',
-        two: '#4c5267',
+        two: '#4b5563',
         three: '#b5b9c1',
       },
       light: {

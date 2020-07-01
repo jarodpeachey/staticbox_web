@@ -3,7 +3,7 @@
   "description": "A modern, blazing fast and intuitive CMS",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"./packages/**/*{.js,.jsx}\"",
+    "lint": "eslint \"./src/**/*{.js,.jsx}\" --fix",
     "serve": "gatsby clean && gatsby build && gatsby serve",
     "nuke": "./scripts/nuke.sh",
     "develop": "gatsby develop",
@@ -12,7 +12,9 @@
     "start:lambda": "netlify-lambda serve src/functions",
     "build": "gatsby build && netlify-lambda build src/functions",
     "build:app": "gatsby build",
-    "build:lambda": "netlify-lambda build src/functions"
+    "build:lambda": "netlify-lambda build src/functions",
+    "functions": "cd functions && yarn install && cd ..",
+    "dev": "netlify dev"
   },
   "author": "Jarod Peachey",
   "license": "ISC",

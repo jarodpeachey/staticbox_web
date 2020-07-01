@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Button from '../Button';
 import heroImage from '../../images/hero.png';
 import heroImageTwo from '../../images/heroTwo.png';
-import logo from '../../images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Hero = ({ children }) => {
@@ -47,17 +46,11 @@ const Hero = ({ children }) => {
           backgroundRepeat: 'repeat',
         }}
       /> */}
-      <div id='blur'>
-        <MainWrapper>
-          <BackgroundImage heroImage={heroImageTwo} />
-          <Container className='container'>
-            <img style={{ marginBottom: 8, width: 120 }} src={logo} />
-            <Title>Staticbox</Title>
-            <SubTitle className='mb-6'>
-              A blazing-fast commenting system built specifically for static
-              sites. Say goodbye to page bloat.
-            </SubTitle>
-            <p>
+
+      <MainWrapper>
+        <BackgroundImage heroImage={heroImageTwo} />
+        <Container className='container'>
+          {/* <p>
               Staticbox will be released soon! Get notified by following us on
               Twitter.
             </p>
@@ -80,12 +73,13 @@ const Hero = ({ children }) => {
                 }}
                 icon={['fab', 'twitter']}
               />
-              <span style={{marginTop: -1, display: 'block'}}>Get Updates</span>
-            </Button>
-          </Container>
-          {/* </BackgroundImage> */}
-        </MainWrapper>
-      </div>
+              <span style={{ marginTop: -1, display: 'block' }}>
+                Get Updates
+              </span>
+            </Button> */}
+        </Container>
+        {/* </BackgroundImage> */}
+      </MainWrapper>
       {/* // ); */}
       {/* // }} */}
       {/* // /> */}
@@ -97,42 +91,51 @@ const BackgroundImage = styled.div`
   background-image: url(${(props) => props.heroImage});
   position: absolute;
   z-index: 0;
-  height: calc(100%);
+  height: 100vh;
   width: 100%;
   opacity: 1;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   @media (min-width: 769px) {
-    background-position: right center;
+    background-position: right top;
   }
+  transform: rotate(180deg);
   transition-duration: 0.5s;
+  top: 0;
+  ::after {
+    position: absolute;
+    display: block;
+    content: '';
+    top: 0;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    background: linear-gradient(#ffffff00 70%, #ffffff00 100%);
+    // filter: grayscale(1);
+    backdrop-filter: contrast(1) hue-rotate(-6deg);
+    top: 0;
+  }
 `;
 
 const MainWrapper = styled.div`
   // padding-top: 64px;
-  height: 100vh;
   display: flex;
   position: relative;
   align-items: center;
-`;
-
-const HeroContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  min-height: 420px !important;
-  margin: 0 auto;
-  width: 100%;
-  z-index: 1;
-  text-align: center;
+  height: fit-content;
+  height: 18vh;
 `;
 
 const Container = styled.div`
   z-index: 1;
-  margin-top: -200px;
   text-align: center;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 64px;
+  padding-bottom: 0;
 `;
 
 const Title = styled.h1`

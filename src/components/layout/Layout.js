@@ -107,6 +107,9 @@ const Wrapper = styled.div`
   strong {
     color: ${(props) => props.theme.color.text.dark};
   }
+  p {
+    line-height: 32px !important;
+  }
   p,
   small,
   span,
@@ -115,7 +118,7 @@ const Wrapper = styled.div`
   input,
   td,
   th {
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
       sans-serif !important;
     font-size: 16px;

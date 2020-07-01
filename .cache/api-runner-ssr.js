@@ -4,9 +4,6 @@ var plugins = [{
     },{
       plugin: require('D:/Staticbox/Code/staticbox_web/node_modules/gatsby-plugin-styled-components/gatsby-ssr'),
       options: {"plugins":[]},
-    },{
-      plugin: require('D:/Staticbox/Code/staticbox_web/gatsby-ssr'),
-      options: {"plugins":[]},
     }]
 // During bootstrap, we write requires at top of this file which looks like:
 // var plugins = [
