@@ -74,7 +74,7 @@ const AuthForm = () => {
                     name: 'Staticboard Team',
                     email: 'staticboard@gmai.com',
                     comment:
-                      "This is your first comment! Awesome sauce!\n\n If you don't want this comment here, go to your dashboard to delete it: https://staticboard.com/dashboard",
+                      "This is your first comment! Awesome sauce!\n\n If you don't want this comment here, go to your dashboard to delete it: https://staticboard.com/",
                   },
                 ],
               ],
@@ -190,7 +190,7 @@ const AuthForm = () => {
               </>
             );
             setTimeout(() => {
-              window.location.href = '/dashboard';
+              window.location.href = '/';
             }, 1000);
           })
           .catch((faunaErr) => {
@@ -246,7 +246,7 @@ const AuthForm = () => {
                 if (faunaResponseTwo.data.plan === false) {
                   window.location.pathname = '/setup';
                 } else {
-                  window.location.pathname = '/dashboard';
+                  window.location.pathname = '/';
                 }
                 dispatch({
                   type: 'login',

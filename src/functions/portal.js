@@ -33,7 +33,7 @@ exports.handler = async function (event, context, callback) {
   try {
     const res = await stripe.billingPortal.sessions.create({
       customer: json.customer,
-      return_url: 'https://app.staticbox.io',
+      return_url: 'https://staticbox.netlify.app',
     });
     return {
       statusCode: 200,
