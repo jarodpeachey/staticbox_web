@@ -39,15 +39,15 @@ const Setup = ({}) => {
         },
       ],
       mode: 'subscription',
-      successUrl: 'https://app.staticbox.io',
-      cancelUrl: 'https://app.staticbox.io',
+      successUrl: 'https://staticbox.netlify.app',
+      cancelUrl: 'https://staticbox.netlify.app',
       customerEmail: user.data.email,
     });
 
     stripe.billingPortal.sessions.create(
       {
         customer: 'cus',
-        return_url: 'https://app.staticbox.io',
+        return_url: 'https://staticbox.netlify.app',
       },
       function (err, session) {
         console.log('test');
